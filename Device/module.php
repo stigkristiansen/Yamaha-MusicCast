@@ -1,4 +1,7 @@
 <?php
+
+	require_once(__DIR__ . "/../libs/autoload.php");
+	
 	class Device extends IPSModule {
 
 		public function Create()
@@ -20,3 +23,4 @@
 		}
 
 	}
+
