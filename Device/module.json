@@ -1,0 +1,12 @@
+{
+    "id": "{5B66102A-96ED-DF96-0B89-54E37501F997}",
+    "name": "Device",
+    "type": 3,
+    "vendor": "Yamaha",
+    "aliases": [],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "YMC",
+    "url": ""
+}
