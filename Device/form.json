@@ -1,5 +1,7 @@
 {
-    "elements": [],
+    "elements": [
+        {  "type" :  "ValidationTextBox" ,  "name" :  "IPAddress" ,  "caption" :  "MusicCast Device"  }
+    ],
     "actions": [],
     "status": []
 }
