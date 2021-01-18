@@ -56,6 +56,7 @@ trait HttpRequest {
 			throw new Exception(sprintf("%s failed.", $Url));
 				
 	}
+}
 
 
 trait ProfileHelper
