@@ -51,18 +51,23 @@
 					switch ($Value) {
 						case 0:
 							$this->LogMessage('Prev');
+							$this->SetValue('Control', 0);
 							break;
 						case 1:
 							$this->LogMessage('Play');
+							$this->SetValue('Control', 1);
 							break;
 						case 2:
 							$this->LogMessage('Pause');
+							$this->SetValue('Control', 2);
 							break;
 						case 3:
-						    $this->LogMessage('Stop');
+							$this->LogMessage('Stop');
+							$this->SetValue('Control', 3);
 						    break;
 						case 4:
 							$this->LogMessage('Next');
+							$this->SetValue('Control', 4);
 							break;
 					}
 					break;
