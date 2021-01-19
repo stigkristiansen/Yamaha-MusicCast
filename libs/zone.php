@@ -51,7 +51,7 @@ class Zone {
         self::httpGet('YamahaExtendedControl/v1/'.$this->zoneName.'/setMute?enable='.$value);    
     }
 
-    public function Input(string $Input) {
+    public function SelectInput(string $Input) {
         if(!self::ValidInput($Input))
             throw new Exception('Input(): Invalid input \"'.$Input.'\"');
 

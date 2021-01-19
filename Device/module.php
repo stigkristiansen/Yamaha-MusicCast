@@ -48,10 +48,10 @@
 
 			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
-				var_dump($system->LocationInfo());
+				var_dump($system->ZoneList());
+
+
 			}
-
-
 
 		}
 
