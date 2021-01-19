@@ -41,8 +41,18 @@
 		}
 
 		public function ApplyChanges() {
+			$system;
 			//Never delete this line!
 			parent::ApplyChanges();
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+
+			if(strlen($ipAddress)>0) {
+				$system = new System($ipAddress);
+				var_dump($system->LocationInfo());
+			}
+
+
+
 		}
 
 		public function RequestAction($Ident, $Value) {
@@ -50,34 +60,40 @@
 				case 'Control':
 					switch ($Value) {
 						case 0:
-							$this->LogMessage('Prev');
+							
 							$this->SetValue('Control', 0);
 							break;
 						case 1:
-							$this->LogMessage('Play');
+							
 							$this->SetValue('Control', 1);
 							break;
 						case 2:
-							$this->LogMessage('Pause');
+							
 							$this->SetValue('Control', 2);
 							break;
 						case 3:
-							$this->LogMessage('Stop');
+							
 							$this->SetValue('Control', 3);
 						    break;
 						case 4:
-							$this->LogMessage('Next');
+							
 							$this->SetValue('Control', 4);
 							break;
 					}
 					break;
 				case 'Volume':
-					$this->LogMessage('Volume: '.$Value);
+					$this->SetValue('Volume: ', $Value);
 					break;
 				case 'Mute':
-					$this->LogMessage('Mute: '.$Value);
+					$this->SetValue('Mute', $Mute);
 					break;
 			}
 		}
+
+		private function Play() {
+			$System = new System()
+		}
+
+
 	}
 
