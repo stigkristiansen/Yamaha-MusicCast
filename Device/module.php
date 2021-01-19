@@ -91,7 +91,7 @@
 		}
 
 		private function Play() {
-			$System = new System()
+			$system = new System();
 		}
 
 
