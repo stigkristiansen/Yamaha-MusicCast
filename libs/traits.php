@@ -3,14 +3,16 @@
 declare(strict_types=1);
 
 trait HttpRequest {
-    public function HttpGet(string $url) {
-        $completeUrl = 'http://'.$this->ipAddress.'/'.$url;
-        
-        return self::request ('get', $completeUrl);
-        
+    public function HttpGet(string $deltaUrl) {
+		if(Sys_Ping($this->ipAddress, 500)) {
+			$completeUrl = 'http://'.$this->ipAddress.'/'.$deltaUrl;
+			
+			return self::request ('get', $completeUrl);
+		} else
+			throw new Exception('Host is not responding');
     }
 
-    public function HttpPost(string $url, array $params) {
+    public function HttpPost(string $deltaUrl, array $params) {
 
     }
 
