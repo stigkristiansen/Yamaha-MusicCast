@@ -82,12 +82,20 @@
 					}
 					break;
 				case 'Volume':
+					
 					$this->SetValue('Volume: ', $Value);
 					break;
 				case 'Mute':
+					
 					$this->SetValue('Mute', $Mute);
 					break;
 			}
+		}
+
+		public GetConfigurationForm () {
+			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
+
+			return json_encode($form);
 		}
 
 		private function Play() {

@@ -6,6 +6,30 @@ interface MusicCastInterface {
 
 }
 
+class Zones {
+    const MAIN = "main";
+    const ZONE2 = "zone2";
+    const ZONE3 = "zone3";
+    const ZONE4 = "zone4";
+
+    public static function Zone(string $Zone){
+        $Zone = strtolower($Zone);
+
+        switch ($Zone) {
+            case self::MAIN:
+                return self::MAIN;
+            case self::ZONE2:
+                return self::ZONE2;
+            case self::ZONE3:
+                return self::ZONE3;
+            case self::ZONE4:
+                return self::ZONE4;
+            default:
+                return "unknown";
+        }
+    }
+}
+
 class PlayInfo {
     private $input;
     private $artist;
