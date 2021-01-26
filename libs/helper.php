@@ -70,10 +70,6 @@ class PlayInfo {
         return $this->albumartUrl;
     }
 
-    public function AlbumartUrl(){
-        return $this->albumartUrl;
-    }
-
     public function Playback(){
         return $this->playback;
     }
