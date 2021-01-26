@@ -32,7 +32,7 @@ class Zone {
         else 
             $value = 'standby';
 
-        IPS_LogMessage("MusicCast", /YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);
+        IPS_LogMessage("MusicCast", '/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);
 
         self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);    
     }
