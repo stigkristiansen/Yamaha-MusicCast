@@ -79,8 +79,8 @@
 					$this->SetValue('Volume: ', $Value);
 					break;
 				case 'Mute':
-					
-					$this->SetValue('Mute', $Mute);
+					self::Mute($Value);
+					$this->SetValue('Mute', $Value);
 					break;
 			}
 		}
@@ -89,6 +89,14 @@
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
 
 			return json_encode($form);
+		}
+
+		private function Volume(int $Level) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				
+			}
 		}
 
 		private function Mute(bool $State) {
