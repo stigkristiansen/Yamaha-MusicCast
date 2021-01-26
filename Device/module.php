@@ -44,14 +44,6 @@
 			$system;
 			//Never delete this line!
 			parent::ApplyChanges();
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-
-			if(strlen($ipAddress)>0) {
-				$system = new System($ipAddress);
-				var_dump($system->ZoneList());
-
-
-			}
 
 		}
 
