@@ -101,10 +101,10 @@
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$info = $netUSB->PlayInfo();
-				SetValue('Service', $info->Input());
-				SetValue('Artist', $info->Artist());
-				SetValue('Track', $info->Track());
-				SetValue('Album', $info->Album());
+				SetValueString('Service', (string)$info->Input());
+				SetValueString('Artist', (string)$info->Artist());
+				SetValueString('Track', (string)$info->Track());
+				SetValueString('Album', (string)$info->Album());
 			}
 		}
 
