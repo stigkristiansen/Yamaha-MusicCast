@@ -26,6 +26,7 @@ class PlayInfo {
     private $album;
     private $track;
     private $albumartUrl;
+    
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl) {
         $this->input = $Input;

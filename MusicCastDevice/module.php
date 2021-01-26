@@ -19,18 +19,21 @@
 				[4, 'Next',  '', -1]
 			]);
 
-			$this->RegisterVariableString('Service', $this->Translate('Service'), '', 1);
-			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 2);
-			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 3);
-			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 4);
+			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
+			$this->EnableAction('Mute');
+
+			$this->RegisterVariableString('Service', $this->Translate('Service'), '', 2);
+			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 3);
+			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 4);
+			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 5);
 			
-			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 5);
+			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 6);
         	$this->EnableAction('Control');
 			
-			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 6);
+			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 7);
 			$this->EnableAction('Volume');
 	
-			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 7);
+			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 8);
 			$this->EnableAction('Mute');
 
 			$this->RegisterTimer('Update', 5000, 'YMC_UpdatePlayInfo('.$this->InstanceID.');');
@@ -83,6 +86,10 @@
 					self::Mute($Value);
 					$this->SetValue('Mute', $Value);
 					break;
+				case 'Power':
+					self::Power($Value);
+					$this->SetValue('Power', $Value);
+					break;
 			}
 		}
 
@@ -101,6 +108,7 @@
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
+				$zone = 
 				$netUSB = new NetUSB($system);
 				$info = $netUSB->PlayInfo();
 				
@@ -135,6 +143,15 @@
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->Playback($State);
+			}
+		}
+
+		private function Power(bool $State) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$zone = new Zone($system);
+				$zone->Power($State);
 			}
 		}
 
