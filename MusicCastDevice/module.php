@@ -151,6 +151,7 @@
 		private function Power(bool $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
+				IPS_LogMessage("MusicCast", "Creating objects...");
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);
