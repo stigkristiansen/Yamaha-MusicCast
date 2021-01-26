@@ -42,7 +42,7 @@
 
 		public function ApplyChanges() {
 			$system;
-			//Never delete this line!!!
+			//Never delete this line!
 			parent::ApplyChanges();
 
 		}
