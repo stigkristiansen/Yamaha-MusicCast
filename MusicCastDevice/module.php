@@ -100,18 +100,32 @@
 			return json_encode($form);
 		}
 
-		public function UpdatePlayInfo() {
+		public function Update() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
-				$zone = 
+				$zone = new Zone($system);
 				$netUSB = new NetUSB($system);
-				$info = $netUSB->PlayInfo();
 				
-				$this->SetValue('Input', $info->Input());
-				$this->SetValue('Artist', $info->Artist());
-				$this->SetValue('Track', $info->Track());
-				$this->SetValue('Album', $info->Album());
+				$status = $zone->Status();
+				$playInfo = $netUSB->PlayInfo();
+
+				$this->SetValue('Volume', $status->volume);
+				$this->SetValue('Mute', $status->mute);
+				
+				if($status->power=='on') {
+					$this->SetValue('Power', true);
+					$this->SetValue('Input', $playInfo->Input());
+					$this->SetValue('Artist', $playInfo->Artist());
+					$this->SetValue('Track', $playInfo->Track());
+					$this->SetValue('Album', $playInfo->Album());
+				} else {
+					$this->SetValue('Power', false);
+					$this->SetValue('Input', '');
+					$this->SetValue('Artist', '');
+					$this->SetValue('Track', '');
+					$this->SetValue('Album', '');
+				}
 			}
 		}
 
