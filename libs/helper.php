@@ -11,23 +11,13 @@ class Zones {
     const ZONE2 = "zone2";
     const ZONE3 = "zone3";
     const ZONE4 = "zone4";
+}
 
-    public static function Zone(string $Zone){
-        $Zone = strtolower($Zone);
-
-        switch ($Zone) {
-            case self::MAIN:
-                return self::MAIN;
-            case self::ZONE2:
-                return self::ZONE2;
-            case self::ZONE3:
-                return self::ZONE3;
-            case self::ZONE4:
-                return self::ZONE4;
-            default:
-                return "unknown";
-        }
-    }
+class PlaybackState {
+    const PLAY = 'play';
+    const STOP = 'stop';
+    const PREVIOUS = 'previous';
+    const NEXT = 'next';
 }
 
 class PlayInfo {
@@ -63,29 +53,6 @@ class PlayInfo {
 
     public function AlbumartUrl(){
         return $this->albumartUrl;
-    }
-}
-
-class PlaybackState {
-    private static $play = 'play';
-    private static $stop = 'stop';
-    private static $previous = 'previous';
-    private static $next = 'next';
-
-    static function Play() {
-        return self::$play;
-    }
-
-    static function Stop() {
-        return self::$stop;
-    }
-
-    static function Previous() {
-        return self::$previous;
-    }
-
-    static function Next() {
-        return self::$next;
     }
 }
 

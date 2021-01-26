@@ -36,13 +36,13 @@ class System {
 
         if($devicdeInfoResult!==false && $featuresResult!==false && $deviceDescResult!==false && $locationInfoResult!==false) {
             if(isset($locationInfoResult->zone_list->main) && $locationInfoResult->zone_list->main == true)
-                $this->zoneName = Zones::Zone('main');
+                $this->zoneName = Zones::MAIN;
             else if(isset($locationInfoResult->zone_list->zone2) && $locationInfoResult->zone_list->zone2 == true)
-                $this->zoneName = Zones::Zone('zone2');
+                $this->zoneName = Zones::ZONE2;
             else if(isset($locationInfoResult->zone_list->zone3) && $locationInfoResult->zone_list->zone3 == true)
-                $this->zoneName = Zones::Zone('zone3');
+                $this->zoneName = Zones::ZONE3;
             else if(isset($locationInfoResult->zone_list->zone4) && $locationInfoResult->zone_list->zone4 == true)
-                $this->zoneName = Zones::Zone('zone4');
+                $this->zoneName = Zones::ZONE4;
             else 
                 throw new Exception("Failed to initilize the System object. Ivalid zone");
         } else

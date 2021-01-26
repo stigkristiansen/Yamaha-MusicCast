@@ -7,16 +7,16 @@ class NetUSB {
 
     private System $system;
     private $ipAddress;
-    private $zone;
+    private $zoneName;
 
-    public function __construct($System, $Zone) {
-        $this->system = $System;
-        $this->zone = $Zone;
-        $this->ipAddress = $this->system->IpAddress();
+    public function __construct($System) {
+        //$this->system = $System;
+        $this->zoneName = $System->ZoneName();
+        $this->ipAddress = $System->IpAddress();
     }
 
     public function PlayInfo() {
-        $playInfoJson = self::httpGet('YamahaExtendedControl/v1/netusb/getPlayInfo');
+        $playInfoJson = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPlayInfo');
 
         if($playInfoJson!==false) {
             $playInfo = new PlayInfo(
@@ -33,13 +33,13 @@ class NetUSB {
     }
 
     public function Playback(string $State) {
-        $status = self::httpGet('YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
+        $status = self::httpGetJson('/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
 
     }
 
     public function MCPlaylists() {
         
-        $result = self::httpGet('YamahaExtendedControl/v1/netusb/getMcPlaylistName');
+        $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getMcPlaylistName');
 
         return $result->name_list;
     }
@@ -58,11 +58,11 @@ class NetUSB {
         if($bank>count($playlists))
             throw new Exception('Unkonown playlist!');
 
-        self::httpGet('YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zone->ZoneName());
+        self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zoneName);
     }
 
     public function Favourites(){
-        $result = self::httpGet('YamahaExtendedControl/v1/netusb/getPresetInfo');
+        $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPresetInfo');
         
         $favourites;
         foreach($result->preset_info as $favourite) {
@@ -87,7 +87,7 @@ class NetUSB {
         if($num>count($favourites))
             throw new Exception('Unkonwn favourite!');
 
-        self::httpGet('YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zone->ZoneName().'&num='.$num);    
+        self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$num);    
     }
 
 }
