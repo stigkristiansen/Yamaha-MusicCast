@@ -48,7 +48,6 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-						
 			switch ($Ident) {
 				case 'Control':
 					switch ($Value) {
@@ -94,7 +93,6 @@
 		private function Volume(int $Level) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
-				IPS_LogMessage("MusicCast", "Volume");
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Volume($Level);
