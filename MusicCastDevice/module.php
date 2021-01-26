@@ -90,6 +90,24 @@
 			return json_encode($form);
 		}
 
+		//$this->RegisterVariableString('Service', $this->Translate('Service'), '', 1);
+		//$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 2);
+		//$this->RegisterVariableString('Track', $this->Translate('Track'), '', 3);
+		//$this->RegisterVariableString('Album', $this->Translate('Album'), '', 4);
+
+		public function UpdatePlayInfo() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				$info = $netUSB->PlayInfo();
+				SetValue('Service', $info->Input());
+				SetValue('Artist', $info->Artist());
+				SetValue('Track', $info->Track());
+				SetValue('Album', $info->Album());
+			}
+		}
+
 		private function Volume(int $Level) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
