@@ -91,6 +91,15 @@
 			return json_encode($form);
 		}
 
+		private function Mute(bool $State) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$zone = new Zone($system);
+				$zone->Mute($State);
+			}
+		}
+
 		private function Playback(string $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){

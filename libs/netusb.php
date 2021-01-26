@@ -34,7 +34,6 @@ class NetUSB {
 
     public function Playback(string $State) {
         $status = self::httpGetJson('/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
-
     }
 
     public function MCPlaylists() {
