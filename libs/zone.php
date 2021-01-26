@@ -24,6 +24,8 @@ class Zone {
     }
 
     public function Power(bool $Status) {
+        IPS_LogMessage("MusicCast", '/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power=???');
+        
         if(!self::ValidFeature('power'))
             throw new Exception('Power(): Invalid feature \"power\"');
 
