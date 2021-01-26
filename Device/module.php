@@ -75,8 +75,8 @@
 					}
 					break;
 				case 'Volume':
-					
-					$this->SetValue('Volume: ', $Value);
+					self::Volume($Value);
+					$this->SetValue('Volume', $Value);
 					break;
 				case 'Mute':
 					self::Mute($Value);
