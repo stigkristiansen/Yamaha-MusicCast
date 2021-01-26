@@ -26,14 +26,28 @@ class PlayInfo {
     private $album;
     private $track;
     private $albumartUrl;
-    
+    private $playback;
 
-    public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl) {
+
+    public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
         $this->input = $Input;
         $this->artist = $Artist;
         $this->album = $Album;
         $this->track = $Track;
-        $this->albumartUrl = $AlbumartUrl; 
+        $this->albumartUrl = $AlbumartUrl;
+        switch($Playback) {
+            case 'play':
+                $this->playback = 1;
+                break;
+            case 'pause':
+                $this->playback = 2;
+                break;
+            case 'stop':
+                $this->playback = 3;
+                break;
+            default:
+                $this->playback = 1;
+        }
     }
 
     public function Input(){
@@ -55,6 +69,15 @@ class PlayInfo {
     public function AlbumartUrl(){
         return $this->albumartUrl;
     }
+
+    public function AlbumartUrl(){
+        return $this->albumartUrl;
+    }
+
+    public function Playback(){
+        return $this->playback;
+    }
+
 }
 
 class ResponseCodes {

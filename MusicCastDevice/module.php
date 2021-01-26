@@ -31,7 +31,7 @@
 			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 4);
 			$this->EnableAction('Mute');
 
-			$this->RegisterVariableString('Input', $this->Translate('Service'), '', 5);
+			$this->RegisterVariableString('Input', $this->Translate('Input'), '', 5);
 			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 6);
 			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 7);
 			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 8);
@@ -112,6 +112,7 @@
 
 				$this->SetValue('Volume', $status->volume);
 				$this->SetValue('Mute', $status->mute);
+				$this->SetValue('Control', $playInfo->Playback());
 				
 				if($status->power=='on') {
 					$this->SetValue('Power', true);

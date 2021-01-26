@@ -24,7 +24,8 @@ class NetUSB {
                             $playInfoJson->artist,
                             $playInfoJson->album,
                             $playInfoJson->track,
-                            $playInfoJson->albumart_url
+                            $playInfoJson->albumart_url,
+                            $playInfoJson->playback
                             );
             return $playInfo;
         }
