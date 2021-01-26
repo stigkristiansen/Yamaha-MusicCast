@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 trait HttpRequest {
     public function HttpGetJson(string $DeltaUrl) {
-		if(Sys_Ping($this->ipAddress, 500)) {
+		if(Sys_Ping($this->ipAddress, 1000)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
