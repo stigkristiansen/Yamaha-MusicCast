@@ -32,6 +32,8 @@
 	
 			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 7);
 			$this->EnableAction('Mute');
+
+			$this->RegisterTimer('Update', 1000, 'YMC_UpdatePlayInfo('.$this->InstanceId.'');');
 			
 		}
 
