@@ -2,7 +2,7 @@
 
 	require_once(__DIR__ . "/../libs/autoload.php");
 	
-	class Device extends IPSModule {
+	class MusicCastDevice extends IPSModule {
 		use ProfileHelper;
 
 		public function Create() {
