@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 trait HttpRequest {
-    const PING_TIMEOUT = 1000;
+    private PING_TIMEOUT = 1000;
 
     public function HttpGetJson(string $DeltaUrl) {
 		if(Sys_Ping($this->ipAddress, PING_TIMEOUT)) {
