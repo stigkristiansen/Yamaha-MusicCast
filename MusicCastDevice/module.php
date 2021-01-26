@@ -36,7 +36,7 @@
 			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 7);
 			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 8);
 			
-			$this->RegisterTimer('Update', 5000, 'YMC_UpdatePlayInfo('.$this->InstanceID.');');
+			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
 			
 		}
 
