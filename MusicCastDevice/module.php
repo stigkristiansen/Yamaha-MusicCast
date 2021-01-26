@@ -20,7 +20,7 @@
 			]);
 
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
-			$this->EnableAction('Mute');
+			$this->EnableAction('Power');
 
 			$this->RegisterVariableString('Service', $this->Translate('Service'), '', 2);
 			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 3);
