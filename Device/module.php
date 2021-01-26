@@ -93,7 +93,7 @@
 			}
 		}
 
-		public GetConfigurationForm () {
+		public function GetConfigurationForm () {
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
 
 			return json_encode($form);
