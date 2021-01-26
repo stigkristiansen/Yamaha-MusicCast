@@ -79,6 +79,16 @@ class System {
         return (string)$this->deviceDesc->device->friendlyName;
     }
 
+    public function InputList(){
+        foreach($this->features->zone as $zone) {
+            if(strtolower($zone->id)==$this->zoneName) {
+                return $zone->input_list;
+            }
+        }
+
+        return false;
+    }
+
     public function ValidFeature(string $Feature) {
         $Feature = strtolower($Feature);
         foreach($this->features->zone as $zone) {

@@ -54,13 +54,4 @@ class Zone {
         self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input='.$Input);   
     }
 
-    public function InputList(){
-        foreach($this->system->Zones() as $zone) {
-            if(strtolower($zone->id)==$this->zoneName) {
-                return $zone->input_list;
-            }
-        }
-
-        return false;
-    }
 }
