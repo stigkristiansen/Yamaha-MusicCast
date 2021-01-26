@@ -22,20 +22,20 @@
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
 
-			$this->RegisterVariableString('Service', $this->Translate('Service'), '', 2);
-			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 3);
-			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 4);
-			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 5);
-			
-			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 6);
+			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 1);
         	$this->EnableAction('Control');
 			
-			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 7);
+			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 3);
 			$this->EnableAction('Volume');
 	
-			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 8);
+			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 4);
 			$this->EnableAction('Mute');
 
+			$this->RegisterVariableString('Input', $this->Translate('Service'), '', 5);
+			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 6);
+			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 7);
+			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 8);
+			
 			$this->RegisterTimer('Update', 5000, 'YMC_UpdatePlayInfo('.$this->InstanceID.');');
 			
 		}
@@ -88,7 +88,6 @@
 					$this->SetValue('Mute', $Value);
 					break;
 				case 'Power':
-					IPS_LogMessage("MusicCast", "Power");
 					self::Power($Value);
 					$this->SetValue('Power', $Value);
 					break;
@@ -101,11 +100,6 @@
 			return json_encode($form);
 		}
 
-		//$this->RegisterVariableString('Service', $this->Translate('Service'), '', 1);
-		//$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 2);
-		//$this->RegisterVariableString('Track', $this->Translate('Track'), '', 3);
-		//$this->RegisterVariableString('Album', $this->Translate('Album'), '', 4);
-
 		public function UpdatePlayInfo() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
@@ -114,7 +108,7 @@
 				$netUSB = new NetUSB($system);
 				$info = $netUSB->PlayInfo();
 				
-				$this->SetValue('Service', $info->Input());
+				$this->SetValue('Input', $info->Input());
 				$this->SetValue('Artist', $info->Artist());
 				$this->SetValue('Track', $info->Track());
 				$this->SetValue('Album', $info->Album());
@@ -151,7 +145,6 @@
 		private function Power(bool $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
-				IPS_LogMessage("MusicCast", "Creating objects...");
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);

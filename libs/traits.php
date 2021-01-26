@@ -3,8 +3,10 @@
 declare(strict_types=1);
 
 trait HttpRequest {
+    const PING_TIMEOUT = 1000;
+
     public function HttpGetJson(string $DeltaUrl) {
-		if(Sys_Ping($this->ipAddress, 1000)) {
+		if(Sys_Ping($this->ipAddress, PING_TIMEOUT)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
@@ -26,7 +28,7 @@ trait HttpRequest {
     }
 
     public function HttpGetXML(string $DeltaUrl) {
-		if(Sys_Ping($this->ipAddress, 500)) {
+		if(Sys_Ping($this->ipAddress, PING_TIMEOUT)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
