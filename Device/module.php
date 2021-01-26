@@ -56,27 +56,28 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
+						
 			switch ($Ident) {
 				case 'Control':
 					switch ($Value) {
 						case 0:
-							
+							self::Playback(PlaybackState::PREVIOUS);
 							$this->SetValue('Control', 0);
 							break;
 						case 1:
-							
+							self::Playback(PlaybackState::PLAY);
 							$this->SetValue('Control', 1);
 							break;
 						case 2:
-							
+							self::Playback(PlaybackState::STOP);
 							$this->SetValue('Control', 2);
 							break;
 						case 3:
-							
+							self::Playback(PlaybackState::STOP);
 							$this->SetValue('Control', 3);
 						    break;
 						case 4:
-							
+							self::Playback(PlaybackState::NEXT);
 							$this->SetValue('Control', 4);
 							break;
 					}
@@ -98,8 +99,13 @@
 			return json_encode($form);
 		}
 
-		private function Play() {
-			$system = new System();
+		private function Playback(string $State) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				$netUSB->Playback($State);
+			}
 		}
 
 
