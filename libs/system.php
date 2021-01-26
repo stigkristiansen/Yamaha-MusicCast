@@ -117,4 +117,21 @@ class System {
         return false;
     }
 
+    public function ValidateVolume(int $Level) {
+        foreach($this->features->zone as $zone) {
+            if(strtolower($zone->id)==$this->zoneName) {
+                foreach($zone->range_step as $range) {
+                    if($range->id=='volume') {
+                    $min = $range->min;
+                    $max = $range->max;        
+                    if($Level >=$min && $Level <=$max)
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

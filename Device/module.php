@@ -95,7 +95,8 @@
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
-				
+				$zone = new Zone($system);
+				$zone->Volume($Level);
 			}
 		}
 

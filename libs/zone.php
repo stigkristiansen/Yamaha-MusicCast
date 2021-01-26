@@ -47,6 +47,13 @@ class Zone {
         self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setMute?enable='.$value);    
     }
 
+    public function Volume(int $Level) {
+        if(!$this->system->ValidateVolume($Level)) 
+            throw new Exception('Volume(): Invalid level \"'.$Level.'\"');
+        
+        self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setVolume?volume='.$Level);    
+    }
+
     public function Input(string $Input) {
         if(!$this->system->ValidInput($Input))
             throw new Exception('Input(): Invalid input \"'.$Input.'\"');
