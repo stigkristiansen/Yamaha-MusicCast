@@ -52,7 +52,7 @@ class NetUSB {
 
     public function SelectMCPlaylist (string $Playlist, $index=1) {
         $Playlist = strtolower($Playlist);
-        $bank = 1;
+        $bank = 0;
         $playlists = self::MCPlaylists();
         
         foreach($playlists as $playlist) {
@@ -61,7 +61,7 @@ class NetUSB {
             $bank++;
         }
 
-        if($bank>count($playlists))
+        if($bank>count($playlists)-1)
             throw new Exception('Unkonown playlist!');
 
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zoneName);
