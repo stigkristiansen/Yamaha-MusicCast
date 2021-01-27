@@ -110,24 +110,30 @@
 				$status = $zone->Status();
 				$playInfo = $netUSB->PlayInfo();
 
-				$this->SetValue('Volume', $status->volume);
-				$this->SetValue('Mute', $status->mute);
-				$this->SetValue('Control', $playInfo->Playback());
+				$this->SetValueEx('Volume', $status->volume);
+				$this->SetValueEx('Mute', $status->mute);
+				$this->SetValueEx('Control', $playInfo->Playback());
 				
 				if($status->power=='on') {
-					$this->SetValue('Power', true);
-					$this->SetValue('Input', $playInfo->Input());
-					$this->SetValue('Artist', $playInfo->Artist());
-					$this->SetValue('Track', $playInfo->Track());
-					$this->SetValue('Album', $playInfo->Album());
+					$this->SetValueEx('Power', true);
+					$this->SetValueEx('Input', $playInfo->Input());
+					$this->SetValueEx('Artist', $playInfo->Artist());
+					$this->SetValueEx('Track', $playInfo->Track());
+					$this->SetValueEx('Album', $playInfo->Album());
 				} else {
-					$this->SetValue('Power', false);
-					$this->SetValue('Input', '');
-					$this->SetValue('Artist', '');
-					$this->SetValue('Track', '');
-					$this->SetValue('Album', '');
+					$this->SetValueEx('Power', false);
+					$this->SetValueEx('Input', '');
+					$this->SetValueEx('Artist', '');
+					$this->SetValueEx('Track', '');
+					$this->SetValueEx('Album', '');
 				}
 			}
+		}
+
+		private function SetValueEx(string $Ident, variant $Value) {
+			$oldValue = $this->GetValue($Ident);
+			if($oldValue!=$Value)
+				$this->SetValue($Ident, $Value);
 		}
 
 		private function Volume(int $Level) {
