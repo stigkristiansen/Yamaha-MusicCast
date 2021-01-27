@@ -82,7 +82,7 @@ class NetUSB {
     public function SelectFavourite(string $Favourite) {
         IPS_LogMessage('MusicCast', 'SelectFavourite was passed the value '. $Favourite);
         $Favourite = strtolower($Favourite);
-        $num = 1;
+        $num = 0;
         $favourites = self::Favourites();
 
         foreach($favourites as $favourite) {
@@ -91,7 +91,7 @@ class NetUSB {
             $num++;
         }
 
-        if($num>count($favourites))
+        if($num>count($favourites)-1)
             throw new Exception('Unkonwn favourite!');
 
         IPS_LogMessage('MusicCast', 'Calling recallPreset with numer: '.$num);
