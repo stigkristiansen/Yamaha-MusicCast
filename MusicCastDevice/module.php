@@ -19,13 +19,6 @@
 				[4, 'Next',  '', -1]
 			]);
 
-			$this->RegisterAttributeString('Favourites', '');
-			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
-			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
-
-			$this->RegisterAttributeString('MCPlaylist', '');
-			$profileName = 'YMC.' . $this->InstanceID . ".Playlist";
-			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
@@ -44,6 +37,18 @@
 			$this->RegisterVariableString('Track', 'Track', '', 7);
 			$this->RegisterVariableString('Album', 'Album', '', 8);
 			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
+
+			$this->RegisterAttributeString('Favourites', '');
+			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
+			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
+			$this->RegisterVariableInteger('Favourite', 'Favourite', '$profileName', 10);
+			$this->EnableAction('Favourite');
+
+			$this->RegisterAttributeString('MCPlaylists', '');
+			$profileName = 'YMC.' . $this->InstanceID . ".Playlist";
+			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
+			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', '$profileName', 11);
+			$this->EnableAction('MCPLaylist');
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
 			
