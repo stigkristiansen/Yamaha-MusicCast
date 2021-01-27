@@ -45,7 +45,7 @@
 			$this->EnableAction('Favourite');
 
 			$this->RegisterAttributeString('MCPlaylists', '');
-			$profileName = 'YMC.' . $this->InstanceID . ".Playlist";
+			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
 			$this->EnableAction('MCPLaylist');
@@ -176,6 +176,21 @@
 			}
 		}
 
+		public function UpdatePlaylists() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				
+				$playlists = $netUSB->MCPlaylists();
+				if(count($playlists)>0) {
+					$assosiations = $this->CreateProfileAssosiationList($playlists);
+					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
+					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+				}
+			}
+		}
+
 		private function CreateProfileAssosiationList($List) {
 			$count = 0;
 			foreach($List as $value) {
@@ -184,7 +199,6 @@
 			}
 
 			return $assosiations;
-
 		}
 		
 		public function Volume(int $Level) {
