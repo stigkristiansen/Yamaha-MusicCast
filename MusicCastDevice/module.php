@@ -22,7 +22,7 @@
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
 
-			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 1);
+			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 2);
         	$this->EnableAction('Control');
 			
 			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 3);
@@ -54,7 +54,6 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			IPS_LogMessage("MusicCast", "RequestAction");
 			switch ($Ident) {
 				case 'Control':
 					switch ($Value) {
@@ -121,7 +120,7 @@
 	
 					$this->SetValueEx('Control', $playInfo->Playback());
 
-					$this->SetValueEx('Input', $playInfo->Input());
+					$this->SetValueEx('Input', $status->input_text);
 					$this->SetValueEx('Artist', $playInfo->Artist());
 					$this->SetValueEx('Track', $playInfo->Track());
 					$this->SetValueEx('Album', $playInfo->Album());
