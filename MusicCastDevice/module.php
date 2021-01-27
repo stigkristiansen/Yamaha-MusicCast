@@ -214,24 +214,22 @@
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value>0) { 
+				$favourites = json_decode($this->GetBuffer('Favourites'), true);
+				
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-							
-				$favourites = json_decode($this->GetBuffer('Favourites'), true);
-
-				$NetUsb->SelectFavourite($favourites[$Value]);
+				$netUsb->SelectFavourite($favourites[$Value]);			
 			}
 		}
 
 		public function SelectMCPlaylist(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value>0) { 
+				$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
+				
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-							
-				$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
-
-				$NetUsb->MCPlaylistSelect($playlists[$Value]);
+				$netUsb->MCPlaylistSelect($playlists[$Value]);
 			}
 		}
 
