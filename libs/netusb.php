@@ -47,7 +47,7 @@ class NetUSB {
         }
 
         
-        return $list;
+        return $playlist;
     }
 
     public function SelectMCPlaylist (string $Playlist, $index=1) {
