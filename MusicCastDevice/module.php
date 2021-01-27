@@ -51,6 +51,7 @@
 			$this->EnableAction('MCPLaylist');
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
+			$this->RegisterTimer('Update', 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
 			
 		}
 
@@ -161,7 +162,12 @@
 			}
 		}
 
-		public function UpdateFavourites() {
+		public function UpdateLists() {
+			$this->UpdateFavourites();
+			$this->UpdatePlaylists();
+		}
+
+		pruvate function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
@@ -176,7 +182,7 @@
 			}
 		}
 
-		public function UpdatePlaylists() {
+		private function UpdatePlaylists() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
