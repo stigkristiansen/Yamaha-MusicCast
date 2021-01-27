@@ -218,7 +218,7 @@
 				
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-				$netUsb->SelectFavourite($favourites[$Value]);			
+				$netUSB->SelectFavourite($favourites[$Value]);			
 			}
 		}
 
@@ -229,7 +229,7 @@
 				
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-				$netUsb->MCPlaylistSelect($playlists[$Value]);
+				$netUSB->SelectMCPlaylist($playlists[$Value]);
 			}
 		}
 
