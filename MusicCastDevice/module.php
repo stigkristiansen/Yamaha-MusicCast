@@ -140,14 +140,8 @@
 				}
 			}
 		}
-
-		private function SetValueEx(string $Ident, $Value) {
-			$oldValue = $this->GetValue($Ident);
-			if($oldValue!=$Value)
-				$this->SetValue($Ident, $Value);
-		}
-
-		private function Volume(int $Level) {
+		
+		public function Volume(int $Level) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
@@ -156,7 +150,7 @@
 			}
 		}
 
-		private function Mute(bool $State) {
+		public function Mute(bool $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
@@ -165,7 +159,7 @@
 			}
 		}
 
-		private function Playback(string $State) {
+		public function Playback(string $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
@@ -174,13 +168,19 @@
 			}
 		}
 
-		private function Power(bool $State) {
+		public function Power(bool $State) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);
 			}
+		}
+
+		private function SetValueEx(string $Ident, $Value) {
+			$oldValue = $this->GetValue($Ident);
+			if($oldValue!=$Value)
+				$this->SetValue($Ident, $Value);
 		}
 
 
