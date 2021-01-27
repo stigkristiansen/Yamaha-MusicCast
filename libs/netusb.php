@@ -80,6 +80,7 @@ class NetUSB {
     }
 
     public function SelectFavourite(string $Favourite) {
+        IPS_LogMessage('MusicCast', 'SelectFavourite was passed the value '. $Favourite);
         $Favourite = strtolower($Favourite);
         $num = 1;
         $favourites = self::Favourites();
@@ -93,6 +94,7 @@ class NetUSB {
         if($num>count($favourites))
             throw new Exception('Unkonwn favourite!');
 
+        IPS_LogMessage('MusicCast', 'Calling recallPreset with numer: '.$num);
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$num);    
     }
 
