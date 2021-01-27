@@ -154,7 +154,7 @@
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 
-					$profileName = 'YMC' . $this->InstanseID . "Favorites";
+					$profileName = 'YMC' . $this->InstanceID . "Favorites";
 										
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
