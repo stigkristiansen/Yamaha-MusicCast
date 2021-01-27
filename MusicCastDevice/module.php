@@ -109,10 +109,12 @@
 						self::Update();
 					break;
 				case 'Favourite':
-					$this->SetValue('Favourite', $Value);
+					self::SelectFavourite($Value);
+					$this->SetValue('Favourite', 0);
 					break;
 				case 'MCPLaylist':
-					$this->SetValue('MCPLaylist', $Value);
+					self::SelectMCPlaylist($Value);
+					$this->SetValue('MCPLaylist', 0);
 					break;
 			}
 		}
@@ -178,6 +180,7 @@
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+					$this->SetBuffer('Favourites', json_encode($favourites));
 				}
 			}
 		}
@@ -193,6 +196,7 @@
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
 					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+					$this->SetBuffer('MCPlaylists', json_encode($playlists));
 				}
 			}
 		}
@@ -207,6 +211,30 @@
 			return $assosiations;
 		}
 		
+		public function SelectFavourite(int $Value) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0 && $Value>0) { 
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+							
+				$favourites = json_decode($this->GetBuffer('Favourites', true));
+
+				$NetUsb->SelectFavourite($favourites[$Value]);
+			}
+		}
+
+		public function SelectMCPlaylist(int $Value) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0 && $Value>0) { 
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+							
+				$playlists = json_decode($this->GetBuffer('MCPlaylists', true));
+
+				$NetUsb->MCPlaylistSelect($playlists[$Value]);
+			}
+		}
+
 		public function Volume(int $Level) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
