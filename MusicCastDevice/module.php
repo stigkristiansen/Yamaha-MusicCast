@@ -106,6 +106,12 @@
 					if($Value)
 						self::Update();
 					break;
+				case 'Favourite':
+					$this->SetValue('Favourite', $Value);
+					break;
+				case 'MCPLaylist':
+					$this->SetValue('MCPLaylist', $Value);
+					break;
 			}
 		}
 
@@ -163,9 +169,7 @@
 				$favourites = $netUSB->Favourites();
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
-
 					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
-										
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
 			}
