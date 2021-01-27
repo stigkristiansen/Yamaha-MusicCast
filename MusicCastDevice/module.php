@@ -152,15 +152,13 @@
 				
 				$favourites = $netUSB->Favourites();
 				if(count($favourites)>0) {
-					$assosiations = CreateProfileAssosiationList($favourites);
+					$assosiations = $this->CreateProfileAssosiationList($favourites);
 
 					$profileName = 'YMC' . $this->InstanseID . "Favorites";
 										
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
 		}
-
-		 
 
 		privcate function CreateProfileAssosiationList($List) {
 			$count = 0;
