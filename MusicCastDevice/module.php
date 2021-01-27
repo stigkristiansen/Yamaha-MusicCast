@@ -217,7 +217,7 @@
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 							
-				$favourites = json_decode($this->GetBuffer('Favourites', true));
+				$favourites = json_decode($this->GetBuffer('Favourites'), true);
 
 				$NetUsb->SelectFavourite($favourites[$Value]);
 			}
@@ -229,7 +229,7 @@
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 							
-				$playlists = json_decode($this->GetBuffer('MCPlaylists', true));
+				$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
 
 				$NetUsb->MCPlaylistSelect($playlists[$Value]);
 			}
