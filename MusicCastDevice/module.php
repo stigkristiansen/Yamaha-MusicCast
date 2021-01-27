@@ -120,7 +120,7 @@
 	
 					$this->SetValueEx('Control', $playInfo->Playback());
 
-					$this->SetValueEx('Input', $status->input_text);
+					$this->SetValueEx('Input', $playInfo->Input());
 					$this->SetValueEx('Artist', $playInfo->Artist());
 					$this->SetValueEx('Track', $playInfo->Track());
 					$this->SetValueEx('Album', $playInfo->Album());

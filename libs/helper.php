@@ -28,9 +28,21 @@ class PlayInfo {
     private $albumartUrl;
     private $playback;
 
+    const TIDAL = "Tidal";
+    const NETRADIO = "Network Radio";
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
-        $this->input = $Input;
+        switch($Input) {
+            case "tidal":
+                $this->input = TIDAL;
+                break;
+            case "net_radio":
+                    $this->input = NETRADIO;
+                    break; 
+            default:
+            $this->input = $Input;
+        }
+
         $this->artist = $Artist;
         $this->album = $Album;
         $this->track = $Track;
