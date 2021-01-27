@@ -31,10 +31,10 @@
 			$this->RegisterVariableBoolean('Mute', 'Mute', '~Switch', 4);
 			$this->EnableAction('Mute');
 
-			$this->RegisterVariableString('Input', $this->Translate('Input'), '', 5);
-			$this->RegisterVariableString('Artist', $this->Translate('Artist'), '', 6);
-			$this->RegisterVariableString('Track', $this->Translate('Track'), '', 7);
-			$this->RegisterVariableString('Album', $this->Translate('Album'), '', 8);
+			$this->RegisterVariableString('Input', 'Input', '', 5);
+			$this->RegisterVariableString('Artist', 'Artist', '', 6);
+			$this->RegisterVariableString('Track', 'Track', '', 7);
+			$this->RegisterVariableString('Album', 'Album', '', 8);
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
 			
@@ -88,8 +88,10 @@
 					$this->SetValue('Mute', $Value);
 					break;
 				case 'Power':
-					self::Power($Value);
+					$this->Power($Value);
 					$this->SetValue('Power', $Value);
+					if($Value)
+						$this->Update();
 					break;
 			}
 		}
@@ -105,23 +107,30 @@
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
-				$netUSB = new NetUSB($system);
 				
 				$status = $zone->Status();
-				$playInfo = $netUSB->PlayInfo();
-
-				$this->SetValueEx('Volume', $status->volume);
-				$this->SetValueEx('Mute', $status->mute);
-				$this->SetValueEx('Control', $playInfo->Playback());
-				
+			
 				if($status->power=='on') {
+					$netUSB = new NetUSB($system);
+					$playInfo = $netUSB->PlayInfo();
+
 					$this->SetValueEx('Power', true);
+					$this->SetValueEx('Volume', $status->volume);
+					$this->SetValueEx('Mute', $status->mute);
+	
+					$this->SetValueEx('Control', $playInfo->Playback());
+
 					$this->SetValueEx('Input', $playInfo->Input());
 					$this->SetValueEx('Artist', $playInfo->Artist());
 					$this->SetValueEx('Track', $playInfo->Track());
 					$this->SetValueEx('Album', $playInfo->Album());
 				} else {
 					$this->SetValueEx('Power', false);
+					$this->SetValueEx('Volume', 0);
+					$this->SetValueEx('Mute', false);
+	
+					$this->SetValueEx('Control', 3); // Stop
+
 					$this->SetValueEx('Input', '');
 					$this->SetValueEx('Artist', '');
 					$this->SetValueEx('Track', '');
