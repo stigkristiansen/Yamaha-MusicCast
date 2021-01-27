@@ -11,7 +11,7 @@
 
 			$this->RegisterPropertyString ("IPAddress", "");
 
-			$this->RegisterProfileIntegerEx('Control.MusicCast', 'Information', '', '', [
+			$this->RegisterProfileIntegerEx('YMC_Control', 'Music', '', '', [
 				[0, 'Prev',  '', -1],
 				[1, 'Play',  '', -1],
 				[2, 'Pause', '', -1],
@@ -19,10 +19,13 @@
 				[4, 'Next',  '', -1]
 			]);
 
+			$this->RegisterAttributeString('Favourites', '');
+			$this->RegisterAttributeString('MCPlaylist', '');
+
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
 
-			$this->RegisterVariableInteger('Control', 'Control', 'Control.MusicCast', 2);
+			$this->RegisterVariableInteger('Control', 'Control', 'YMC.Control', 2);
         	$this->EnableAction('Control');
 			
 			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 3);
@@ -139,6 +142,35 @@
 					$this->SetValueEx('Albumart', '');
 				}
 			}
+		}
+
+		public function UpdateFavourites() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				
+				$favourites = $netUSB->Favourites();
+				if(count($favourites)>0) {
+					$assosiations = CreateProfileAssosiationList($favourites);
+
+					$profileName = 'YMC' . $this->InstanseID . "Favorites";
+										
+					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+				}
+		}
+
+		 
+
+		privcate function CreateProfileAssosiationList($List) {
+			$count = 0;
+			foreach($List as $value) {
+				$assosiations[] = [$count $value,  '', -1];
+				$count++;
+			}
+
+			return $assosiations;
+
 		}
 		
 		public function Volume(int $Level) {
