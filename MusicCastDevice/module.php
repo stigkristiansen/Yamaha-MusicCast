@@ -35,6 +35,7 @@
 			$this->RegisterVariableString('Artist', 'Artist', '', 6);
 			$this->RegisterVariableString('Track', 'Track', '', 7);
 			$this->RegisterVariableString('Album', 'Album', '', 8);
+			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
 			
@@ -124,6 +125,7 @@
 					$this->SetValueEx('Artist', $playInfo->Artist());
 					$this->SetValueEx('Track', $playInfo->Track());
 					$this->SetValueEx('Album', $playInfo->Album());
+					$this->SetValueEx('Albumart', $playInfo->AlbumartURL());
 				} else {
 					$this->SetValueEx('Power', false);
 					$this->SetValueEx('Volume', 0);
@@ -135,6 +137,7 @@
 					$this->SetValueEx('Artist', '');
 					$this->SetValueEx('Track', '');
 					$this->SetValueEx('Album', '');
+					$this->SetValueEx('Albumart', '');
 				}
 			}
 		}
