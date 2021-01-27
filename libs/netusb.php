@@ -50,7 +50,7 @@ class NetUSB {
         return $playlists;
     }
 
-    public function SelectMCPlaylist (string $Playlist, $index=1) {
+    public function SelectMCPlaylist (string $Playlist, $index=0) {
         $Playlist = strtolower($Playlist);
         $bank = 0;
         $playlists = self::MCPlaylists();
