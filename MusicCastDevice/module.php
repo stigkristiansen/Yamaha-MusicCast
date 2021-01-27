@@ -20,8 +20,13 @@
 			]);
 
 			$this->RegisterAttributeString('Favourites', '');
-			$this->RegisterAttributeString('MCPlaylist', '');
+			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
+			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 
+			$this->RegisterAttributeString('MCPlaylist', '');
+			$profileName = 'YMC.' . $this->InstanceID . ".Playlist";
+			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
+			
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
 
@@ -154,7 +159,7 @@
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 
-					$profileName = 'YMC' . $this->InstanceID . "Favorites";
+					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 										
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
