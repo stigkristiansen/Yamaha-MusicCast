@@ -67,7 +67,7 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			//IPS_LogMessage('MusicCast', 'RequestAction: '.$Ident.'-'.$Value);
+			IPS_LogMessage('MusicCast', 'RequestAction: '.$Ident.'-'.$Value);
 			switch ($Ident) {
 				case 'Control':
 					switch ($Value) {
