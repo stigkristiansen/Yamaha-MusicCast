@@ -130,7 +130,7 @@
 			}
 		}
 
-		private function SetValueEx(string $Ident, variant $Value) {
+		private function SetValueEx(string $Ident, $Value) {
 			$oldValue = $this->GetValue($Ident);
 			if($oldValue!=$Value)
 				$this->SetValue($Ident, $Value);
