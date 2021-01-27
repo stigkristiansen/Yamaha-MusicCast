@@ -5,7 +5,7 @@ declare(strict_types=1);
 trait HttpRequest {
     
     public function HttpGetJson(string $DeltaUrl) {
-		if(Sys_Ping($this->ipAddress, 1000)) {
+		if(self::Ping($this->ipAddress)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
@@ -27,7 +27,7 @@ trait HttpRequest {
     }
 
     public function HttpGetXML(string $DeltaUrl) {
-		if(Sys_Ping($this->ipAddress, 1000)) {
+		if(self::Ping($this->ipAddress)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
@@ -41,6 +41,17 @@ trait HttpRequest {
                 throw new Exception(sprintf("%s returned invalid XML. The returned value was %s", $completeUrl, $originalResult));
 		} else
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
+    }
+
+    private function Ping(string $IPAddress) {
+        $wait = 500;
+        for($count=0;$count<3;$count++) {
+            if(Sys_Ping($IPAddress, $wait))
+                return true;
+            $wait*=2;
+        }
+
+        return false;
     }
 
 
