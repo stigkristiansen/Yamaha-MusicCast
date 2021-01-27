@@ -19,12 +19,13 @@ class NetUSB {
         $playInfoJson = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPlayInfo');
 
         if($playInfoJson!==false) {
+            $albumartURL = 'http://' . $this->ipAddress . $playInfoJson->albumart_url;
             $playInfo = new PlayInfo(
                             $playInfoJson->input,
                             $playInfoJson->artist,
                             $playInfoJson->album,
                             $playInfoJson->track,
-                            'http://' . $this->ipAddress . $playInfoJson->albumart_url,
+                            $albumartURL,
                             $playInfoJson->playback
                             );
             return $playInfo;
