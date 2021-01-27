@@ -41,13 +41,13 @@
 			$this->RegisterAttributeString('Favourites', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
-			$this->RegisterVariableInteger('Favourite', 'Favourite', '$profileName', 10);
+			$this->RegisterVariableInteger('Favourite', 'Favourite', $profileName, 10);
 			$this->EnableAction('Favourite');
 
 			$this->RegisterAttributeString('MCPlaylists', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlist";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
-			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', '$profileName', 11);
+			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
 			$this->EnableAction('MCPLaylist');
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
