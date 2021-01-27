@@ -34,10 +34,10 @@ class PlayInfo {
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
         switch($Input) {
             case "tidal":
-                $this->input = TIDAL;
+                $this->input = self::TIDAL;
                 break;
             case "net_radio":
-                    $this->input = NETRADIO;
+                    $this->input = self::NETRADIO;
                     break; 
             default:
             $this->input = $Input;
