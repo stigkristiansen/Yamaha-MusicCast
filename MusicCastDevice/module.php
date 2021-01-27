@@ -59,7 +59,7 @@
 					switch ($Value) {
 						case 0:
 							self::Playback(PlaybackState::PREVIOUS);
-							$this->SetValue('Control', 0);
+							$this->SetValue('Control', 1);
 							break;
 						case 1:
 							self::Playback(PlaybackState::PLAY);
@@ -75,7 +75,7 @@
 						    break;
 						case 4:
 							self::Playback(PlaybackState::NEXT);
-							$this->SetValue('Control', 4);
+							$this->SetValue('Control', 1);
 							break;
 					}
 					break;
