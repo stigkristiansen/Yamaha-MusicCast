@@ -160,7 +160,7 @@
 				}
 		}
 
-		privcate function CreateProfileAssosiationList($List) {
+		private function CreateProfileAssosiationList($List) {
 			$count = 0;
 			foreach($List as $value) {
 				$assosiations[] = [$count $value,  '', -1];
