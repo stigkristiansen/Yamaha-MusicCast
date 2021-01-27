@@ -88,10 +88,10 @@
 					$this->SetValue('Mute', $Value);
 					break;
 				case 'Power':
-					$this->Power($Value);
+					self::Power($Value);
 					$this->SetValue('Power', $Value);
 					if($Value)
-						$this->Update();
+						self::Update();
 					break;
 			}
 		}
