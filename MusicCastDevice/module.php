@@ -167,7 +167,7 @@
 			$this->UpdatePlaylists();
 		}
 
-		pruvate function UpdateFavourites() {
+		private function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0){
 				$system = new System($ipAddress);
