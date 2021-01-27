@@ -11,7 +11,7 @@
 
 			$this->RegisterPropertyString ("IPAddress", "");
 
-			$this->RegisterProfileIntegerEx('YMC.Control', 'Music', '', '', [
+			$this->RegisterProfileIntegerEx('YMC.Control', 'Speaker', '', '', [
 				[0, 'Prev',  '', -1],
 				[1, 'Play',  '', -1],
 				[2, 'Pause', '', -1],
