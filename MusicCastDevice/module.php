@@ -158,6 +158,7 @@
 										
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
+			}
 		}
 
 		private function CreateProfileAssosiationList($List) {
