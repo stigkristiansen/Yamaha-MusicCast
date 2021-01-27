@@ -40,11 +40,9 @@ class NetUSB {
 
     public function MCPlaylists() {
         $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getMcPlaylistName');
-
-        if(count($result->name_list)>0)
-            return $result->name_list;
-        else    
-            return [];
+    
+        return $result->name_list;
+      
     }
 
     public function SelectMCPlaylist (string $Playlist, $index=1) {
@@ -67,13 +65,13 @@ class NetUSB {
     public function Favourites(){
         $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPresetInfo');
         
-        $favourites;
+        $favourites=null;
         foreach($result->preset_info as $favourite) {
             if($favourite->text!="")
                $favourites[] =  $favourite->text;
         }
 
-        if(count($favourites)>0)
+        if($favourites)
             return $favourites;
         else
             return [];
