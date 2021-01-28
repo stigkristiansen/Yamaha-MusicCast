@@ -65,11 +65,6 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			$update = $this->GetValue('AutomaticallyUpdateLists');
-			if($update)
-				$this->SetTimerInterval('UpdateLists', $this->GetValue('UpdateListInterval'));
-			else
-				$this->SetTimerInterval('UpdateLists', 0);
 		}
 
 		public function RequestAction($Ident, $Value) {
