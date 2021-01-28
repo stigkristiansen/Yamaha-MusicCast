@@ -65,7 +65,6 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			$update = ;
 			if($this->ReadPropertyBoolean('AutoUpdateLists'))
 				$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
 			else
