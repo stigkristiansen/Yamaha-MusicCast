@@ -64,17 +64,15 @@ class NetUSB {
         if($bank>count($playlists)-1)
             throw new Exception('Unkonown playlist!');
         
-        IPS_LogMessage('MusicCast', 'Calling manageMcPlaylist with Id: '.$Id);
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zoneName);
     }
 
     public function SelectMCPlaylistById (int $Id, $index=0) {
-        IPS_LogMessage('MusicCast', 'SelectMCPlaylistById was passed the value '. $Id);
         $playlists = self::MCPlaylists();
         
         if($Id>count($playlists)-1 || $Id<0)
             throw new Exception('Unkonown playlist!');
-        IPS_LogMessage('MusicCast', 'Calling manageMcPlaylist with Id: '.$Id);
+        
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$Id.'&type=play&index='.$index.'&zone='.$this->zoneName);
     }
 
@@ -91,7 +89,6 @@ class NetUSB {
     }
 
     public function SelectFavouriteByName(string $Favourite) {
-        IPS_LogMessage('MusicCast', 'SelectFavouriteByName was passed the value '. $Favourite);
         $Favourite = strtolower($Favourite);
         $num = 0;
         $favourites = self::Favourites();
@@ -105,18 +102,15 @@ class NetUSB {
         if($num>count($favourites)-1)
             throw new Exception('Unkonwn favourite!');
 
-        IPS_LogMessage('MusicCast', 'Calling recallPreset with numer: '.$num);
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$num);    
     }
 
     public function SelectFavouriteById(int $Id) {
-        IPS_LogMessage('MusicCast', 'SelectFavouriteById was passed the value '. $Id);
         $favourites = self::Favourites();
 
         if($Id>count($favourites)-1 || $Id<0)
             throw new Exception('Unkonwn favourite!');
 
-        IPS_LogMessage('MusicCast', 'Calling recallPreset with Id: '.$Id);
         self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$Id);    
     }
 
