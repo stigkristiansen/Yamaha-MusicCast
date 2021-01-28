@@ -65,6 +65,9 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
+			$update = $this->GetValue('AutomaticallyUpdateLists');
+			
+
 		}
 
 		public function RequestAction($Ident, $Value) {
