@@ -66,8 +66,8 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			if($this-GetValue('AutomaticallyUpdateLists'))
-				$this->SetTimerInterval('UpdateLists', $this->GetValue('UpdateListInterval'));
+			if((bool)$this-GetValue('AutomaticallyUpdateLists'))
+				$this->SetTimerInterval('UpdateLists', (int)$this->GetValue('UpdateListInterval'));
 			else
 				$this->SetTimerInterval('UpdateLists', 0);
 		}
