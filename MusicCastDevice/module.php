@@ -214,8 +214,8 @@
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value>=0) { 
-				$favourites = json_decode($this->GetBuffer('Favourites'), true);
-				IPS_LogMessage('MusicCast', 'Favourite selected is '. $favourites[$Value]);
+				//$favourites = json_decode($this->GetBuffer('Favourites'), true);
+				IPS_LogMessage('MusicCast', 'Favourite selected is '. $Value);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectFavouriteById($Value);
@@ -226,8 +226,8 @@
 		public function SelectMCPlaylist(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value>=0) { 
-				$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
-				IPS_LogMessage('MusicCast', 'Playlist selected is '. $playlists[$Value]);
+				//$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
+				IPS_LogMessage('MusicCast', 'Playlist selected is '. $Value);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectMCPlaylistById($Value);
