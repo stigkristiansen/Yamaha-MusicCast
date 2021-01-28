@@ -10,6 +10,9 @@
     ],
     "actions": [
         {
+            "type": "Label", "caption": "Play lists and Favourites"
+        },
+        {
             "type": "Button", "caption": "Update Lists", "onClick": "YMC_UpdateLists($id);", "confirm": "Would you like to update the \"Favourites-\" and \"Playlists\"?"
         }
     ],

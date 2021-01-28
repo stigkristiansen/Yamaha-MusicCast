@@ -168,8 +168,12 @@
 		}
 
 		public function UpdateLists() {
+			$this->SetTimerInterval('UpdateLists', 0);
+			
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
+
+			$this->SetTimerInterval('UpdateLists', 30000);
 		}
 
 		private function UpdateFavourites() {
