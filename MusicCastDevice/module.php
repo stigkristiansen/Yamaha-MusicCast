@@ -109,11 +109,11 @@
 						self::Update();
 					break;
 				case 'Favourite':
-					self::SelectFavourite($Value);
+					self::SelectFavourite($Value-1);
 					$this->SetValue('Favourite', 0);
 					break;
 				case 'MCPLaylist':
-					self::SelectMCPlaylist($Value);
+					self::SelectMCPlaylist($Value-1);
 					$this->SetValue('MCPLaylist', 0);
 					break;
 			}
@@ -213,23 +213,25 @@
 		
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0 && $Value>0) { 
+			if(strlen($ipAddress)>0 && $Value>=0) { 
 				$favourites = json_decode($this->GetBuffer('Favourites'), true);
 				IPS_LogMessage('MusicCast', 'Favourite selected is '. $favourites[$Value]);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-				$netUSB->SelectFavourite($favourites[$Value]);			
+				$netUSB->SelectFavouriteById($Value);
+				//$netUSB->SelectFavouriteByName($favourites[$Value]);			
 			}
 		}
 
 		public function SelectMCPlaylist(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0 && $Value>0) { 
+			if(strlen($ipAddress)>0 && $Value>=0) { 
 				$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
 				IPS_LogMessage('MusicCast', 'Playlist selected is '. $playlists[$Value]);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
-				$netUSB->SelectMCPlaylist($playlists[$Value]);
+				$netUSB->SelectMCPlaylistById($Value);
+				//$netUSB->SelectMCPlaylistByName($playlists[$Value]);
 			}
 		}
 
