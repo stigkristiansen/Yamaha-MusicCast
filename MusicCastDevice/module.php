@@ -62,12 +62,11 @@
 		}
 
 		public function ApplyChanges() {
-			$system;
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			if((bool)$this-GetValue('AutomaticallyUpdateLists'))
-				$this->SetTimerInterval('UpdateLists', (int)$this->GetValue('UpdateListInterval'));
+			if($this->GetValue('AutomaticallyUpdateLists'))
+				$this->SetTimerInterval('UpdateLists', $this->GetValue('UpdateListInterval'));
 			else
 				$this->SetTimerInterval('UpdateLists', 0);
 		}
