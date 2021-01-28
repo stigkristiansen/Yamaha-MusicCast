@@ -9,7 +9,7 @@
 			//Never delete this line!
 			parent::Create();
 
-			$this->RegisterPropertyString ("IPAddress", "");
+			$this->RegisterPropertyString("IPAddress", "");
 
 			$this->RegisterProfileIntegerEx('YMC.Control', 'Speaker', '', '', [
 				[0, 'Prev',  '', -1],
@@ -38,7 +38,7 @@
 			$this->RegisterVariableString('Album', 'Album', '', 8);
 			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
 
-			$this->RegisterPropertyBoolean('AutomaticallyUpdateLists', true);
+			$this->RegisterPropertyBoolean('AutoUpdateLists', true);
 			$this->RegisterPropertyInteger('UpdateListInterval', 30);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
@@ -65,7 +65,7 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
-			$update = $this->GetValue('AutomaticallyUpdateLists');
+			$update = $this->GetValue('AutoUpdateLists');
 			
 
 		}
