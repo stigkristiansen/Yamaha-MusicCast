@@ -38,17 +38,14 @@
 			$this->RegisterVariableString('Album', 'Album', '', 8);
 			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
 
-			//AutomaticallyUpdateLists UpdateListInterval
 			$this->RegisterPropertyBoolean('AutomaticallyUpdateLists', true);
 			$this->RegisterPropertyInteger('UpdateListInterval', 30);
 
-			//$this->RegisterAttributeString('Favourites', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('Favourite', 'Favourite', $profileName, 10);
 			$this->EnableAction('Favourite');
 
-			//$this->RegisterAttributeString('MCPlaylists', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
@@ -69,10 +66,13 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 
+			if($this-GetValue('AutomaticallyUpdateLists'))
+				$this->SetTimerInterval('UpdateLists', $this->GetValue('UpdateListInterval'));
+			else
+				$this->SetTimerInterval('UpdateLists', 0);
 		}
 
 		public function RequestAction($Ident, $Value) {
-			//IPS_LogMessage('MusicCast', 'RequestAction '.$Ident.':'.$Value);
 			switch ($Ident) {
 				case 'Control':
 					switch ($Value) {
