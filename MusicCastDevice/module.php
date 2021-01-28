@@ -38,13 +38,13 @@
 			$this->RegisterVariableString('Album', 'Album', '', 8);
 			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
 
-			$this->RegisterAttributeString('Favourites', '');
+			//$this->RegisterAttributeString('Favourites', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('Favourite', 'Favourite', $profileName, 10);
 			$this->EnableAction('Favourite');
 
-			$this->RegisterAttributeString('MCPlaylists', '');
+			//$this->RegisterAttributeString('MCPlaylists', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
@@ -180,7 +180,7 @@
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-					$this->SetBuffer('Favourites', json_encode($favourites));
+					//$this->SetBuffer('Favourites', json_encode($favourites));
 				}
 			}
 		}
@@ -196,7 +196,7 @@
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
 					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-					$this->SetBuffer('MCPlaylists', json_encode($playlists));
+					//$this->SetBuffer('MCPlaylists', json_encode($playlists));
 				}
 			}
 		}
