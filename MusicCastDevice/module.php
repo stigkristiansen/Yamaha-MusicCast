@@ -73,48 +73,48 @@
 				case 'Control':
 					switch ($Value) {
 						case 0:
-							self::Playback(PlaybackState::PREVIOUS);
 							$this->SetValue('Control', 1);
+							self::Playback(PlaybackState::PREVIOUS);
 							break;
 						case 1:
-							self::Playback(PlaybackState::PLAY);
 							$this->SetValue('Control', 1);
+							self::Playback(PlaybackState::PLAY);
 							break;
 						case 2:
-							self::Playback(PlaybackState::STOP);
 							$this->SetValue('Control', 2);
+							self::Playback(PlaybackState::STOP);
 							break;
 						case 3:
-							self::Playback(PlaybackState::STOP);
 							$this->SetValue('Control', 3);
+							self::Playback(PlaybackState::STOP);
 						    break;
 						case 4:
-							self::Playback(PlaybackState::NEXT);
 							$this->SetValue('Control', 1);
+							self::Playback(PlaybackState::NEXT);
 							break;
 					}
 					break;
 				case 'Volume':
-					self::Volume($Value);
 					$this->SetValue('Volume', $Value);
+					self::Volume($Value);
 					break;
 				case 'Mute':
-					self::Mute($Value);
 					$this->SetValue('Mute', $Value);
+					self::Mute($Value);
 					break;
 				case 'Power':
-					self::Power($Value);
 					$this->SetValue('Power', $Value);
+					self::Power($Value);
 					if($Value)
 						self::Update();
 					break;
 				case 'Favourite':
-					self::SelectFavourite($Value);
 					$this->SetValue('Favourite', $Value);
+					self::SelectFavourite($Value);
 					break;
 				case 'MCPLaylist':
-					self::SelectMCPlaylist($Value);
 					$this->SetValue('MCPLaylist',$Value);
+					self::SelectMCPlaylist($Value);
 					break;
 			}
 		}
