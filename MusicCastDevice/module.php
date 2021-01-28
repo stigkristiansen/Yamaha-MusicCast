@@ -38,6 +38,10 @@
 			$this->RegisterVariableString('Album', 'Album', '', 8);
 			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
 
+			//AutomaticallyUpdateLists UpdateListInterval
+			$this->RegisterPropertyBoolean('AutomaticallyUpdateLists', true);
+			$this->RegisterPropertyInteger('UpdateListInterval', 30);
+
 			//$this->RegisterAttributeString('Favourites', '');
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
