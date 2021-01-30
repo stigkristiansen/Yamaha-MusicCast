@@ -116,13 +116,13 @@
 					$this->SetValueEx('Favourite', $Value);
 					self::SelectFavourite($Value);
 					$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-					$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(5000);RequestAction(".$favourite.", 0);");
+					$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
 					break;
 				case 'MCPLaylist':
 					$this->SetValueEx('MCPLaylist',$Value);
 					self::SelectMCPlaylist($Value);
 					$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-					$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(5000);RequestAction(".$mcPlaylist.", 0);");
+					$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
 					break;
 			}
 		}
