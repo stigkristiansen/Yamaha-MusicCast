@@ -59,6 +59,9 @@
 		public function Destroy() {
 			//Never delete this line!
 			parent::Destroy();
+
+			$this->SetTimerInterval('UpdateLists', 0);
+			$this->SetTimerInterval('Update', 0);
 		}
 
 		public function ApplyChanges() {
