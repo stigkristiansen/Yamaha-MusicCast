@@ -77,47 +77,47 @@
 				case 'Control':
 					switch ($Value) {
 						case 0:
-							$this->SetValue('Control', 1);
+							$this->SetValueEx('Control', 1);
 							self::Playback(PlaybackState::PREVIOUS);
 							break;
 						case 1:
-							$this->SetValue('Control', 1);
+							$this->SetValueEx('Control', 1);
 							self::Playback(PlaybackState::PLAY);
 							break;
 						case 2:
-							$this->SetValue('Control', 2);
+							$this->SetValueEx('Control', 2);
 							self::Playback(PlaybackState::STOP);
 							break;
 						case 3:
-							$this->SetValue('Control', 3);
+							$this->SetValueEx('Control', 3);
 							self::Playback(PlaybackState::STOP);
 						    break;
 						case 4:
-							$this->SetValue('Control', 1);
+							$this->SetValueEx('Control', 1);
 							self::Playback(PlaybackState::NEXT);
 							break;
 					}
 					break;
 				case 'Volume':
-					$this->SetValue('Volume', $Value);
+					$this->SetValueEx('Volume', $Value);
 					self::Volume($Value);
 					break;
 				case 'Mute':
-					$this->SetValue('Mute', $Value);
+					$this->SetValueEx('Mute', $Value);
 					self::Mute($Value);
 					break;
 				case 'Power':
-					$this->SetValue('Power', $Value);
+					$this->SetValueEx('Power', $Value);
 					self::Power($Value);
 					if($Value)
 						self::Update();
 					break;
 				case 'Favourite':
-					$this->SetValue('Favourite', $Value);
+					$this->SetValueEx('Favourite', $Value);
 					self::SelectFavourite($Value);
 					break;
 				case 'MCPLaylist':
-					$this->SetValue('MCPLaylist',$Value);
+					$this->SetValueEx('MCPLaylist',$Value);
 					self::SelectMCPlaylist($Value);
 					break;
 			}
@@ -177,7 +177,7 @@
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
 
-			$this->SetTimerInterval('UpdateLists', 30000);
+			$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
 		}
 
 		private function UpdateFavourites() {
@@ -191,7 +191,6 @@
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-					//$this->SetBuffer('Favourites', json_encode($favourites));
 				}
 			}
 		}
@@ -207,7 +206,6 @@
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
 					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-					//$this->SetBuffer('MCPlaylists', json_encode($playlists));
 				}
 			}
 		}
@@ -225,22 +223,18 @@
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value!=0) { 
-				//$favourites = json_decode($this->GetBuffer('Favourites'), true);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectFavouriteById($Value);
-				//$netUSB->SelectFavouriteByName($favourites[$Value]);			
 			}
 		}
 
 		public function SelectMCPlaylist(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0 && $Value!=0) { 
-				//$playlists = json_decode($this->GetBuffer('MCPlaylists'), true);
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectMCPlaylistById($Value);
-				//$netUSB->SelectMCPlaylistByName($playlists[$Value]);
 			}
 		}
 
