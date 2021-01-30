@@ -75,36 +75,42 @@
 		public function RequestAction($Ident, $Value) {
 			switch ($Ident) {
 				case 'Control':
-					switch ($Value) {
-						case 0:
-							$this->SetValueEx('Control', 1);
-							self::Playback(PlaybackState::PREVIOUS);
-							break;
-						case 1:
-							$this->SetValueEx('Control', 1);
-							self::Playback(PlaybackState::PLAY);
-							break;
-						case 2:
-							$this->SetValueEx('Control', 2);
-							self::Playback(PlaybackState::STOP);
-							break;
-						case 3:
-							$this->SetValueEx('Control', 3);
-							self::Playback(PlaybackState::STOP);
-						    break;
-						case 4:
-							$this->SetValueEx('Control', 1);
-							self::Playback(PlaybackState::NEXT);
-							break;
+					if($this->GetValue('Power')) {
+						switch ($Value) {
+							case 0:
+								$this->SetValueEx('Control', 1);
+								self::Playback(PlaybackState::PREVIOUS);
+								break;
+							case 1:
+								$this->SetValueEx('Control', 1);
+								self::Playback(PlaybackState::PLAY);
+								break;
+							case 2:
+								$this->SetValueEx('Control', 2);
+								self::Playback(PlaybackState::STOP);
+								break;
+							case 3:
+								$this->SetValueEx('Control', 3);
+								self::Playback(PlaybackState::STOP);
+								break;
+							case 4:
+								$this->SetValueEx('Control', 1);
+								self::Playback(PlaybackState::NEXT);
+								break;
+						}
 					}
 					break;
 				case 'Volume':
-					$this->SetValueEx('Volume', $Value);
-					self::Volume($Value);
+					if($this->GetValue('Power')) {
+						$this->SetValueEx('Volume', $Value);
+						self::Volume($Value);
+					}
 					break;
 				case 'Mute':
-					$this->SetValueEx('Mute', $Value);
-					self::Mute($Value);
+					if($this->GetValue('Power')) {
+						$this->SetValueEx('Mute', $Vaue);
+						self::Mute($Value);
+					}
 					break;
 				case 'Power':
 					$this->SetValueEx('Power', $Value);
@@ -113,16 +119,20 @@
 						self::Update();
 					break;
 				case 'Favourite':
-					$this->SetValueEx('Favourite', $Value);
-					self::SelectFavourite($Value);
-					$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-					$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+					if($this->GetValue('Power')) {
+						$this->SetValueEx('Favourite', $Value);
+						self::SelectFavourite($Value);
+						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
+						$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+					}
 					break;
 				case 'MCPLaylist':
-					$this->SetValueEx('MCPLaylist',$Value);
-					self::SelectMCPlaylist($Value);
-					$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-					$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+					if($this->GetValue('Power')) {
+						$this->SetValueEx('MCPLaylist',$Value);
+						self::SelectMCPlaylist($Value);
+						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
+						$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+					}
 					break;
 			}
 		}
