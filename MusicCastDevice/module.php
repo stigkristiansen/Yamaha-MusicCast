@@ -137,8 +137,8 @@
 				
 				$status = $zone->Status();
 
-				$this->SetValue('MCPLaylist', 0);
-				$this->SetValue('Favourite', 0);
+				$this->SetValueEx('MCPLaylist', 0);
+				$this->SetValueEx('Favourite', 0);
 			
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
