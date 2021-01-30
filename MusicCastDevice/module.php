@@ -115,10 +115,12 @@
 				case 'Favourite':
 					$this->SetValueEx('Favourite', $Value);
 					self::SelectFavourite($Value);
+					$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(5000);RequestAction(".$Ident.", 0);");
 					break;
 				case 'MCPLaylist':
 					$this->SetValueEx('MCPLaylist',$Value);
 					self::SelectMCPlaylist($Value);
+					$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(5000);RequestAction(".$Ident.", 0);");
 					break;
 			}
 		}
@@ -137,8 +139,8 @@
 				
 				$status = $zone->Status();
 
-				$this->SetValueEx('MCPLaylist', 0);
-				$this->SetValueEx('Favourite', 0);
+				//$this->SetValueEx('MCPLaylist', 0);
+				//$this->SetValueEx('Favourite', 0);
 			
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
