@@ -51,6 +51,10 @@ class System {
         //var_dump($featuresResult);
     }
 
+    public function Features() {
+        return $this->features;
+    }
+
     public function IpAddress() {
         return $this->ipAddress;
     }

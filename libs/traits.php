@@ -43,6 +43,29 @@ trait HttpRequest {
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
     }
 
+    public function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {
+	    if(self::Ping($IpAddress)) {
+			$completeUrl = 'http://'.$IpAddress.$DeltaUrl;
+			
+			$result = self::request ('post', $completeUrl, $JsonParams);
+
+            $originalResult = $result;
+			$result = json_decode($result);
+            
+            if($result!==null) {
+                if(isset($result->response_code) && $result->response_code==0) {
+                    return $result;
+                } else if(isset($result->response_code) && $result->response_code!=0)
+                    throw new Exception(sprintf("%s returned: error %d: %s", $completeUrl, $result->response_code, ResponseCodes::GetMessage($result->response_code)));
+                else
+                    throw new Exception(sprintf("Error: %s returned: %s", $completeUrl, $result));
+            } else
+                throw new Exception(sprintf("%s returned invalid JSON. The returned value was %s", $completeUrl, $originalResult));
+		} else
+			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));	
+
+    }
+
     private function Ping(string $IPAddress) {
         $wait = 500;
         for($count=0;$count<3;$count++) {
