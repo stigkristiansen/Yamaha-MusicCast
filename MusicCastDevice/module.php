@@ -55,10 +55,10 @@
 		}
 
 		public function Destroy() {
-			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
-			$this->SetTimerInterval('Update'.$this->InstanceID, 0);
-			$this->SetTimerInterval('ResetFavourite'.$this->InstanceID, 0);
-			$this->SetTimerInterval('ResetMCPLaylist'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('Update'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('ResetFavourite'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('ResetMCPLaylist'.$this->InstanceID, 0);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
@@ -83,7 +83,7 @@
 
 			if($this->ReadPropertyBoolean('AutoUpdateLists')) {
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
-				$this->LogMessage('Automatically update interval wa set to: '.$this->ReadPropertyInteger('UpdateListInterval')*1000, KL_MESSAGE);
+				$this->LogMessage('Automatically update interval was set to: '.$this->ReadPropertyInteger('UpdateListInterval')*1000, KL_MESSAGE);
 			} else
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 		}
@@ -226,7 +226,7 @@
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
 
-			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval'));
+			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 		}
 		
 		public function SelectFavourite(int $Value) {
