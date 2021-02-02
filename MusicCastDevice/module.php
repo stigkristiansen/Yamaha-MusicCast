@@ -98,7 +98,6 @@
 							case 2:
 								$this->SetValueEx('Control', 2);
 								self::Playback(PlaybackState::STOP);
-								self::UpdateVariables(PlaybackState::STOP);
 								break;
 							case 3:
 								$this->SetValueEx('Control', 3);
