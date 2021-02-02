@@ -30,10 +30,6 @@ class PlayInfo {
     private $albumartUrl;
     private $playback;
 
-    //const INPUT_TIDAL = 'Tidal';
-    //const INPUT_NETRADIO = 'Network Radio';
-    //const INPUT_LINK = 'Link';
-
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
         switch($Input) {
             case 'tidal':
@@ -44,6 +40,7 @@ class PlayInfo {
                     break; 
             case 'mc_link':
                     $this->input = Input::LINK;
+                    break;
             default:
                 $this->input = $Input;
         }
