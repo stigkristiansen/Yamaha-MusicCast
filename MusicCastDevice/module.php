@@ -103,11 +103,6 @@
 							case 3:
 								$this->SetValueEx('Control', 3);
 								self::Playback(PlaybackState::STOP);
-								$this->SetValueEx('Input', '');
-								$this->SetValueEx('Artist', '');
-								$this->SetValueEx('Track', '');
-								$this->SetValueEx('Album', '');
-								$this->SetValueEx('Albumart', '');
 								break;
 							case 4:
 								$this->SetValueEx('Control', 1);
