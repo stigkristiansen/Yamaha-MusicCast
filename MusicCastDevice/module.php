@@ -53,7 +53,6 @@
 			
 			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
 			$this->RegisterTimer('UpdateLists', 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
-			
 		}
 
 		public function Destroy() {
@@ -146,17 +145,33 @@
 			return json_encode($form);
 		}
 
+		public function StartLink(string $ClientIpAddress) {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0) {	
+				$system = new System($ipAddress);
+				$distribution = new Distrbution($system);
+				$distribution->AddClient(new System($ClientIpAddress));
+				$distribution->Start();
+			}
+		}
+
+		public function StopLink() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0) {	
+				$system = new System($ipAddress);
+				$distribution = new Distrbution($system);
+				$distribution->Stop();
+			}
+		}
+
 		public function Update() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				
 				$status = $zone->Status();
 
-				//$this->SetValueEx('MCPLaylist', 0);
-				//$this->SetValueEx('Favourite', 0);
-			
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
@@ -226,16 +241,6 @@
 				}
 			}
 		}
-
-		private function CreateProfileAssosiationList($List) {
-			$count = 0;
-			foreach($List as $value) {
-				$assosiations[] = [$count, $value,  '', -1];
-				$count++;
-			}
-
-			return $assosiations;
-		}
 		
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
@@ -295,6 +300,16 @@
 			$oldValue = $this->GetValue($Ident);
 			if($oldValue!=$Value)
 				$this->SetValue($Ident, $Value);
+		}
+
+		private function CreateProfileAssosiationList($List) {
+			$count = 0;
+			foreach($List as $value) {
+				$assosiations[] = [$count, $value,  '', -1];
+				$count++;
+			}
+
+			return $assosiations;
 		}
 
 
