@@ -193,7 +193,7 @@
 					$this->SetValueEx('Volume', $status->volume);
 					$this->SetValueEx('Mute', $status->mute);
 	
-					$control = $playInfo->Playback()
+					$control = $playInfo->Playback();
 					$this->SetValueEx('Control', $control);
 
 					if($control==PlaybackState::STOP) {
