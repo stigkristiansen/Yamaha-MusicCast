@@ -183,6 +183,7 @@
 				$zone = new Zone($system);
 				
 				$status = $zone->Status();
+				$control = $this->GetValue('Control');
 
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
@@ -199,7 +200,7 @@
 					$this->SetValueEx('Track', $playInfo->Track());
 					$this->SetValueEx('Album', $playInfo->Album());
 					$this->SetValueEx('Albumart', $playInfo->AlbumartURL());
-				} else {
+				} elseif($status->power=='off' || $control==PlaybackState::STOP) {
 					$this->SetValueEx('Power', false);
 					$this->SetValueEx('Volume', 0);
 					$this->SetValueEx('Mute', false);
