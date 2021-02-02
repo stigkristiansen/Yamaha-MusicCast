@@ -18,7 +18,6 @@
 				[3, "Stop",  '', -1],
 				[4, 'Next',  '', -1]
 			]);
-
 			
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
@@ -51,15 +50,15 @@
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
 			$this->EnableAction('MCPLaylist');
 			
-			$this->RegisterTimer('Update', 5000, 'YMC_Update('.$this->InstanceID.');');
-			$this->RegisterTimer('UpdateLists', 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
+			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'YMC_Update('.$this->InstanceID.');');
+			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
 		}
 
 		public function Destroy() {
-			//$this->SetTimerInterval('UpdateLists', 0);
-			//$this->SetTimerInterval('Update', 0);
-			//$this->SetTimerInterval('ResetFavourite', 0);
-			//$this->SetTimerInterval('ResetMCPLaylist', 0);
+			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
+			$this->SetTimerInterval('Update'.$this->InstanceID, 0);
+			$this->SetTimerInterval('ResetFavourite'.$this->InstanceID, 0);
+			$this->SetTimerInterval('ResetMCPLaylist'.$this->InstanceID, 0);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
@@ -80,9 +79,9 @@
 			parent::ApplyChanges();
 
 			if($this->ReadPropertyBoolean('AutoUpdateLists'))
-				$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
+				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval'));
 			else
-				$this->SetTimerInterval('UpdateLists', 0);
+				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 		}
 
 		public function RequestAction($Ident, $Value) {
@@ -136,7 +135,7 @@
 						$this->SetValueEx('Favourite', $Value);
 						self::SelectFavourite($Value);
 						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer("ResetFavourite", "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+						$this->RegisterOnceTimer("ResetFavourite".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
 					}
 					break;
 				case 'MCPLaylist':
@@ -144,7 +143,7 @@
 						$this->SetValueEx('MCPLaylist',$Value);
 						self::SelectMCPlaylist($Value);
 						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer("ResetMCPLaylist", "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+						$this->RegisterOnceTimer("ResetMCPLaylist".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
 					}
 					break;
 			}
@@ -218,12 +217,12 @@
 		}
 
 		public function UpdateLists() {
-			$this->SetTimerInterval('UpdateLists', 0);
+			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 			
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
 
-			$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
+			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval'));
 		}
 		
 		public function SelectFavourite(int $Value) {
