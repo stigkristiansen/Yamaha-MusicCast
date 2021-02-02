@@ -114,10 +114,8 @@ trait ProfileHelper
 {
 
     protected function DeleteProfile($Name) {
-        if(IPS_VariableProfileExists($Name)) { 
-            IPS_LogMessage('MusicCast','DeleteProfile: '.$Name);
+        if(IPS_VariableProfileExists($Name))
             IPS_DeleteVariableProfile($Name);
-        }
     }
 
     protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)

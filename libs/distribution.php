@@ -7,7 +7,6 @@ class Distrbution {
     private $clients;
     private $ipAddress;
     private $groupID;
-    
 
     public function __construct(System $Master) {
         $this->master = $Master;
@@ -45,7 +44,6 @@ class Distrbution {
             self::StopDistribution();
             self::SetServerInfo(true);
         }
-        
     }
 
     public function Start(int $Num=0) {
@@ -104,7 +102,14 @@ class Distrbution {
     }
 
     private function ValidateClient(System $Client) {
-        return true;
+        $compatibleClientVersions = $this->master->Features()->distribution->compatible_client;
+        $clientVersion = intval($Client->Features()->distribution->version);
+        foreach($compatibleClientVersions as $version) {
+            if($version==$clientVersion)
+                return true;
+        }
+        
+        return false;
     }
 
     private function GenerateGroupID () {
