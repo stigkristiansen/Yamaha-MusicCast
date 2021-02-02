@@ -57,7 +57,6 @@ class Distrbution {
         foreach($this->clients as $client) {
             self::RemoveClient(new System($client));
         }    
-        
     }
 
     private function GetDistributionInfo() {

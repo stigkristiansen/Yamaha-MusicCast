@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-interface MusicCastInterface {
-
-}
-
 class Zones {
     const MAIN = "main";
     const ZONE2 = "zone2";
@@ -86,7 +82,6 @@ class PlayInfo {
     public function Playback(){
         return $this->playback;
     }
-
 }
 
 class ResponseCodes {

@@ -145,13 +145,16 @@
 			return json_encode($form);
 		}
 
-		public function StartLink(string $ClientIpAddress) {
+		public function StartLink(string $RoomName) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0) {	
 				$system = new System($ipAddress);
-				$distribution = new Distrbution($system);
-				$distribution->AddClient(new System($ClientIpAddress));
-				$distribution->Start();
+				$clientIpAddress = $system->FindRoom($RoomName);
+				if($clientIpAddress!==false) {
+					$distribution = new Distrbution($system);
+					$distribution->AddClient(new System($clientIpAddress));
+					$distribution->Start();
+				}
 			}
 		}
 
