@@ -87,7 +87,7 @@
 
 		public function RequestAction($Ident, $Value) {
 			switch ($Ident) {
-				case 'Control':
+				case 'Control' :
 					if($this->GetValue('Power')) {
 						switch ($Value) {
 							case 0:
