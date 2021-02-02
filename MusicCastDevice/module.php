@@ -184,7 +184,7 @@
 				
 				$status = $zone->Status();
 
-				if($status->power=='on' && $Control=='play') {
+				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
 
