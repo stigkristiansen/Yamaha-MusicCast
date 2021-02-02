@@ -16,6 +16,12 @@ class PlaybackState {
     const NEXT = 'next';
 }
 
+class Input {
+    const TIDAL = 'Tidal';
+    const NETRADIO = 'Network Radio';
+    const LINK = 'Link';
+}
+
 class PlayInfo {
     private $input;
     private $artist;
@@ -24,17 +30,20 @@ class PlayInfo {
     private $albumartUrl;
     private $playback;
 
-    const INPUT_TIDAL = "Tidal";
-    const INPUT_NETRADIO = "Network Radio";
+    //const INPUT_TIDAL = 'Tidal';
+    //const INPUT_NETRADIO = 'Network Radio';
+    //const INPUT_LINK = 'Link';
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
         switch($Input) {
-            case "tidal":
-                $this->input = self::INPUT_TIDAL;
+            case 'tidal':
+                $this->input = Input::TIDAL;
                 break;
-            case "net_radio":
-                    $this->input = self::INPUT_NETRADIO;
+            case 'net_radio':
+                    $this->input = Input::NETRADIO;
                     break; 
+            case 'mc_link':
+                    $this->input = Input::LINK;
             default:
                 $this->input = $Input;
         }
