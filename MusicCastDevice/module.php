@@ -82,8 +82,8 @@
 			$this->LogMessage('Automatically update lists interval is: '.$this->ReadPropertyInteger('UpdateListInterval'), KL_MESSAGE);
 
 			if($this->ReadPropertyBoolean('AutoUpdateLists')) {
-				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval'));
-				$this->LogMessage('Automatically update interval wa set to: '.$this->ReadPropertyInteger('UpdateListInterval'), KL_MESSAGE);
+				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
+				$this->LogMessage('Automatically update interval wa set to: '.$this->ReadPropertyInteger('UpdateListInterval')*1000, KL_MESSAGE);
 			} else
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 		}
