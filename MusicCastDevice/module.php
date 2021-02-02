@@ -58,8 +58,8 @@
 		public function Destroy() {
 			$this->SetTimerInterval('UpdateLists', 0);
 			$this->SetTimerInterval('Update', 0);
-			$this->SetTimerInterval('ResetFavourite', 0);
-			$this->SetTimerInterval('ResetMCPLaylist', 0);
+			//$this->SetTimerInterval('ResetFavourite', 0);
+			//$this->SetTimerInterval('ResetMCPLaylist', 0);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			DeleteProfile($profileName);
@@ -83,7 +83,6 @@
 				$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
 			else
 				$this->SetTimerInterval('UpdateLists', 0);
-
 		}
 
 		public function RequestAction($Ident, $Value) {
