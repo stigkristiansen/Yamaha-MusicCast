@@ -181,10 +181,10 @@
 			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
+				$netUSB = new NetUSB($system);
 				
 				$status = $zone->Status();
-				$control = $this->GetValue('Control');
-
+				
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
@@ -193,14 +193,23 @@
 					$this->SetValueEx('Volume', $status->volume);
 					$this->SetValueEx('Mute', $status->mute);
 	
-					$this->SetValueEx('Control', $playInfo->Playback());
+					$control = $playInfo->Playback()
+					$this->SetValueEx('Control', $control);
 
-					$this->SetValueEx('Input', $playInfo->Input());
-					$this->SetValueEx('Artist', $playInfo->Artist());
-					$this->SetValueEx('Track', $playInfo->Track());
-					$this->SetValueEx('Album', $playInfo->Album());
-					$this->SetValueEx('Albumart', $playInfo->AlbumartURL());
-				} elseif($status->power=='off' || $control==PlaybackState::STOP) {
+					if($control==PlaybackState::STOP) {
+						$this->SetValueEx('Input', '');
+						$this->SetValueEx('Artist', '');
+						$this->SetValueEx('Track', '');
+						$this->SetValueEx('Album', '');
+						$this->SetValueEx('Albumart', '');
+					} else {
+						$this->SetValueEx('Input', $playInfo->Input());
+						$this->SetValueEx('Artist', $playInfo->Artist());
+						$this->SetValueEx('Track', $playInfo->Track());
+						$this->SetValueEx('Album', $playInfo->Album());
+						$this->SetValueEx('Albumart', $playInfo->AlbumartURL());
+					}
+				} else {
 					$this->SetValueEx('Power', false);
 					$this->SetValueEx('Volume', 0);
 					$this->SetValueEx('Mute', false);
