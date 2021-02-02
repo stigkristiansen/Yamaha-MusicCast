@@ -56,15 +56,17 @@
 		}
 
 		public function Destroy() {
-			$this->SetTimerInterval('UpdateLists', 0);
-			$this->SetTimerInterval('Update', 0);
+			//$this->SetTimerInterval('UpdateLists', 0);
+			//$this->SetTimerInterval('Update', 0);
 			//$this->SetTimerInterval('ResetFavourite', 0);
 			//$this->SetTimerInterval('ResetMCPLaylist', 0);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
+			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
 			DeleteProfile($profileName);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
+			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
 			DeleteProfile($profileName);
 
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));

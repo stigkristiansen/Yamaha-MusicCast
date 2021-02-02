@@ -114,8 +114,10 @@ trait ProfileHelper
 {
 
     protected function DeleteProfile($Name) {
-        if(IPS_VariableProfileExists($Name)) 
+        if(IPS_VariableProfileExists($Name)) { 
+            IPS_LogMessage('DeleteProfile: '.$Name);
             IPS_DeleteVariableProfile($Name);
+        }
     }
 
     protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
