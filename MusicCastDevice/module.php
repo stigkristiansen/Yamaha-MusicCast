@@ -63,15 +63,15 @@
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
-			DeleteProfile($profileName);
+			$this->DeleteProfile($profileName);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
-			DeleteProfile($profileName);
+			$this->DeleteProfile($profileName);
 
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
-				DeleteProfile('YMC.Control');
+				$this->DeleteProfile('YMC.Control');
 			
 			//Never delete this line!
 			parent::Destroy();
