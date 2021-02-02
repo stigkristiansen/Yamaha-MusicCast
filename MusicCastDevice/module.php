@@ -103,7 +103,11 @@
 							case 3:
 								$this->SetValueEx('Control', 3);
 								self::Playback(PlaybackState::STOP);
-								self::UpdateVariables(PlaybackState::STOP);
+								$this->SetValueEx('Input', '');
+								$this->SetValueEx('Artist', '');
+								$this->SetValueEx('Track', '');
+								$this->SetValueEx('Album', '');
+								$this->SetValueEx('Albumart', '');
 								break;
 							case 4:
 								$this->SetValueEx('Control', 1);
@@ -178,12 +182,6 @@
 		}
 
 		public function Update(){
-			self::UpdateVariables();
-		}
-
-		private function UpdateVariables(string $Control = 'play') {
-			IPS_LogMessage('UpdateVariables', 'Control is '.$Control);
-
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
