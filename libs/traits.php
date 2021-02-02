@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 trait HttpRequest {
     
-    public function HttpGetJson(string $DeltaUrl) {
+    protected function HttpGetJson(string $DeltaUrl) {
 		if(self::Ping($this->ipAddress)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
@@ -26,7 +26,7 @@ trait HttpRequest {
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
     }
 
-    public function HttpGetXML(string $DeltaUrl) {
+    protected function HttpGetXML(string $DeltaUrl) {
 		if(self::Ping($this->ipAddress)) {
 			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
 			
@@ -43,7 +43,7 @@ trait HttpRequest {
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
     }
 
-    public function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {
+    protected function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {
 	    if(self::Ping($IpAddress)) {
 			$completeUrl = 'http://'.$IpAddress.$DeltaUrl;
 			
@@ -66,7 +66,7 @@ trait HttpRequest {
 
     }
 
-    private function Ping(string $IPAddress) {
+    protected function Ping(string $IPAddress) {
         $wait = 500;
         for($count=0;$count<3;$count++) {
             if(Sys_Ping($IPAddress, $wait))
@@ -78,7 +78,7 @@ trait HttpRequest {
     }
 
 
-    private function request($Type, $Url, $Data=NULL) {
+    protected function request($Type, $Url, $Data=NULL) {
 		$ch = curl_init();
 		
 		switch(strtolower($Type)) {
@@ -112,6 +112,12 @@ trait HttpRequest {
 
 trait ProfileHelper
 {
+
+    protected function DeleteProfile($Name) {
+        if(IPS_VariableProfileExists($Name)) 
+            IPS_DeleteVariableProfile($Name);
+    }
+
     protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
     {
         if (!IPS_VariableProfileExists($Name)) {

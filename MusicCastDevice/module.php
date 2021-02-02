@@ -56,11 +56,23 @@
 		}
 
 		public function Destroy() {
-			//Never delete this line!
-			parent::Destroy();
-
 			$this->SetTimerInterval('UpdateLists', 0);
 			$this->SetTimerInterval('Update', 0);
+			$this->SetTimerInterval('ResetFavourite', 0);
+			$this->SetTimerInterval('ResetMCPLaylist', 0);
+
+			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
+			DeleteProfile($profileName);
+
+			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
+			DeleteProfile($profileName);
+
+			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
+			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
+				DeleteProfile('YMC.Control');
+			
+			//Never delete this line!
+			parent::Destroy();
 		}
 
 		public function ApplyChanges() {
@@ -214,36 +226,6 @@
 
 			$this->SetTimerInterval('UpdateLists', $this->ReadPropertyInteger('UpdateListInterval'));
 		}
-
-		private function UpdateFavourites() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
-				$system = new System($ipAddress);
-				$netUSB = new NetUSB($system);
-				
-				$favourites = $netUSB->Favourites();
-				if(count($favourites)>0) {
-					$assosiations = $this->CreateProfileAssosiationList($favourites);
-					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
-					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-				}
-			}
-		}
-
-		private function UpdatePlaylists() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
-				$system = new System($ipAddress);
-				$netUSB = new NetUSB($system);
-				
-				$playlists = $netUSB->MCPlaylists();
-				if(count($playlists)>0) {
-					$assosiations = $this->CreateProfileAssosiationList($playlists);
-					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
-					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
-				}
-			}
-		}
 		
 		public function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
@@ -315,6 +297,34 @@
 			return $assosiations;
 		}
 
+		private function UpdateFavourites() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				
+				$favourites = $netUSB->Favourites();
+				if(count($favourites)>0) {
+					$assosiations = $this->CreateProfileAssosiationList($favourites);
+					$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
+					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+				}
+			}
+		}
 
+		private function UpdatePlaylists() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(strlen($ipAddress)>0){
+				$system = new System($ipAddress);
+				$netUSB = new NetUSB($system);
+				
+				$playlists = $netUSB->MCPlaylists();
+				if(count($playlists)>0) {
+					$assosiations = $this->CreateProfileAssosiationList($playlists);
+					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
+					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+				}
+			}
+		}
 	}
 
