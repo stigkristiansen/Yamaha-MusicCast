@@ -196,7 +196,7 @@
 					$control = $playInfo->Playback();
 					$this->SetValueEx('Control', $control);
 
-					if($control==PlaybackState::STOP) {
+					if($control==3) { // Stop
 						$this->SetValueEx('Input', '');
 						$this->SetValueEx('Artist', '');
 						$this->SetValueEx('Track', '');
