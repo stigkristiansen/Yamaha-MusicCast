@@ -62,11 +62,9 @@
 			//$this->SetTimerInterval('ResetMCPLaylist', 0);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
-			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
 			$this->DeleteProfile($profileName);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
-			IPS_LogMessage('Destroy', 'Profile: '.$profileName);
 			$this->DeleteProfile($profileName);
 
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
