@@ -102,6 +102,7 @@
 							case 3:
 								$this->SetValueEx('Control', 3);
 								self::Playback(PlaybackState::STOP);
+								self::UpdateVariables(PlaybackState::STOP);
 								break;
 							case 4:
 								$this->SetValueEx('Control', 1);
@@ -175,7 +176,12 @@
 			}
 		}
 
-		public function Update() {
+		public function Update(){
+			self::UpdateVariables();
+		}
+
+		private function UpdateVariables(string $Control = 'play') {
+			
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
@@ -183,7 +189,7 @@
 				
 				$status = $zone->Status();
 
-				if($status->power=='on') {
+				if($status->power=='on' && $Control = 'play') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
 
