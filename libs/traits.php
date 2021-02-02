@@ -74,7 +74,6 @@ trait HttpRequest {
             $wait*=2;
         }
 
-        IPS_LogMessage('trait', 'ping failed!!!');
         return false;
     }
 
