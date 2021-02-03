@@ -173,27 +173,25 @@
 		 			"status"=> 		[
 			   						]
 					];
-
-			//IPS_LogMessage('GetConfigurationForm', json_encode($form));
+			
 			return json_encode($form);
 		}
 
 		public function StartLink(string $RoomName) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0) {	
+			if(VerifyDeviceIp()) {	
 				$system = new System($ipAddress);
 				$clientIpAddress = $system->FindRoom($RoomName);
 				if($clientIpAddress!==false) {
 					$distribution = new Distrbution($system);
 					$distribution->AddClient(new System($clientIpAddress));
 					$distribution->Start();
-				}
+				} else
+					$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
 			}
 		}
 
 		public function StopLink() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0) {	
+			if(VerifyDeviceIp()) {	
 				$system = new System($ipAddress);
 				$distribution = new Distrbution($system);
 				$distribution->Stop();
@@ -201,8 +199,7 @@
 		}
 
 		private function Update(){
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0) {
+			if(VerifyDeviceIp()) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$netUSB = new NetUSB($system);
@@ -259,8 +256,7 @@
 		}
 		
 		public function SelectFavourite(int $Value) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0 && $Value!=0) { 
+			if(VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectFavouriteById($Value);
@@ -268,8 +264,7 @@
 		}
 
 		public function SelectMCPlaylist(int $Value) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0 && $Value!=0) { 
+			if(VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectMCPlaylistById($Value);
@@ -277,8 +272,7 @@
 		}
 
 		public function Volume(int $Level) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Volume($Level);
@@ -286,8 +280,7 @@
 		}
 
 		public function Mute(bool $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Mute($State);
@@ -295,8 +288,7 @@
 		}
 
 		public function Playback(string $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->Playback($State);
@@ -304,8 +296,7 @@
 		}
 
 		public function Power(bool $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);
@@ -318,9 +309,18 @@
 				$this->SetValue($Ident, $Value);
 		}
 
-		private function UpdateFavourites() {
+		private function VerifyDeviceIp() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(strlen($ipAddress)>0)
+				return true;
+			else  {
+				$this->LogMessage("The device is missing information about it's ip address", KL_ERROR);
+				return false;
+			}
+		}
+
+		private function UpdateFavourites() {
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
@@ -334,8 +334,7 @@
 		}
 
 		private function UpdatePlaylists() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
-			if(strlen($ipAddress)>0){
+			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
