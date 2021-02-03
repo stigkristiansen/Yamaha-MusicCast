@@ -212,7 +212,7 @@
 
 		private function Update(){
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			$this->LogMessage('The IP used for update is '.$ipAddress);
+			IPS_LogMessage('The IP used for update is '.$ipAddress);
 			if(self::VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
