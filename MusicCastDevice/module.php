@@ -83,8 +83,9 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
+			IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
 			switch ($Ident) {
-				case 'Control' :
+				case 'Control':
 					if($this->GetValue('Power')) {
 						switch ($Value) {
 							case 0:
