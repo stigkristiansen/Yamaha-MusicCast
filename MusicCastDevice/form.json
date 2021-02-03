@@ -19,7 +19,7 @@
             "type": "Label", "caption": "Playlists and Favourites"
         },
         {
-            "type": "Button", "caption": "Update Lists", "onClick": "YMC_UpdateLists($id);", "confirm": "Would you like to update the \"Favourites-\" and \"Playlists\"?"
+            "type": "Button", "caption": "Update Lists", "onClick": "RequestAction(12345, 254);", "confirm": "Would you like to update the \"Favourites-\" and \"Playlists\"?"
         }
     ],
     "status": []
