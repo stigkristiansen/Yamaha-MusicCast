@@ -52,9 +52,7 @@
 			
 			
 			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);');
-			//$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'YMC_Update('.$this->InstanceID.');');
 			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
-			//$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
 		}
 
 		public function Destroy() {
@@ -87,73 +85,77 @@
 
 		public function RequestAction($Ident, $Value) {
 			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
-			switch ($Ident) {
-				case 'Control':
-					if($this->GetValue('Power')) {
-						switch ($Value) {
-							case 0:
-								$this->SetValueEx('Control', 1);
-								self::Playback(PlaybackState::PREVIOUS);
-								break;
-							case 1:
-								$this->SetValueEx('Control', 1);
-								self::Playback(PlaybackState::PLAY);
-								break;
-							case 2:
-								$this->SetValueEx('Control', 2);
-								self::Playback(PlaybackState::STOP);
-								break;
-							case 3:
-								$this->SetValueEx('Control', 3);
-								self::Playback(PlaybackState::STOP);
-								break;
-							case 4:
-								$this->SetValueEx('Control', 1);
-								self::Playback(PlaybackState::NEXT);
-								break;
-							case 255: // Call Update();
-								self::Update();
-								break;
-							case 254: // Call UpdateLists
-								self::UpdateLists();
-								break;
+			try {
+				switch ($Ident) {
+					case 'Control':
+						if($this->GetValue('Power')) {
+							switch ($Value) {
+								case 0:
+									$this->SetValueEx('Control', 1);
+									self::Playback(PlaybackState::PREVIOUS);
+									break;
+								case 1:
+									$this->SetValueEx('Control', 1);
+									self::Playback(PlaybackState::PLAY);
+									break;
+								case 2:
+									$this->SetValueEx('Control', 2);
+									self::Playback(PlaybackState::STOP);
+									break;
+								case 3:
+									$this->SetValueEx('Control', 3);
+									self::Playback(PlaybackState::STOP);
+									break;
+								case 4:
+									$this->SetValueEx('Control', 1);
+									self::Playback(PlaybackState::NEXT);
+									break;
+								case 255: // Call Update();
+									self::Update();
+									break;
+								case 254: // Call UpdateLists
+									self::UpdateLists();
+									break;
+							}
 						}
-					}
-					break;
-				case 'Volume':
-					if($this->GetValue('Power')) {
-						$this->SetValueEx('Volume', $Value);
-						self::Volume($Value);
-					}
-					break;
-				case 'Mute':
-					if($this->GetValue('Power')) {
-						$this->SetValueEx('Mute', $Vaue);
-						self::Mute($Value);
-					}
-					break;
-				case 'Power':
-					$this->SetValueEx('Power', $Value);
-					self::Power($Value);
-					if($Value)
-						self::Update();
-					break;
-				case 'Favourite':
-					if($this->GetValue('Power')) {
-						$this->SetValueEx('Favourite', $Value);
-						self::SelectFavourite($Value);
-						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer("ResetFavourite".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
-					}
-					break;
-				case 'MCPLaylist':
-					if($this->GetValue('Power')) {
-						$this->SetValueEx('MCPLaylist',$Value);
-						self::SelectMCPlaylist($Value);
-						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer("ResetMCPLaylist".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
-					}
-					break;
+						break;
+					case 'Volume':
+						if($this->GetValue('Power')) {
+							$this->SetValueEx('Volume', $Value);
+							self::Volume($Value);
+						}
+						break;
+					case 'Mute':
+						if($this->GetValue('Power')) {
+							$this->SetValueEx('Mute', $Vaue);
+							self::Mute($Value);
+						}
+						break;
+					case 'Power':
+						$this->SetValueEx('Power', $Value);
+						self::Power($Value);
+						if($Value)
+							self::Update();
+						break;
+					case 'Favourite':
+						if($this->GetValue('Power')) {
+							$this->SetValueEx('Favourite', $Value);
+							self::SelectFavourite($Value);
+							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
+							$this->RegisterOnceTimer("ResetFavourite".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+						}
+						break;
+					case 'MCPLaylist':
+						if($this->GetValue('Power')) {
+							$this->SetValueEx('MCPLaylist',$Value);
+							self::SelectMCPlaylist($Value);
+							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
+							$this->RegisterOnceTimer("ResetMCPLaylist".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+						}
+						break;
+				}
+			} catch(Exception $e) {
+				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
 			}
 		}
 
@@ -178,23 +180,31 @@
 		}
 
 		public function StartLink(string $RoomName) {
-			if(VerifyDeviceIp()) {	
-				$system = new System($ipAddress);
-				$clientIpAddress = $system->FindRoom($RoomName);
-				if($clientIpAddress!==false) {
-					$distribution = new Distrbution($system);
-					$distribution->AddClient(new System($clientIpAddress));
-					$distribution->Start();
-				} else
-					$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
+			try {
+				if(VerifyDeviceIp()) {	
+					$system = new System($ipAddress);
+					$clientIpAddress = $system->FindRoom($RoomName);
+					if($clientIpAddress!==false) {
+						$distribution = new Distrbution($system);
+						$distribution->AddClient(new System($clientIpAddress));
+						$distribution->Start();
+					} else
+						$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
+				}
+			} catch(Exception $e) {
+				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
 			}
 		}
 
 		public function StopLink() {
-			if(VerifyDeviceIp()) {	
-				$system = new System($ipAddress);
-				$distribution = new Distrbution($system);
-				$distribution->Stop();
+			try {
+				if(VerifyDeviceIp()) {	
+					$system = new System($ipAddress);
+					$distribution = new Distrbution($system);
+					$distribution->Stop();
+				}
+			} catch(Exception $e) {
+				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
 			}
 		}
 
@@ -255,7 +265,7 @@
 			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 		}
 		
-		public function SelectFavourite(int $Value) {
+		private function SelectFavourite(int $Value) {
 			if(VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -263,7 +273,7 @@
 			}
 		}
 
-		public function SelectMCPlaylist(int $Value) {
+		private function SelectMCPlaylist(int $Value) {
 			if(VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -271,7 +281,7 @@
 			}
 		}
 
-		public function Volume(int $Level) {
+		private function Volume(int $Level) {
 			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -279,7 +289,7 @@
 			}
 		}
 
-		public function Mute(bool $State) {
+		private function Mute(bool $State) {
 			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -287,7 +297,7 @@
 			}
 		}
 
-		public function Playback(string $State) {
+		private function Playback(string $State) {
 			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -295,7 +305,7 @@
 			}
 		}
 
-		public function Power(bool $State) {
+		private function Power(bool $State) {
 			if(VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
