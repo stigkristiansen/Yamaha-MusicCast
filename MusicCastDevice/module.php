@@ -181,7 +181,7 @@
 
 		public function StartLink(string $RoomName) {
 			try {
-				if(VerifyDeviceIp()) {	
+				if(self::VerifyDeviceIp()) {	
 					$system = new System($ipAddress);
 					$clientIpAddress = $system->FindRoom($RoomName);
 					if($clientIpAddress!==false) {
@@ -198,7 +198,7 @@
 
 		public function StopLink() {
 			try {
-				if(VerifyDeviceIp()) {	
+				if(self::VerifyDeviceIp()) {	
 					$system = new System($ipAddress);
 					$distribution = new Distrbution($system);
 					$distribution->Stop();
@@ -209,7 +209,7 @@
 		}
 
 		private function Update(){
-			if(VerifyDeviceIp()) {
+			if(self::VerifyDeviceIp()) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$netUSB = new NetUSB($system);
@@ -266,7 +266,7 @@
 		}
 		
 		private function SelectFavourite(int $Value) {
-			if(VerifyDeviceIp() && $Value!=0) { 
+			if(self::VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectFavouriteById($Value);
@@ -274,7 +274,7 @@
 		}
 
 		private function SelectMCPlaylist(int $Value) {
-			if(VerifyDeviceIp() && $Value!=0) { 
+			if(self::VerifyDeviceIp() && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectMCPlaylistById($Value);
@@ -282,7 +282,7 @@
 		}
 
 		private function Volume(int $Level) {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Volume($Level);
@@ -290,7 +290,7 @@
 		}
 
 		private function Mute(bool $State) {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Mute($State);
@@ -298,7 +298,7 @@
 		}
 
 		private function Playback(string $State) {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->Playback($State);
@@ -306,7 +306,7 @@
 		}
 
 		private function Power(bool $State) {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);
@@ -330,7 +330,7 @@
 		}
 
 		private function UpdateFavourites() {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
@@ -344,7 +344,7 @@
 		}
 
 		private function UpdatePlaylists() {
-			if(VerifyDeviceIp()){
+			if(self::VerifyDeviceIp()){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
