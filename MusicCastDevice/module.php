@@ -86,7 +86,7 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
+			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
 			switch ($Ident) {
 				case 'Control':
 					if($this->GetValue('Power')) {
