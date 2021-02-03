@@ -86,7 +86,7 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
+			IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
 			switch ($Ident) {
 				case 'Control':
 					if($this->GetValue('Power')) {
@@ -158,10 +158,24 @@
 		}
 
 		public function GetConfigurationForm () {
-			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
+			//$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
+
+			$control = $this->GetIDForIdent('Control');
+			
+			$form =	["elements"=>	[
+										["type"=>"ValidationTextBox","name"=>"IPAddress","caption"=>"Device IP","validate"=>"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"],
+										["type"=>"CheckBox","name"=>"AutoUpdateLists","caption"=>"Automatically update lists"],
+										["type"=>"NumberSpinner","name"=>"UpdateListInterval","caption"=>"Interval","suffix"=>"seconds"]
+									],
+		 			"actions"=>		[
+										["type"=>"Label","caption"=>"Playlists and Favourites"],
+										["type"=>"Button","caption"=>"Update Lists","onClick"=>"RequestAction(".$control.", 253);","confirm"=>"Would you like to update the \"Favourites-\" and \"Playlists\"?"]
+			   						],
+		 			"status"=> 		[
+			   						]
+					];
 
 			IPS_LogMessage('GetConfigurationForm', json_encode($form));
-
 			return json_encode($form);
 		}
 
