@@ -111,9 +111,11 @@
 									self::Playback(PlaybackState::NEXT);
 									break;
 								case 255: // Call Update();
+									IPS_LogMessage('RequestAction','Calling update for instance '.$this-InstanceID);
 									$this->Update();
 									break;
 								case 254: // Call UpdateLists
+									IPS_LogMessage('RequestAction','Calling UpdateLists for instance '.$this-InstanceID);
 									$this->UpdateLists();
 									break;
 							}
