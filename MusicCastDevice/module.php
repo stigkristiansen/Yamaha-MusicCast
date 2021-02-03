@@ -293,15 +293,7 @@
 				$this->SetValue($Ident, $Value);
 		}
 
-		private function CreateProfileAssosiationList($List) {
-			$count = 0;
-			foreach($List as $value) {
-				$assosiations[] = [$count, $value,  '', -1];
-				$count++;
-			}
 
-			return $assosiations;
-		}
 
 		private function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');

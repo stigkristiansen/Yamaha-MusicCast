@@ -150,4 +150,14 @@ trait ProfileHelper
             IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
         }
     }
+
+    protected function CreateProfileAssosiationList($List) {
+        $count = 0;
+        foreach($List as $value) {
+            $assosiations[] = [$count, $value,  '', -1];
+            $count++;
+        }
+
+        return $assosiations;
+    }
 }
