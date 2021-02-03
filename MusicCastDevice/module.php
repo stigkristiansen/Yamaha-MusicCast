@@ -84,18 +84,16 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value.' InstanceId: '.$this->InstanceID);
+			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value.' InstanceId: '.$this->InstanceID);
 			try {
 				switch ($Ident) {
 					case 'Control':
 						if($Value>200) { // Values above 200 is used for Timers
 							switch($Value) {
 								case 255: // Call Update();
-									IPS_LogMessage('RequestAction','Calling update for instance '.$this->InstanceID);
 									self::Update();
 									break;
 								case 254: // Call UpdateLists
-									IPS_LogMessage('RequestAction','Calling UpdateLists for instance '.$this->InstanceID);
 									self::UpdateLists();
 									break;
 							}
@@ -219,7 +217,6 @@
 
 		private function Update(){
 			$ipAddress = $this->ReadPropertyString('IPAddress');
-			IPS_LogMessage('Update','The IP used for instance '.$this->InstanceID.' is '.$ipAddress);
 			if(self::VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
