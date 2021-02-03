@@ -84,7 +84,7 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value);
+			IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value.' InstanceId: '.$this->InstanceID);
 			try {
 				switch ($Ident) {
 					case 'Control':
