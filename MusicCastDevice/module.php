@@ -53,7 +53,8 @@
 			
 			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);');
 			//$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'YMC_Update('.$this->InstanceID.');');
-			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
+			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
+			//$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
 		}
 
 		public function Destroy() {
@@ -113,6 +114,9 @@
 							case 255: // Call Update();
 								self::Update();
 								break;
+							case 254: // Call UpdateLists
+								self::UpdateLists();
+								break;
 						}
 					}
 					break;
@@ -156,6 +160,8 @@
 		public function GetConfigurationForm () {
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
 
+			IPS_LogMessage('GetConfigurationForm', $form)
+
 			return json_encode($form);
 		}
 
@@ -181,7 +187,7 @@
 			}
 		}
 
-		public function Update(){
+		private function Update(){
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(strlen($ipAddress)>0) {
 				$system = new System($ipAddress);
@@ -230,7 +236,7 @@
 			}
 		}
 
-		public function UpdateLists() {
+		private function UpdateLists() {
 			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 			
 			$this->UpdateFavourites();
