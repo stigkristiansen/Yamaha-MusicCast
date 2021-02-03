@@ -158,9 +158,6 @@
 		}
 
 		public function GetConfigurationForm () {
-			//$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
-
-			$control = $this->GetIDForIdent('Control');
 			
 			$form =	["elements"=>	[
 										["type"=>"ValidationTextBox","name"=>"IPAddress","caption"=>"Device IP","validate"=>"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"],
@@ -169,13 +166,12 @@
 									],
 		 			"actions"=>		[
 										["type"=>"Label","caption"=>"Playlists and Favourites"],
-										["type"=>"Button","caption"=>"Update Lists","onClick"=>"RequestAction(".$control.", 253);","confirm"=>"Would you like to update the \"Favourites-\" and \"Playlists\"?"]
+										["type"=>"Button","caption"=>"Update Lists","onClick"=>"RequestAction(".$control.", 254);","confirm"=>"Would you like to update the \"Favourites-\" and \"Playlists\"?"]
 			   						],
 		 			"status"=> 		[
 			   						]
 					];
 
-			IPS_LogMessage('GetConfigurationForm', json_encode($form));
 			return json_encode($form);
 		}
 
@@ -318,8 +314,6 @@
 			if($oldValue!=$Value)
 				$this->SetValue($Ident, $Value);
 		}
-
-
 
 		private function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
