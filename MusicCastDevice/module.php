@@ -22,7 +22,7 @@
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
 			$this->EnableAction('Power');
 
-			$this->RegisterVariableInteger('Control', 'Control', 'YMC.Control', 2);
+			$control = $this->RegisterVariableInteger('Control', 'Control', 'YMC.Control', 2);
         	$this->EnableAction('Control');
 			
 			$this->RegisterVariableInteger('Volume', 'Volume', 'Intensity.100', 3);
@@ -50,13 +50,15 @@
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
 			$this->EnableAction('MCPLaylist');
 			
-			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'YMC_Update('.$this->InstanceID.');');
+			
+			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);');
+			//$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'YMC_Update('.$this->InstanceID.');');
 			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'YMC_UpdateLists('.$this->InstanceID.');');
 		}
 
 		public function Destroy() {
-			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
-			$this->SetTimerInterval('Update'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
+			//$this->SetTimerInterval('Update'.$this->InstanceID, 0);
 			
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
@@ -107,6 +109,9 @@
 							case 4:
 								$this->SetValueEx('Control', 1);
 								self::Playback(PlaybackState::NEXT);
+								break;
+							case 255: // Call Update();
+								self::Update();
 								break;
 						}
 					}
