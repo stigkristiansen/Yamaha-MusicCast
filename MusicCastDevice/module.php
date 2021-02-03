@@ -160,7 +160,7 @@
 		public function GetConfigurationForm () {
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'));
 
-			IPS_LogMessage('GetConfigurationForm', $form)
+			IPS_LogMessage('GetConfigurationForm', json_encode($form));
 
 			return json_encode($form);
 		}
