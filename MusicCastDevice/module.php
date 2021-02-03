@@ -111,10 +111,10 @@
 									self::Playback(PlaybackState::NEXT);
 									break;
 								case 255: // Call Update();
-									self::Update();
+									$this->Update();
 									break;
 								case 254: // Call UpdateLists
-									self::UpdateLists();
+									$this->UpdateLists();
 									break;
 							}
 						}
