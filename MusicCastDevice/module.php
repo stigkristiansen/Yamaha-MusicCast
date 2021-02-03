@@ -88,7 +88,19 @@
 			try {
 				switch ($Ident) {
 					case 'Control':
-						if($this->GetValue('Power')) {
+						if($Value>200) { // Values above 200 is used for Timers
+							switch($Value) {
+								case 255: // Call Update();
+									IPS_LogMessage('RequestAction','Calling update for instance '.$this->InstanceID);
+									self::Update();
+									break;
+								case 254: // Call UpdateLists
+									IPS_LogMessage('RequestAction','Calling UpdateLists for instance '.$this->InstanceID);
+									self::UpdateLists();
+									break;
+							}
+						}
+						else if($this->GetValue('Power')) { 
 							switch ($Value) {
 								case 0:
 									$this->SetValueEx('Control', 1);
@@ -110,14 +122,7 @@
 									$this->SetValueEx('Control', 1);
 									self::Playback(PlaybackState::NEXT);
 									break;
-								case 255: // Call Update();
-									IPS_LogMessage('RequestAction','Calling update for instance '.$this->InstanceID);
-									$this->Update();
-									break;
-								case 254: // Call UpdateLists
-									IPS_LogMessage('RequestAction','Calling UpdateLists for instance '.$this->InstanceID);
-									$this->UpdateLists();
-									break;
+								
 							}
 						}
 						break;
