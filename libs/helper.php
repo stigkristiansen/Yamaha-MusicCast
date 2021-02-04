@@ -63,16 +63,16 @@ class PlayInfo {
         
         switch($Playback) {
             case PlaybackState::PLAY:
-                $this->playback = 1;
+                $this->playback = PlaybackState::PLAY_ID;
                 break;
             case PlaybackState:PAUSE:
-                $this->playback = 2;
+                $this->playback = PlaybackState:PAUSE_ID;
                 break;
             case PlaybackState::STOP:
-                $this->playback = 3;
+                $this->playback = PlaybackState::STOP_ID;
                 break;
             default:
-                $this->playback = 1;
+                $this->playback = PlaybackState::PLAY_ID;
         }
     }
 
