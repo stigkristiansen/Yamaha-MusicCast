@@ -12,11 +12,11 @@
 			$this->RegisterPropertyString("IPAddress", "");
 
 			$this->RegisterProfileIntegerEx('YMC.Control', 'Speaker', '', '', [
-				[0, 'Prev',  '', -1],
-				[1, 'Play',  '', -1],
-				[2, 'Pause', '', -1],
-				[3, "Stop",  '', -1],
-				[4, 'Next',  '', -1]
+				[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
+				[PlaybackState::PLAY_ID, PlaybackState::PLAY_TEXT,  '', -1],
+				[PlaybackState::PAUSE_ID, PlaybackState::PAUSE_TEXT, '', -1],
+				[PlaybackState::STOP_ID, PlaybackState::STOP_TEXT,  '', -1],
+				[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 			]);
 			
 			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
@@ -96,24 +96,24 @@
 						}
 						else if($this->GetValue('Power')) { 
 							switch ($Value) {
-								case 0:
-									$this->SetValueEx('Control', 1);
+								case PlaybackState::PREVIOUS_ID:
+									$this->SetValueEx('Control', PlaybackState::PREVIOUS_ID);
 									self::Playback(PlaybackState::PREVIOUS);
 									break;
-								case 1:
-									$this->SetValueEx('Control', 1);
+								case PlaybackState::PLAY_ID:
+									$this->SetValueEx('Control', PlaybackState::PLAY_ID);
 									self::Playback(PlaybackState::PLAY);
 									break;
-								case 2:
-									$this->SetValueEx('Control', 2);
+								case PlaybackState::PAUSE_ID;
+									$this->SetValueEx('Control', PlaybackState::PAUSE_ID);
 									self::Playback(PlaybackState::STOP);
 									break;
-								case 3:
-									$this->SetValueEx('Control', 3);
+								case PlaybackState::STOP_ID:
+									$this->SetValueEx('Control', PlaybackState::STOP_ID);
 									self::Playback(PlaybackState::STOP);
 									break;
-								case 4:
-									$this->SetValueEx('Control', 1);
+								case PlaybackState::NEXT_ID:
+									$this->SetValueEx('Control', PlaybackState::NEXT_ID);
 									self::Playback(PlaybackState::NEXT);
 									break;
 							}

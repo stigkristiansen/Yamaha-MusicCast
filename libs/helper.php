@@ -11,9 +11,20 @@ class Zones {
 
 class PlaybackState {
     const PLAY = 'play';
+    const PLAY_TEXT = 'Play';
+    const PLAY_ID = 1;
     const STOP = 'stop';
+    const STOP_TEXT = 'Stop';
+    const STOP_ID = 3;
     const PREVIOUS = 'previous';
+    const PREVIOUS_TEXT = 'Previous';
+    const PREVIOUS_ID = 0;
     const NEXT = 'next';
+    const NEXT_TEXT = 'Next';
+    const NEXT_ID = 4;
+    const PAUSE = 'pause'
+    const PAUSE_TEXT = 'Pause';
+    const PAUSE_ID = 2
 }
 
 class Input {
@@ -51,13 +62,13 @@ class PlayInfo {
         $this->albumartUrl = $AlbumartUrl;
         
         switch($Playback) {
-            case 'play':
+            case PlaybackState::Play:
                 $this->playback = 1;
                 break;
-            case 'pause':
+            case PlaybackState:PAUSE:
                 $this->playback = 2;
                 break;
-            case 'stop':
+            case PlaybackState::STOP
                 $this->playback = 3;
                 break;
             default:
