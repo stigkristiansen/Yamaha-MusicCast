@@ -332,7 +332,7 @@
 			if(strlen($IpAddress)>0)
 				return true;
 			else  {
-				$this->LogMessage("The device is missing information about it's ip address", KL_ERROR);
+				//$this->LogMessage("The device is missing information about it's ip address", KL_ERROR);
 				return false;
 			}
 		}
