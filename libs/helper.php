@@ -22,9 +22,9 @@ class PlaybackState {
     const NEXT = 'next';
     const NEXT_TEXT = 'Next';
     const NEXT_ID = 4;
-    const PAUSE = 'pause'
+    const PAUSE = 'pause';
     const PAUSE_TEXT = 'Pause';
-    const PAUSE_ID = 2
+    const PAUSE_ID = 2;
 }
 
 class Input {
