@@ -49,16 +49,12 @@
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
 			$this->EnableAction('MCPLaylist');
-			
-			
-			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);');
+						
+			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction inside Timers. 
 			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 		}
 
 		public function Destroy() {
-			//$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
-			//$this->SetTimerInterval('Update'.$this->InstanceID, 0);
-			
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
 
@@ -160,7 +156,7 @@
 						break;
 				}
 			} catch(Exception $e) {
-				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
+				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
 			}
 		}
 
@@ -198,7 +194,7 @@
 						$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
 				}
 			} catch(Exception $e) {
-				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
+				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
 			}
 		}
 
@@ -211,7 +207,7 @@
 					$distribution->Stop();
 				}
 			} catch(Exception $e) {
-				$this-LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()));
+				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
 			}
 		}
 
