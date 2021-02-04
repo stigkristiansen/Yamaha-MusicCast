@@ -65,8 +65,8 @@ class PlayInfo {
             case PlaybackState::PLAY:
                 $this->playback = PlaybackState::PLAY_ID;
                 break;
-            case PlaybackState:PAUSE:
-                $this->playback = PlaybackState:PAUSE_ID;
+            case PlaybackState::PAUSE:
+                $this->playback = PlaybackState::PAUSE_ID;
                 break;
             case PlaybackState::STOP:
                 $this->playback = PlaybackState::STOP_ID;
