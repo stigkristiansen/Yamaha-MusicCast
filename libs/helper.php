@@ -62,7 +62,7 @@ class PlayInfo {
         $this->albumartUrl = $AlbumartUrl;
         
         switch($Playback) {
-            case PlaybackState::Play:
+            case PlaybackState::PLAY:
                 $this->playback = 1;
                 break;
             case PlaybackState:PAUSE:
