@@ -68,7 +68,7 @@ class PlayInfo {
             case PlaybackState:PAUSE:
                 $this->playback = 2;
                 break;
-            case PlaybackState::STOP
+            case PlaybackState::STOP:
                 $this->playback = 3;
                 break;
             default:
