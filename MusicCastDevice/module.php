@@ -32,22 +32,28 @@
 			$this->EnableAction('Mute');
 
 			$this->RegisterVariableString('Input', 'Input', '', 5);
-			$this->RegisterVariableString('Artist', 'Artist', '', 6);
-			$this->RegisterVariableString('Track', 'Track', '', 7);
-			$this->RegisterVariableString('Album', 'Album', '', 8);
-			$this->RegisterVariableString('Albumart', 'Album Art', '', 9);
+
+			$profileName = 'YMC.' . $this->InstanceID . ".Link";
+			$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', []);
+			$this->RegisterVariableInteger('Link', 'Link', $profileName, 6);
+			$this->EnableAction('Link');
+
+			$this->RegisterVariableString('Artist', 'Artist', '', 7);
+			$this->RegisterVariableString('Track', 'Track', '', 8);
+			$this->RegisterVariableString('Album', 'Album', '', 9);
+			$this->RegisterVariableString('Albumart', 'Album Art', '', 10);
 
 			$this->RegisterPropertyBoolean('AutoUpdateLists', true);
 			$this->RegisterPropertyInteger('UpdateListInterval', 30);
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
-			$this->RegisterVariableInteger('Favourite', 'Favourite', $profileName, 10);
+			$this->RegisterVariableInteger('Favourite', 'Favourite', $profileName, 11);
 			$this->EnableAction('Favourite');
 
 			$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
-			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 11);
+			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 12);
 			$this->EnableAction('MCPLaylist');
 						
 			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction to excecute jobs inside timers. 
@@ -276,6 +282,7 @@
 			
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
+			$this->UpdateLink();
 
 			$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 		}
@@ -376,6 +383,23 @@
 					$profileName = 'YMC.' . $this->InstanceID . ".Playlists";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
+			}
+		}
+
+		private function UpdateLink() {
+			$ipAddress = $this->ReadPropertyString('IPAddress');
+			if(self::VerifyDeviceIp($ipAddress)){
+				$system = new System($ipAddress);
+				$rooms = $system->Rooms();
+				$num = count($rooms);
+				$romList[] = '';
+				for(int $x=1;$x<$num;$x++) { // $x initialized to 1 because index 0 is this instance room name
+					$room = $rooms[x];
+					$roomList[] = $room['name'];
+				}
+				$assosiations = $this->CreateProfileAssosiationList($roomList);
+				$profileName = 'YMC.' . $this->InstanceID . ".Link";
+				$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
 			}
 		}
 	}

@@ -107,7 +107,6 @@ class System {
         return $rooms;
     }
 
-
     public function FindRoom(string $RoomName) {
         $rooms = self::Rooms();
         foreach($rooms as $room) {
@@ -117,20 +116,7 @@ class System {
 
         return false;
     }
-    /*public function FindRoom(string $RoomName) {
-        $treeInfo = self::HttpGetJson('/YamahaExtendedControl/v1/system/getMusicCastTreeInfo');
-        foreach($treeInfo->mac_address_list as $device) {
-            if($this->ipAddress!=$device->ip_address) {
-                $system = new System($device->ip_address);
-                if(strtolower($RoomName)==strtolower($system->RoomName()))
-                    return $device->ip_address;
-            }
-        }
-
-        return false;
-    }
-    */
-
+    
     public function ValidFeature(string $Feature) {
         $Feature = strtolower($Feature);
         foreach($this->features->zone as $zone) {
