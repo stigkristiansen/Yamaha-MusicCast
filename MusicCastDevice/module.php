@@ -391,10 +391,11 @@
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$rooms = $system->Rooms();
+				
 				$num = count($rooms);
-				$romList[] = '';
-				for($x=1;$x<$num;$x++) { // $x initialized to 1 because index 0 is this instance room name
-					$room = $rooms[$x];
+				$romList[] = ' ';
+				for($idx=1;$idx<$num;$idx++) { // $idx initialized to 1 because index 0 is this instances room name
+					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
 				}
 				$assosiations = $this->CreateProfileAssosiationList($roomList);
