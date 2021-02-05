@@ -190,37 +190,25 @@
 			return json_encode($form);
 		}
 
-		public function GetRooms() {
-			try {
-				$ipAddress = $this->ReadPropertyString('IPAddress');
-				if(self::VerifyDeviceIp($ipAddress)) {	
-					$system = new System($ipAddress);
-					return $system->Rooms();
-				}
-			} catch(Exception $e) {
-					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
-				}
-		}
-
-		public function StartLink(int $RoomName) {
-			IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
-			if($RoomName==0) {
-				IPS_LogMessage('StartLink()', 'Calling StopLink()...');
+		private function StartLink(int $RoomIndex) {
+			//IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
+			if($RoomIndex==0) {
+				//IPS_LogMessage('StartLink()', 'Calling StopLink()...');
 				self::StopLink();
 			} else {
 				try {
-					IPS_LogMessage('StartLink()', 'Linking...');
+					//IPS_LogMessage('StartLink()', 'Linking...');
 					$ipAddress = $this->ReadPropertyString('IPAddress');
 					if(self::VerifyDeviceIp($ipAddress)) {
 						$rooms = json_decode($this->GetBuffer('roomlist'));	
 						$system = new System($ipAddress);
-						$clientIpAddress = $system->FindRoom($rooms[$RoomName]);
+						$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
 						if($clientIpAddress!==false) {
 							$distribution = new Distrbution($system);
 							$distribution->AddClient(new System($clientIpAddress));
 							$distribution->Start();
 						} else
-							$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
+							$this->LogMessage(sprintf('Did not find the room index specified: %s', $RoomIndex), KL_ERROR);
 					}
 				} catch(Exception $e) {
 					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
@@ -228,7 +216,7 @@
 			}
 		}
 
-		public function StopLink() {
+		private function StopLink() {
 			try {
 				$ipAddress = $this->ReadPropertyString('IPAddress');	
 				if(self::VerifyDeviceIp($ipAddress)) {	
@@ -405,7 +393,7 @@
 				$system = new System($ipAddress);
 				$rooms = $system->Rooms();
 				$num = count($rooms);
-				$roomList[] = ' ';
+				$roomList[] = 'None';
 				for($idx=1;$idx<$num;$idx++) { // $idx initialized to 1 because index 0 is this instances room name
 					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
