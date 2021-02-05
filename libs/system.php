@@ -94,7 +94,7 @@ class System {
     }
 
     public function Rooms(){
-        $rooms[] = ['name'=>$this->RoomName(), $this->ipAddress];
+        $rooms[] = ['name'=>$this->RoomName(), 'ip'=>$this->ipAddress];
 
         $treeInfo = self::HttpGetJson('/YamahaExtendedControl/v1/system/getMusicCastTreeInfo');
         foreach($treeInfo->mac_address_list as $device) {
