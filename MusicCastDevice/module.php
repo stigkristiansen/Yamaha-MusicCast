@@ -234,17 +234,22 @@
 			if(self::VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
-				$netUSB = new NetUSB($system);
+				//$netUSB = new NetUSB($system);
+				
 				
 				$status = $zone->Status();
 				
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
+					$distribution = $distribution = new Distrbution($system);
 
 					$this->SetValueEx('Power', true);
 					$this->SetValueEx('Volume', $status->volume);
 					$this->SetValueEx('Mute', $status->mute);
+
+					if($distribution->IsActive()==false)
+						$this->SetValueEx('Link', 0);
 	
 					$control = $playInfo->Playback();
 					$this->SetValueEx('Control', $control);

@@ -57,6 +57,14 @@ class Distrbution {
         }    
     }
 
+    public function IsActive(){
+        $distributionInfo = self::GetDistributionInfo();
+        if(isset($distributionInfo->status) && $distributionInfo->status=='working') 
+            return true;
+        else
+            return false;
+    }
+
     private function GetDistributionInfo() {
         return self::HttpGetJson('/YamahaExtendedControl/v1/dist/getDistributionInfo');    
     }
