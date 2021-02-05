@@ -179,6 +179,18 @@
 			return json_encode($form);
 		}
 
+		public function GetRooms() {
+			try {
+				$ipAddress = $this->ReadPropertyString('IPAddress');
+				if(self::VerifyDeviceIp($ipAddress)) {	
+					$system = new System($ipAddress);
+					return $system->Rooms();
+				}
+			} catch(Exception $e) {
+					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
+				}
+		}
+
 		public function StartLink(string $RoomName) {
 			try {
 				$ipAddress = $this->ReadPropertyString('IPAddress');
