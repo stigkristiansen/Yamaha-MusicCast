@@ -208,9 +208,10 @@
 			} else {
 				try {
 					$ipAddress = $this->ReadPropertyString('IPAddress');
-					if(self::VerifyDeviceIp($ipAddress)) {	
+					if(self::VerifyDeviceIp($ipAddress)) {
+						$rooms = json_decode($this->GetBuffer('roomlist'));	
 						$system = new System($ipAddress);
-						$clientIpAddress = $system->FindRoom($RoomName);
+						$clientIpAddress = $system->FindRoom($rooms[$RoomName]);
 						if($clientIpAddress!==false) {
 							$distribution = new Distrbution($system);
 							$distribution->AddClient(new System($clientIpAddress));
@@ -400,13 +401,13 @@
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$rooms = $system->Rooms();
-				
 				$num = count($rooms);
 				$roomList[] = ' ';
 				for($idx=1;$idx<$num;$idx++) { // $idx initialized to 1 because index 0 is this instances room name
 					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
 				}
+				$this->SetBuffer('roomlist', json_encode($roomList));
 				$assosiations = $this->CreateProfileAssosiationList($roomList);
 				$profileName = 'YMC.' . $this->InstanceID . ".Link";
 				$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
