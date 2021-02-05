@@ -202,9 +202,9 @@
 				}
 		}
 
-		public function StartLink(string $RoomName) {
+		public function StartLink(int $RoomName) {
 			IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
-			if(strlen(trim($RoomName))==0) {
+			if($RoomName==0) {
 				IPS_LogMessage('StartLink()', 'Calling StopLink()...');
 				self::StopLink();
 			} else {
