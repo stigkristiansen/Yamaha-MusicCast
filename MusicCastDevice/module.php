@@ -203,10 +203,13 @@
 		}
 
 		public function StartLink(string $RoomName) {
+			IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
 			if(strlen(trim($RoomName))==0) {
+				IPS_LogMessage('StartLink()', 'Calling StopLink()...');
 				self::StopLink();
 			} else {
 				try {
+					IPS_LogMessage('StartLink()', 'Linking...');
 					$ipAddress = $this->ReadPropertyString('IPAddress');
 					if(self::VerifyDeviceIp($ipAddress)) {
 						$rooms = json_decode($this->GetBuffer('roomlist'));	
