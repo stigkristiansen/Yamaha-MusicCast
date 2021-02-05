@@ -208,7 +208,7 @@
 							$distribution->AddClient(new System($clientIpAddress));
 							$distribution->Start();
 						} else
-							$this->LogMessage(sprintf('Did not find the room index specified: %s', $RoomIndex), KL_ERROR);
+							$this->LogMessage(sprintf('Did not find the room specified: %s', $rooms[$RoomIndex]), KL_ERROR);
 					}
 				} catch(Exception $e) {
 					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
