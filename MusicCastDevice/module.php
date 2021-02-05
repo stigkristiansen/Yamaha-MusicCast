@@ -159,6 +159,11 @@
 							$this->RegisterOnceTimer("ResetMCPLaylist".$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
 						}
 						break;
+					case 'Link':
+						if($this->GetValue('Power')) {
+							$this->SetValueEx('Link',$Value);
+							self::StartLink($Value);
+						}
 				}
 			} catch(Exception $e) {
 				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
@@ -198,20 +203,24 @@
 		}
 
 		public function StartLink(string $RoomName) {
-			try {
-				$ipAddress = $this->ReadPropertyString('IPAddress');
-				if(self::VerifyDeviceIp($ipAddress)) {	
-					$system = new System($ipAddress);
-					$clientIpAddress = $system->FindRoom($RoomName);
-					if($clientIpAddress!==false) {
-						$distribution = new Distrbution($system);
-						$distribution->AddClient(new System($clientIpAddress));
-						$distribution->Start();
-					} else
-						$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
+			if(strlen(trim($RoomName))==0) {
+				self::StopLink();
+			} else {
+				try {
+					$ipAddress = $this->ReadPropertyString('IPAddress');
+					if(self::VerifyDeviceIp($ipAddress)) {	
+						$system = new System($ipAddress);
+						$clientIpAddress = $system->FindRoom($RoomName);
+						if($clientIpAddress!==false) {
+							$distribution = new Distrbution($system);
+							$distribution->AddClient(new System($clientIpAddress));
+							$distribution->Start();
+						} else
+							$this->LogMessage(sprintf('Did not find the room specified: %s', $RoomName), KL_ERROR);
+					}
+				} catch(Exception $e) {
+					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
 				}
-			} catch(Exception $e) {
-				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
 			}
 		}
 
