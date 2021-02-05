@@ -394,7 +394,7 @@
 				$num = count($rooms);
 				$romList[] = '';
 				for($x=1;$x<$num;$x++) { // $x initialized to 1 because index 0 is this instance room name
-					$room = $rooms[x];
+					$room = $rooms[$x];
 					$roomList[] = $room['name'];
 				}
 				$assosiations = $this->CreateProfileAssosiationList($roomList);
