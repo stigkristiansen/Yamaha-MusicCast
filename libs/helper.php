@@ -9,6 +9,33 @@ class Zones {
     const ZONE4 = "zone4";
 }
 
+class Variables {
+    const VOLUME_IDENT = 'Volume';
+    const VOLUME_TEXT = 'Volume';
+    const MUTE_IDENT = 'Mute';
+    const MUTE_TEXT = 'Mute';
+    const CONTROL_IDENT = 'Control';
+    const CONTROL_TEXT = 'Control';
+    const POWER_IDENT = 'Power';
+    const POWER_TEXT = 'Power';
+    const LINK_IDENT = 'Link';
+    const LINK_TEXT = 'Link';
+    const INPUT_IDENT = 'Input';
+    const INPUT_TEXT = 'Input';
+    const ARTIST_IDENT = 'Artist';
+    const ARTIST_TEXT = 'Artist';
+    const TRACK_IDENT = 'Track';
+    const TRACK_TEXT = 'Track';
+    const ALBUM_IDENT = 'Album';
+    const ALBUM_TEXT = 'Album';
+    const ALBUMART_IDENT = 'Albumart';
+    const ALBUMART_TEXT = 'Abbum art';
+    const FAVOURITE_IDENT = 'Favourite';
+    const FAVOURITE_TEXT = 'Favourite';
+    const MCPLAYLIST_IDENT = 'MCPlaylist';
+    const MCPLAYLIST_TEXT = 'Playlist';
+}
+
 class PlaybackState {
     const PLAY = 'play';
     const PLAY_TEXT = 'Play';

@@ -56,7 +56,7 @@
 			$this->RegisterVariableInteger('MCPLaylist', 'Playlist', $profileName, 12);
 			$this->EnableAction('MCPLaylist');
 						
-			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction to excecute jobs inside timers. 
+			$this->RegisterTimer('Update'.$this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
 			$this->RegisterTimer('UpdateLists'.$this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 		}
 
@@ -90,7 +90,7 @@
 			try {
 				switch ($Ident) {
 					case 'Control':
-						if($Value>200) { // Values above 200 is used for Timers and Form Actions
+						if($Value>200) { // Values above 200 is used for scheduled scripts and Form Actions
 							switch($Value) {
 								case 255: // Call Update();
 									self::Update();
@@ -99,8 +99,7 @@
 									self::UpdateLists();
 									break;
 							}
-						}
-						else if($this->GetValue('Power')) { 
+						} else if($this->GetValue('Power')) { 
 							switch ($Value) {
 								case PlaybackState::PREVIOUS_ID:
 									$this->SetValueEx('Control', PlaybackState::PREVIOUS_ID);
