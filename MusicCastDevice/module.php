@@ -151,7 +151,7 @@
 						}
 						break;
 					case Variables::MCPLAYLIST_IDENT:
-						if($this->GetValue('Power')) {
+						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident,$Value);
 							self::SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
@@ -398,7 +398,7 @@
 				$rooms = $system->Rooms();
 				$num = count($rooms);
 				$roomList[] = 'None';
-				for($idx=1;$idx<$num;$idx++) { // $idx initialized to 1 because index 0 is this instances room name
+				for($idx=1;$idx<$num;$idx++) { // $idx is initialized to 1 because index 0 is this instances room name
 					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
 				}
