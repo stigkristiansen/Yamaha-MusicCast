@@ -39,7 +39,7 @@
 			$this->EnableAction(Variables::LINK_IDENT);
 
 			$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 7);
-			$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TXT, '', 8);
+			$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 8);
 			$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 9);
 			$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 10);
 
