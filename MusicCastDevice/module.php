@@ -367,11 +367,10 @@
 			$report = unserialize($this->GetBuffer('report'));
 			$countReported = $report['IpAddressCheck'];
 			
-			if($countReported<5) {
+			if($countReported<10) {
 				$countReported++;
 				$report['IpAddressCheck'] = $countReported;
 				$this->SetBuffer('report', serialize($report));
-				$this->LogMessage('#Num reported: '.$countReported, KL_ERROR);
 				$this->LogMessage($msg, KL_ERROR);
 			}
 			

@@ -66,6 +66,8 @@ trait HttpRequest {
     }
 
     protected function Ping(string $IPAddress) {
+        return true; // Checked in module.php
+
         $wait = 500;
         for($count=0;$count<3;$count++) {
             if(Sys_Ping($IPAddress, $wait))
