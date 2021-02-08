@@ -349,48 +349,6 @@
 			}
 		}
 
-		private function SetValueEx(string $Ident, $Value) {
-			$oldValue = $this->GetValue($Ident);
-			if($oldValue!=$Value)
-				$this->SetValue($Ident, $Value);
-		}
-
-		private function VerifyDeviceIp($IpAddress) {
-			$report = unserialize($this->GetBuffer('report'));
-
-			if(strlen($IpAddress)>0)
-				if(self::Ping($IpAddress)) {
-					$report['IpAddressCheck'] = 0; // Reset count on success
-					$this->SetBuffer('report', serialize($report));
-					return true;
-				} else
-					$msg = sprintf('The device %s is not responding (%s)', $this->InstanceID, $IpAddress);
-			else
-				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
-			
-			
-			$countReported = $report['IpAddressCheck'];
-			if($countReported<10) {
-				$countReported++;
-				$report['IpAddressCheck'] = $countReported;
-				$this->SetBuffer('report', serialize($report));
-				$this->LogMessage($msg, KL_ERROR);
-			}
-			
-			return false;
-		}
-
-		private function Ping(string $IPAddress) {
-			$wait = 500;
-			for($count=0;$count<3;$count++) {
-				if(Sys_Ping($IPAddress, $wait))
-					return true;
-				$wait*=2;
-			}
-	
-			return false;
-		}
-
 		private function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString('IPAddress');
 			if(self::VerifyDeviceIp($ipAddress)){
@@ -438,5 +396,75 @@
 				$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
 			}
 		}
+
+		
+		private function SetValueEx(string $Ident, $Value) {
+			$oldValue = $this->GetValue($Ident);
+			if($oldValue!=$Value)
+				$this->SetValue($Ident, $Value);
+		}
+
+		private function VerifyDeviceIp($IpAddress) {
+			$report = unserialize($this->GetBuffer('report'));
+
+			if(strlen($IpAddress)>0)
+				if(self::Ping($IpAddress)) {
+					$report['IpAddressCheck'] = 0; // Reset count on success
+				
+					if($this->Lock('report')) {
+						$this->SetBuffer('report', serialize($report));
+						$this->Unlock('report');
+					}
+				
+					return true;
+				} else
+					$msg = sprintf('The device %s is not responding (%s)', $this->InstanceID, $IpAddress);
+			else
+				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
+			
+			
+			$countReported = $report['IpAddressCheck'];
+			if($countReported<10) {
+				$countReported++;
+				$report['IpAddressCheck'] = $countReported;
+				
+				if($this->Lock('report')) {
+					$this->SetBuffer('report', serialize($report));
+					$this->Unlock('report');
+				}
+				
+				$this->LogMessage($msg, KL_ERROR);
+			}
+			
+			return false;
+		}
+
+		private function Ping(string $IPAddress) {
+			$wait = 500;
+			for($count=0;$count<3;$count++) {
+				if(Sys_Ping($IPAddress, $wait))
+					return true;
+				$wait*=2;
+			}
+	
+			return false;
+		}
+
+		private function Lock($Ident) {
+			for ($i = 0; $i < 10; $i++) {
+				if (IPS_SemaphoreEnter(get_class() . '_' . (string) $this->InstanceID . (string) $Ident, 1000)) {
+					return true;
+				} else {
+					IPS_Sleep(mt_rand(1, 5));
+				}
+			}
+
+			return false;
+		}
+
+		private function Unlock($Ident) {
+			IPS_SemaphoreLeave(get_class() . '_' . (string) $this->InstanceID . (string) $Ident);
+		}
+
 	}
 
