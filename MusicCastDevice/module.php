@@ -356,17 +356,20 @@
 		}
 
 		private function VerifyDeviceIp($IpAddress) {
+			$report = unserialize($this->GetBuffer('report'));
+
 			if(strlen($IpAddress)>0)
-				if(self::Ping($IpAddress))
+				if(self::Ping($IpAddress)) {
+					$report['IpAddressCheck'] = 0; // Reset count on success
+					$this->SetBuffer('report', serialize($report));
 					return true;
-				else
+				} else
 					$msg = sprintf('The device %s is not responding (%s)', $this->InstanceID, $IpAddress);
 			else
 				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
 			
-			$report = unserialize($this->GetBuffer('report'));
-			$countReported = $report['IpAddressCheck'];
 			
+			$countReported = $report['IpAddressCheck'];
 			if($countReported<10) {
 				$countReported++;
 				$report['IpAddressCheck'] = $countReported;
