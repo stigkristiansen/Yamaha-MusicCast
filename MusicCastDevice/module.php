@@ -365,9 +365,12 @@
 				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
 			
 			$report = unserialize($this->GetBuffer('report'));
-			if($report['IpAddressCheck']<5) {
-				$report['IpAddressCheck'] = $report['IpAddressCheck']++;
+			$countReported = $report['IpAddressCheck'];
+			
+			if($countReported<5) {
+				$report['IpAddressCheck'] = $countReported++;
 				$this->SetBuffer('report', serialize($report));
+				$this->LogMessage('#Num reported: '.$countReported, KL_ERROR);
 				$this->LogMessage($msg, KL_ERROR);
 			}
 			
