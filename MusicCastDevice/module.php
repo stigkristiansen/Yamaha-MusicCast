@@ -33,7 +33,7 @@
 
 			$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 5);
 
-			$profileName = 'YMC.' . (string)$this->InstanceID . ".Link";
+			$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
 			$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', []);
 			$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 6);
 			$this->EnableAction(Variables::LINK_IDENT);
@@ -46,25 +46,25 @@
 			$this->RegisterPropertyBoolean('AutoUpdateLists', true);
 			$this->RegisterPropertyInteger('UpdateListInterval', 30);
 
-			$profileName = 'YMC.' . (string)$this->InstanceID . ".Favorites";
+			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
 			$this->EnableAction(Variables::FAVOURITE_IDENT);
 
-			$profileName = 'YMC.' . (string)$this->InstanceID . ".Playlists";
+			$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 			$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 						
-			$this->RegisterTimer('Update'.(string)$this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
-			$this->RegisterTimer('UpdateLists'.(string)$this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
+			$this->RegisterTimer('Update'. (string) $this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
+			$this->RegisterTimer('UpdateLists' . (string) $this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 		}
 
 		public function Destroy() {
-			$profileName = 'YMC.' . (string)$this->InstanceID . ".Favorites";
+			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
 
-			$profileName = 'YMC.' . (string)$this->InstanceID . ".Playlists";
+			$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
 			$this->DeleteProfile($profileName);
 
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
@@ -80,9 +80,9 @@
 			parent::ApplyChanges();
 			
 			if($this->ReadPropertyBoolean('AutoUpdateLists')) 
-				$this->SetTimerInterval('UpdateLists'.(string)$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
+				$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 			else
-				$this->SetTimerInterval('UpdateLists'.(string)$this->InstanceID, 0);
+				$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, 0);
 
 			$report['IpAddressCheck'] = 0;
 			if($this->Lock('report')) {
@@ -154,7 +154,7 @@
 							$this->SetValueEx($Ident, $Value);
 							self::SelectFavourite($Value);
 							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer("ResetFavourite".(string)$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+							$this->RegisterOnceTimer("ResetFavourite" . (string) $this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
 						}
 						break;
 					case Variables::MCPLAYLIST_IDENT:
@@ -162,7 +162,7 @@
 							$this->SetValueEx($Ident,$Value);
 							self::SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer("ResetMCPLaylist".(string)$this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+							$this->RegisterOnceTimer("ResetMCPLaylist" . (string) $this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
 						}
 						break;
 					case Variables::LINK_IDENT:
@@ -288,13 +288,13 @@
 		}
 
 		private function UpdateLists() {
-			$this->SetTimerInterval('UpdateLists'.(string)$this->InstanceID, 0);
+			$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, 0);
 			
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
 			$this->UpdateLink();
 
-			$this->SetTimerInterval('UpdateLists'.(string)$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
+			$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 		}
 		
 		private function SelectFavourite(int $Value) {
@@ -360,7 +360,7 @@
 				$favourites = $netUSB->Favourites();
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
-					$profileName = 'YMC.' . (string)$this->InstanceID . ".Favorites";
+					$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
 			}
@@ -375,7 +375,7 @@
 				$playlists = $netUSB->MCPlaylists();
 				if(count($playlists)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
-					$profileName = 'YMC.' . (string)$this->InstanceID . ".Playlists";
+					$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
 					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
 				}
 			}
@@ -394,7 +394,7 @@
 				}
 				$this->SetBuffer('roomlist', json_encode($roomList));
 				$assosiations = $this->CreateProfileAssosiationList($roomList);
-				$profileName = 'YMC.' . (string)$this->InstanceID . ".Link";
+				$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
 				$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
 			}
 		}
@@ -407,7 +407,6 @@
 		}
 
 		private function VerifyDeviceIp($IpAddress) {
-			IPS_LogMessage('MusicCast', 'Inside VerifyDeviceIP for '.(string)$this->InstanceID);
 			$report = unserialize($this->GetBuffer('report'));
 
 			if(strlen($IpAddress)>0)
@@ -421,9 +420,9 @@
 				
 					return true;
 				} else
-					$msg = sprintf('The device %s is not responding (%s)', (string)$this->InstanceID, $IpAddress);
+					$msg = sprintf('The device %s is not responding (%s)', (string) $this->InstanceID, $IpAddress);
 			else
-				$msg = sprintf("The device %s is missing information about it's ip address", (string)$this->InstanceID);	
+				$msg = sprintf("The device %s is missing information about it's ip address", (string) $this->InstanceID);	
 			
 			
 			$countReported = $report['IpAddressCheck'];
