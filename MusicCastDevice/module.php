@@ -84,7 +84,7 @@
 			else
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 
-			$report['ipaddress'] = false;
+			$report['ipaddress'] = 0;
 			$this->SetBuffer('report', serialize($report));
 		}
 
@@ -357,17 +357,32 @@
 
 		private function VerifyDeviceIp($IpAddress) {
 			if(strlen($IpAddress)>0)
-				return true;
-			else  {
-				$report = unserialize($this->GetBuffer('report'));
-				if(!$report['ipaddress']) {
-					$this->LogMessage(sprintf("The device %s is missing information about it's ip address", $this->InstanceID), KL_ERROR);
-					$report['ipaddress'] = true;
-					$this->SetBuffer('report', serialize($report));
-				}
-				
-				return false;
+				if(self::Ping($IpAddress))
+					return true;
+				else
+					$msg = sprintf('The device %s is not responding (%s)', $this->InstanceID, $IpAddress);
+			else
+				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID)	
+			
+			$report = unserialize($this->GetBuffer('report'));
+			if($report['ipaddressCheck']<5) {
+				$report['ipaddress'] = $report['ipaddress']++;
+				$this->SetBuffer('report', serialize($report));
+				$this->LogMessage($msg, KL_ERROR);
 			}
+			
+			return false;
+		}
+
+		private function Ping(string $IPAddress) {
+			$wait = 500;
+			for($count=0;$count<3;$count++) {
+				if(Sys_Ping($IPAddress, $wait))
+					return true;
+				$wait*=2;
+			}
+	
+			return false;
 		}
 
 		private function UpdateFavourites() {
