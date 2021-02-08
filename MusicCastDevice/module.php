@@ -359,7 +359,7 @@
 			if(strlen($IpAddress)>0)
 				return true;
 			else  {
-				$report = unserialize($this-GetBuffer('report'));
+				$report = unserialize($this->GetBuffer('report'));
 				if(!$report['ipaddress']) {
 					$this->LogMessage(sprintf("The device %s is missing information about it's ip address", $this->InstanceID), KL_ERROR);
 					$report['ipaddress'] = true;
