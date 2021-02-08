@@ -85,7 +85,11 @@
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 
 			$report['IpAddressCheck'] = 0;
-			$this->SetBuffer('report', serialize($report));
+			if($this->Lock('report')) {
+				$this->SetBuffer('report', serialize($report));
+				$this->Unlock('report');
+			}
+			
 		}
 
 		public function RequestAction($Ident, $Value) {
