@@ -84,7 +84,7 @@
 			else
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
 
-			$report['ipaddress'] = 0;
+			$report['IpAddressCheck'] = 0;
 			$this->SetBuffer('report', serialize($report));
 		}
 
@@ -365,8 +365,8 @@
 				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
 			
 			$report = unserialize($this->GetBuffer('report'));
-			if($report['ipaddressCheck']<5) {
-				$report['ipaddress'] = $report['ipaddress']++;
+			if($report['IpAddressCheck']<5) {
+				$report['IpAddressCheck'] = $report['IpAddressCheck']++;
 				$this->SetBuffer('report', serialize($report));
 				$this->LogMessage($msg, KL_ERROR);
 			}
