@@ -362,7 +362,7 @@
 				else
 					$msg = sprintf('The device %s is not responding (%s)', $this->InstanceID, $IpAddress);
 			else
-				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID)	
+				$msg = sprintf("The device %s is missing information about it's ip address", $this->InstanceID);	
 			
 			$report = unserialize($this->GetBuffer('report'));
 			if($report['ipaddressCheck']<5) {
