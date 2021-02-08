@@ -63,7 +63,6 @@ trait HttpRequest {
                 throw new Exception(sprintf("%s returned invalid JSON. The returned value was %s", $completeUrl, $originalResult));
 		} else
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));	
-
     }
 
     protected function Ping(string $IPAddress) {

@@ -83,6 +83,9 @@
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
 			else
 				$this->SetTimerInterval('UpdateLists'.$this->InstanceID, 0);
+
+			$report['ipaddress'] = false;
+			$this->SetBuffer('report', serialize($report));
 		}
 
 		public function RequestAction($Ident, $Value) {
@@ -243,41 +246,41 @@
 					$playInfo = $netUSB->PlayInfo();
 					$distribution = $distribution = new Distrbution($system);
 
-					$this->SetValueEx('Power', true);
-					$this->SetValueEx('Volume', $status->volume);
-					$this->SetValueEx('Mute', $status->mute);
+					$this->SetValueEx(Variables::POWER_IDENT, true);
+					$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
+					$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
 
 					if($distribution->IsActive()==false)
-						$this->SetValueEx('Link', 0);
+						$this->SetValueEx(Variables::LINK_IDENT, 0);
 	
 					$control = $playInfo->Playback();
-					$this->SetValueEx('Control', $control);
+					$this->SetValueEx(Variables::CONTROL_IDENT, $control);
 
 					if($control==3) { // Stop
-						$this->SetValueEx('Input', '');
-						$this->SetValueEx('Artist', '');
-						$this->SetValueEx('Track', '');
-						$this->SetValueEx('Album', '');
-						$this->SetValueEx('Albumart', '');
+						$this->SetValueEx(Variables::INPUT_IDENT, '');
+						$this->SetValueEx(Variables::ARTIST_IDENT, '');
+						$this->SetValueEx(Variables::TRACK_IDENT, '');
+						$this->SetValueEx(Variables::ALBUM_IDENT, '');
+						$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 					} else {
-						$this->SetValueEx('Input', $playInfo->Input());
-						$this->SetValueEx('Artist', $playInfo->Artist());
-						$this->SetValueEx('Track', $playInfo->Track());
-						$this->SetValueEx('Album', $playInfo->Album());
-						$this->SetValueEx('Albumart', $playInfo->AlbumartURL());
+						$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+						$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
+						$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
+						$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
+						$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 					}
 				} else {
-					$this->SetValueEx('Power', false);
-					$this->SetValueEx('Volume', 0);
-					$this->SetValueEx('Mute', false);
+					$this->SetValueEx(Variables::POWER_IDENT, false);
+					$this->SetValueEx(Variables::VOLUME_IDENT, 0);
+					$this->SetValueEx(Variables::MUTE_IDENT, false);
 	
-					$this->SetValueEx('Control', 3); // Stop
+					$this->SetValueEx(Variables::CONTROL_IDENT, 3); // Stop
 
-					$this->SetValueEx('Input', '');
-					$this->SetValueEx('Artist', '');
-					$this->SetValueEx('Track', '');
-					$this->SetValueEx('Album', '');
-					$this->SetValueEx('Albumart', '');
+					$this->SetValueEx(Variables::INPUT_IDENT, '');
+					$this->SetValueEx(Variables::ARTIST_IDENT, '');
+					$this->SetValueEx(Variables::TRACK_IDENT, '');
+					$this->SetValueEx(Variables::ALBUM_IDENT, '');
+					$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 				}
 			}
 		}
@@ -356,7 +359,13 @@
 			if(strlen($IpAddress)>0)
 				return true;
 			else  {
-				//$this->LogMessage("The device is missing information about it's ip address", KL_ERROR);
+				$report = unserialize($this-GetBuffer('report'));
+				if(!$report['ipaddress']) {
+					$this->LogMessage(sprintf("The device %s is missing information about it's ip address", $this->InstanceID), KL_ERROR);
+					$report['ipaddress'] = true;
+					$this->SetBuffer('report', serialize($report));
+				}
+				
 				return false;
 			}
 		}
