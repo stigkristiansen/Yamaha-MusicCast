@@ -9,7 +9,9 @@
 			//Never delete this line!
 			parent::Create();
 
-			$this->RegisterPropertyString("IPAddress", "");
+			$this->RegisterPropertyString(Properties::IPADDRESS, '');
+			$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
+			$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
 			$this->RegisterProfileIntegerEx('YMC.Control', 'Speaker', '', '', [
 				[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
@@ -19,11 +21,13 @@
 				[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 			]);
 			
-			$this->RegisterVariableBoolean('Power', 'Power', '~Switch', 1);
-			$this->EnableAction('Power');
+			$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
+			$this->EnableAction(Variables::POWER_IDENT);
 
 			$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
-        	$this->EnableAction(Variables::CONTROL_IDENT);
+			$this->EnableAction(Variables::CONTROL_IDENT);
+			$this->RegisterTimer('Update'. (string) $this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
+			$this->RegisterTimer('UpdateLists' . (string) $this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 			
 			$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 			$this->EnableAction(Variables::VOLUME_IDENT);
@@ -43,9 +47,6 @@
 			$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 9);
 			$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 10);
 
-			$this->RegisterPropertyBoolean('AutoUpdateLists', true);
-			$this->RegisterPropertyInteger('UpdateListInterval', 30);
-
 			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
@@ -55,9 +56,6 @@
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 			$this->EnableAction(Variables::MCPLAYLIST_IDENT);
-						
-			$this->RegisterTimer('Update'. (string) $this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
-			$this->RegisterTimer('UpdateLists' . (string) $this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 		}
 
 		public function Destroy() {
@@ -89,7 +87,6 @@
 				$this->SetBuffer('report', serialize($report));
 				$this->Unlock('report');
 			}
-			
 		}
 
 		public function RequestAction($Ident, $Value) {
@@ -97,7 +94,7 @@
 			try {
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
-						if($Value>200) { // Values above 200 is used for scheduled scripts and Form Actions
+						if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
 							switch($Value) {
 								case 255: // Call Update();
 									self::Update();
@@ -204,7 +201,7 @@
 			} else {
 				try {
 					//IPS_LogMessage('StartLink()', 'Linking...');
-					$ipAddress = $this->ReadPropertyString('IPAddress');
+					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 					if(self::VerifyDeviceIp($ipAddress)) {
 						$rooms = json_decode($this->GetBuffer('roomlist'));	
 						$system = new System($ipAddress);
@@ -224,7 +221,7 @@
 
 		private function StopLink() {
 			try {
-				$ipAddress = $this->ReadPropertyString('IPAddress');	
+				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
 				if(self::VerifyDeviceIp($ipAddress)) {	
 					$system = new System($ipAddress);
 					$distribution = new Distrbution($system);
@@ -236,7 +233,7 @@
 		}
 
 		private function Update(){
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -298,7 +295,7 @@
 		}
 		
 		private function SelectFavourite(int $Value) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress) && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -307,7 +304,7 @@
 		}
 
 		private function SelectMCPlaylist(int $Value) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress) && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -316,7 +313,7 @@
 		}
 
 		private function Volume(int $Level) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -325,7 +322,7 @@
 		}
 
 		private function Mute(bool $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -334,7 +331,7 @@
 		}
 
 		private function Playback(string $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -343,7 +340,7 @@
 		}
 
 		private function Power(bool $State) {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
@@ -352,7 +349,7 @@
 		}
 
 		private function UpdateFavourites() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -367,7 +364,7 @@
 		}
 
 		private function UpdatePlaylists() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -382,7 +379,7 @@
 		}
 
 		private function UpdateLink() {
-			$ipAddress = $this->ReadPropertyString('IPAddress');
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if(self::VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$rooms = $system->Rooms();

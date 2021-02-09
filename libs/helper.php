@@ -9,6 +9,13 @@ class Zones {
     const ZONE4 = "zone4";
 }
 
+
+class Properties {
+    const IPADDRESS = 'IPAddress';
+    const AUTOUPDATELISTS= 'AutoUpdateLists';
+    const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
+}
+
 class Variables {
     const VOLUME_IDENT = 'Volume';
     const VOLUME_TEXT = 'Volume';
