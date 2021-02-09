@@ -90,7 +90,6 @@
 		}
 
 		public function RequestAction($Ident, $Value) {
-			//IPS_LogMessage('RequestAction', 'Ident: '.$Ident.' Value: '.$Value.' InstanceId: '.$this->InstanceID);
 			try {
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
@@ -151,7 +150,7 @@
 							$this->SetValueEx($Ident, $Value);
 							self::SelectFavourite($Value);
 							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer("ResetFavourite" . (string) $this->InstanceID, "IPS_Sleep(10000);RequestAction(".$favourite.", 0);");
+							$this->RegisterOnceTimer('ResetFavourite' . (string) $this->InstanceID, 'IPS_Sleep(10000);RequestAction(' . $favourite . ', 0);');
 						}
 						break;
 					case Variables::MCPLAYLIST_IDENT:
@@ -159,7 +158,7 @@
 							$this->SetValueEx($Ident,$Value);
 							self::SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer("ResetMCPLaylist" . (string) $this->InstanceID, "IPS_Sleep(10000);RequestAction(".$mcPlaylist.", 0);");
+							$this->RegisterOnceTimer('ResetMCPLaylist' . (string) $this->InstanceID, 'IPS_Sleep(10000);RequestAction(' . $mcPlaylist . ', 0);');
 						}
 						break;
 					case Variables::LINK_IDENT:
@@ -169,7 +168,7 @@
 						}
 				}
 			} catch(Exception $e) {
-				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
+				$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
 			}
 		}
 
@@ -211,10 +210,10 @@
 							$distribution->AddClient(new System($clientIpAddress));
 							$distribution->Start();
 						} else
-							$this->LogMessage(sprintf('Did not find the room specified: %s', $rooms[$RoomIndex]), KL_ERROR);
+							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
 					}
 				} catch(Exception $e) {
-					$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
+					$this->LogMessage(sprintf(Errors:UNEXPECTED,  $e->getMessage()), KL_ERROR);
 				}
 			}
 		}
@@ -228,7 +227,7 @@
 					$distribution->Stop();
 				}
 			} catch(Exception $e) {
-				$this->LogMessage(sprintf('An unexpected error occured. The error was : %s',  $e->getMessage()), KL_ERROR);
+				$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
 			}
 		}
 
@@ -291,7 +290,7 @@
 			$this->UpdatePlaylists();
 			$this->UpdateLink();
 
-			$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
+			$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		}
 		
 		private function SelectFavourite(int $Value) {
@@ -417,9 +416,9 @@
 				
 					return true;
 				} else
-					$msg = sprintf('The device %s is not responding (%s)', (string) $this->InstanceID, $IpAddress);
+					$msg = sprintf(Errors::NOTRESPONDING, (string) $this->InstanceID, $IpAddress);
 			else
-				$msg = sprintf("The device %s is missing information about it's ip address", (string) $this->InstanceID);	
+				$msg = sprintf(Errors::MISSINGIP, (string) $this->InstanceID);	
 			
 			
 			$countReported = $report['IpAddressCheck'];

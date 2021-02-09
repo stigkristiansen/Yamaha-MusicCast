@@ -9,6 +9,12 @@ class Zones {
     const ZONE4 = "zone4";
 }
 
+class Errors {
+    const UNEXPECTED = 'An unexpected error occured. The error was : %s';
+    const UNKNOWNROOM = 'Did not find the room specified: %s';
+    const NOTRESPONDING = 'The device %s is not responding (%s)';
+    const MISSINGIP = "The device %s is missing information about it's ip address"
+}
 
 class Properties {
     const IPADDRESS = 'IPAddress';
