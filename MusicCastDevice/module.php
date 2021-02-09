@@ -213,7 +213,7 @@
 							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
 					}
 				} catch(Exception $e) {
-					$this->LogMessage(sprintf(Errors:UNEXPECTED,  $e->getMessage()), KL_ERROR);
+					$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
 				}
 			}
 		}
