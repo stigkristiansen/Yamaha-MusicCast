@@ -26,8 +26,8 @@
 
 			$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 			$this->EnableAction(Variables::CONTROL_IDENT);
-			$this->RegisterTimer('Update'. (string) $this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
-			$this->RegisterTimer('UpdateLists' . (string) $this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
+			$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 5000, 'RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
+			$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 30000, 'RequestAction('.$control.', 254);');
 			
 			$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 			$this->EnableAction(Variables::VOLUME_IDENT);
@@ -77,10 +77,10 @@
 			//Never delete this line!
 			parent::ApplyChanges();
 			
-			if($this->ReadPropertyBoolean('AutoUpdateLists')) 
-				$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger('UpdateListInterval')*1000);
+			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
+				$this->SetTimerInterval(Tmer::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 			else
-				$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, 0);
+				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
 			$report['IpAddressCheck'] = 0;
 			if($this->Lock('report')) {
@@ -150,7 +150,7 @@
 							$this->SetValueEx($Ident, $Value);
 							self::SelectFavourite($Value);
 							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer('ResetFavourite' . (string) $this->InstanceID, 'IPS_Sleep(10000);RequestAction(' . $favourite . ', 0);');
+							$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);RequestAction(' . $favourite . ', 0);');
 						}
 						break;
 					case Variables::MCPLAYLIST_IDENT:
@@ -158,7 +158,7 @@
 							$this->SetValueEx($Ident,$Value);
 							self::SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer('ResetMCPLaylist' . (string) $this->InstanceID, 'IPS_Sleep(10000);RequestAction(' . $mcPlaylist . ', 0);');
+							$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);RequestAction(' . $mcPlaylist . ', 0);');
 						}
 						break;
 					case Variables::LINK_IDENT:

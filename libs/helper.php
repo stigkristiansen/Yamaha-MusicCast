@@ -22,6 +22,14 @@ class Properties {
     const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
 }
 
+class Timers {
+    const UPDATE = 'Update';
+    const UPDATELISTS = 'UpdateLists';
+    const RESETFAVOURITE = 'ResetFavourite';
+    const RESETMCPLAYLIST= 'ResetMCPLaylist';
+
+}
+
 class Variables {
     const VOLUME_IDENT = 'Volume';
     const VOLUME_TEXT = 'Volume';
