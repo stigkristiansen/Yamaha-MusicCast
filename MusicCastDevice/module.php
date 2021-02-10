@@ -78,7 +78,7 @@
 			parent::ApplyChanges();
 			
 			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-				$this->SetTimerInterval(Tmer::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 			else
 				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
