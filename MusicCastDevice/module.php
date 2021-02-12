@@ -354,6 +354,7 @@
 				$netUSB = new NetUSB($system);
 				
 				$favourites = $netUSB->Favourites();
+				IPS_LogMessage('UpdateFavourites', json_encode($favourites));
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
