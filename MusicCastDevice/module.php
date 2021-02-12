@@ -155,7 +155,7 @@
 							$this->SetValueEx($Ident, $Value);
 							$this->SelectFavourite($Value);
 							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.favourite.')) RequestAction(' . $favourite . ', 0);');
+							$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.$favourite.')) RequestAction(' . $favourite . ', 0);');
 						}
 						break;
 					case Variables::MCPLAYLIST_IDENT:
@@ -163,7 +163,7 @@
 							$this->SetValueEx($Ident,$Value);
 							$this->SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-							$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.mcPlaylist.')) RequestAction(' . $mcPlaylist . ', 0);');
+							$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.$mcPlaylist.')) RequestAction(' . $mcPlaylist . ', 0);');
 						}
 						break;
 					case Variables::LINK_IDENT:
