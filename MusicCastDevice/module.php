@@ -236,14 +236,14 @@
 		}
 
 		private function Update(){
-			IPS_LogMessage((string)$this->InstanceID, 'Inside Update');
+			//IPS_LogMessage((string)$this->InstanceID, 'Inside Update');
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 								
 				$status = $zone->Status();
-				IPS_LogMessage((string)$this->InstanceID, 'Zone->Status returned: '.json_encode($status));
+				//IPS_LogMessage((string)$this->InstanceID, 'Zone->Status returned: '.json_encode($status));
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
