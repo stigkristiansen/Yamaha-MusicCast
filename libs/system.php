@@ -108,7 +108,7 @@ class System {
     }
 
     public function FindRoom(string $RoomName) {
-        $rooms = self::Rooms();
+        $rooms = $this->Rooms();
         foreach($rooms as $room) {
             if(strtolower($room['name'])==strtolower($RoomName))
                 return $room['ip'];

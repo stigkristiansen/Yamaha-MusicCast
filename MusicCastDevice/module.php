@@ -204,6 +204,7 @@
 					if($this->VerifyDeviceIp($ipAddress)) {
 						if($this->Lock('roomlist')) {
 							$rooms = json_decode($this->GetBuffer('roomlist'));	
+							$this->Unlock('roomlist');
 							$system = new System($ipAddress);
 							$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
 							if($clientIpAddress!==false) {
