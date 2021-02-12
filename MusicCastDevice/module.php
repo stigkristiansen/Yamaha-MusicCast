@@ -61,8 +61,6 @@
 		public function Destroy() {
 			$this->SetTimerInterval(Timers::UPDATE . (string) $this->InstanceID, 0);
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
-			//$this->SetTimerInterval(Timers::RESETFAVOURITE, 0);
-			//$this->SetTimerInterval(Timers::RESETMCPLAYLIST, 0);
 
 			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
@@ -198,13 +196,10 @@
 		}
 
 		private function StartLink(int $RoomIndex) {
-			//IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
 			if($RoomIndex==0) {
-				//IPS_LogMessage('StartLink()', 'Calling StopLink()...');
 				$this->StopLink();
 			} else {
 				try {
-					//IPS_LogMessage('StartLink()', 'Linking...');
 					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 					if($this->VerifyDeviceIp($ipAddress)) {
 						if($this->Lock('roomlist')) {
@@ -417,8 +412,6 @@
 		}
 
 		private function VerifyDeviceIp($IpAddress) {
-			$report = unserialize($this->GetBuffer('report'));
-
 			if(strlen($IpAddress)>0)
 				if($this->Ping($IpAddress)) {
 					$report['IpAddressCheck'] = 0; // Reset count on success
@@ -434,8 +427,12 @@
 			else
 				$msg = sprintf(Errors::MISSINGIP, (string) $this->InstanceID);	
 			
+			if($this->Lock('report')) {
+				$report = unserialize($this->GetBuffer('report'));
+				$this->Unlock('report');
+			}
 			
-			$countReported = $report['IpAddressCheck'];
+			$countReported = isset($report['IpAddressCheck'])?$report['IpAddressCheck']:0;
 			if($countReported<10) {
 				$countReported++;
 				$report['IpAddressCheck'] = $countReported;
@@ -448,7 +445,7 @@
 				$this->LogMessage($msg, KL_ERROR);
 			}
 			
-			return false;
+			return false;	
 		}
 
 		private function Ping(string $IPAddress) {
