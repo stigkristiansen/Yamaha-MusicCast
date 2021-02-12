@@ -59,9 +59,7 @@
 		}
 
 		public function Destroy() {
-			//Never delete this line!
-			parent::Destroy();
-
+			
 			IPS_LogMessage((string)$this->InstanceID, 'Removing timer: ' . Timers::UPDATE . (string) $this->InstanceID);
 			$this->SetTimerInterval(Timers::UPDATE . (string) $this->InstanceID, 0);
 			IPS_LogMessage((string)$this->InstanceID, 'Removing timer: ' . Timers::UPDATELISTS . (string) $this->InstanceID);
@@ -76,8 +74,11 @@
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
 				$this->DeleteProfile('YMC.Control');
+
+			IPS_Sleep(1000);
 			
-			
+			//Never delete this line!
+			parent::Destroy();
 		}
 
 		public function ApplyChanges() {
