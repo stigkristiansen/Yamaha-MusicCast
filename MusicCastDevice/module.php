@@ -59,7 +59,7 @@
 		}
 
 		public function Destroy() {
-			$this->SetTimerInterval(Timers:UPDATE:, 0);
+			$this->SetTimerInterval(Timers::UPDATE, 0);
 			$this->SetTimerInterval(Timers::UPDATELISTS, 0);
 			//$this->SetTimerInterval(Timers::RESETFAVOURITE, 0);
 			//$this->SetTimerInterval(Timers::RESETMCPLAYLIST, 0);
