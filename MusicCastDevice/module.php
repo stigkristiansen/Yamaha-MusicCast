@@ -395,7 +395,7 @@
 
 				if(self::Lock('roomlist')) {
 					$this->SetBuffer('roomlist', json_encode($roomList));
-					$assosiations = $this->CreateProfileAssosiationList($rooList);
+					$assosiations = $this->CreateProfileAssosiationList($roomList);
 					$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
 					$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
 					self::Unlock('roomlist');
