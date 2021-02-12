@@ -59,12 +59,6 @@
 		}
 
 		public function Destroy() {
-			
-			IPS_LogMessage((string)$this->InstanceID, 'Removing timer: ' . Timers::UPDATE . (string) $this->InstanceID);
-			$this->SetTimerInterval(Timers::UPDATE . (string) $this->InstanceID, 0);
-			IPS_LogMessage((string)$this->InstanceID, 'Removing timer: ' . Timers::UPDATELISTS . (string) $this->InstanceID);
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
-
 			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$this->DeleteProfile($profileName);
 
@@ -75,8 +69,6 @@
 			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
 				$this->DeleteProfile('YMC.Control');
 
-			IPS_Sleep(1000);
-			
 			//Never delete this line!
 			parent::Destroy();
 		}
