@@ -96,33 +96,33 @@
 						if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
 							switch($Value) {
 								case 255: // Call Update();
-									self::Update();
+									$this->Update();
 									break;
 								case 254: // Call UpdateLists
-									self::UpdateLists();
+									$this->UpdateLists();
 									break;
 							}
 						} else if($this->GetValue(Variables::POWER_IDENT)) { 
 							switch ($Value) {
 								case PlaybackState::PREVIOUS_ID:
 									$this->SetValueEx($Ident, PlaybackState::PREVIOUS_ID);
-									self::Playback(PlaybackState::PREVIOUS);
+									$this->Playback(PlaybackState::PREVIOUS);
 									break;
 								case PlaybackState::PLAY_ID:
 									$this->SetValueEx($Ident, PlaybackState::PLAY_ID);
-									self::Playback(PlaybackState::PLAY);
+									$this->Playback(PlaybackState::PLAY);
 									break;
 								case PlaybackState::PAUSE_ID;
 									$this->SetValueEx($Ident, PlaybackState::PAUSE_ID);
-									self::Playback(PlaybackState::STOP);
+									$this->Playback(PlaybackState::STOP);
 									break;
 								case PlaybackState::STOP_ID:
 									$this->SetValueEx($Ident, PlaybackState::STOP_ID);
-									self::Playback(PlaybackState::STOP);
+									$this->Playback(PlaybackState::STOP);
 									break;
 								case PlaybackState::NEXT_ID:
 									$this->SetValueEx($Ident, PlaybackState::NEXT_ID);
-									self::Playback(PlaybackState::NEXT);
+									$this->Playback(PlaybackState::NEXT);
 									break;
 							}
 						}
@@ -130,25 +130,25 @@
 					case Variables::VOLUME_IDENT:
 						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident, $Value);
-							self::Volume($Value);
+							$this->Volume($Value);
 						}
 						break;
 					case Variables::MUTE_IDENT:
 						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident, $Vaue);
-							self::Mute($Value);
+							$this->Mute($Value);
 						}
 						break;
 					case Variables::POWER_IDENT:
 						$this->SetValueEx($Ident, $Value);
-						self::Power($Value);
+						$this->Power($Value);
 						//if($Value)
-						self::Update();
+						$this->Update();
 						break;
 					case Variables::FAVOURITE_IDENT:
 						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident, $Value);
-							self::SelectFavourite($Value);
+							$this->SelectFavourite($Value);
 							$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
 							$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);RequestAction(' . $favourite . ', 0);');
 						}
@@ -156,7 +156,7 @@
 					case Variables::MCPLAYLIST_IDENT:
 						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident,$Value);
-							self::SelectMCPlaylist($Value);
+							$this->SelectMCPlaylist($Value);
 							$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
 							$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);RequestAction(' . $mcPlaylist . ', 0);');
 						}
@@ -164,7 +164,7 @@
 					case Variables::LINK_IDENT:
 						if($this->GetValue(Variables::POWER_IDENT)) {
 							$this->SetValueEx($Ident,$Value);
-							self::StartLink($Value);
+							$this->StartLink($Value);
 						}
 				}
 			} catch(Exception $e) {
@@ -196,13 +196,13 @@
 			//IPS_LogMessage('StartLink()', 'Room Name: \"'.$RoomName.'\"');
 			if($RoomIndex==0) {
 				//IPS_LogMessage('StartLink()', 'Calling StopLink()...');
-				self::StopLink();
+				$this->StopLink();
 			} else {
 				try {
 					//IPS_LogMessage('StartLink()', 'Linking...');
 					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-					if(self::VerifyDeviceIp($ipAddress)) {
-						if(self::Lock('roomlist')) {
+					if($this->VerifyDeviceIp($ipAddress)) {
+						if($this->Lock('roomlist')) {
 							$rooms = json_decode($this->GetBuffer('roomlist'));	
 							$system = new System($ipAddress);
 							$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
@@ -224,7 +224,7 @@
 		private function StopLink() {
 			try {
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
-				if(self::VerifyDeviceIp($ipAddress)) {	
+				if($this->VerifyDeviceIp($ipAddress)) {	
 					$system = new System($ipAddress);
 					$distribution = new Distrbution($system);
 					$distribution->Stop();
@@ -236,7 +236,7 @@
 
 		private function Update(){
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)) {
+			if($this->VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 								
@@ -298,7 +298,7 @@
 		
 		private function SelectFavourite(int $Value) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress) && $Value!=0) { 
+			if($this->VerifyDeviceIp($ipAddress) && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectFavouriteById($Value);
@@ -307,7 +307,7 @@
 
 		private function SelectMCPlaylist(int $Value) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress) && $Value!=0) { 
+			if($this->VerifyDeviceIp($ipAddress) && $Value!=0) { 
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->SelectMCPlaylistById($Value);
@@ -316,7 +316,7 @@
 
 		private function Volume(int $Level) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Volume($Level);
@@ -325,7 +325,7 @@
 
 		private function Mute(bool $State) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Mute($State);
@@ -334,7 +334,7 @@
 
 		private function Playback(string $State) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				$netUSB->Playback($State);
@@ -343,7 +343,7 @@
 
 		private function Power(bool $State) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 				$zone->Power($State);
@@ -352,7 +352,7 @@
 
 		private function UpdateFavourites() {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
@@ -368,7 +368,7 @@
 
 		private function UpdatePlaylists() {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
 				
@@ -383,7 +383,7 @@
 
 		private function UpdateLink() {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			if(self::VerifyDeviceIp($ipAddress)){
+			if($this->VerifyDeviceIp($ipAddress)){
 				$system = new System($ipAddress);
 				$rooms = $system->Rooms();
 				$num = count($rooms);
@@ -393,12 +393,12 @@
 					$roomList[] = $room['name'];
 				}
 
-				if(self::Lock('roomlist')) {
+				if($this->Lock('roomlist')) {
 					$this->SetBuffer('roomlist', json_encode($roomList));
 					$assosiations = $this->CreateProfileAssosiationList($roomList);
 					$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
 					$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
-					self::Unlock('roomlist');
+					$this->Unlock('roomlist');
 				}
 			}
 		}
@@ -413,7 +413,7 @@
 			$report = unserialize($this->GetBuffer('report'));
 
 			if(strlen($IpAddress)>0)
-				if(self::Ping($IpAddress)) {
+				if($this->Ping($IpAddress)) {
 					$report['IpAddressCheck'] = 0; // Reset count on success
 				
 					if($this->Lock('report')) {
