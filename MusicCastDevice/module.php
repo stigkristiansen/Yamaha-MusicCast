@@ -398,7 +398,7 @@
 					$assosiations = $this->CreateProfileAssosiationList($rooList);
 					$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
 					$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
-					self::Unlock('roomlist')
+					self::Unlock('roomlist');
 				}
 			}
 		}
