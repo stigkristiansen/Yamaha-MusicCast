@@ -202,15 +202,18 @@
 					//IPS_LogMessage('StartLink()', 'Linking...');
 					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 					if(self::VerifyDeviceIp($ipAddress)) {
-						$rooms = json_decode($this->GetBuffer('roomlist'));	
-						$system = new System($ipAddress);
-						$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
-						if($clientIpAddress!==false) {
-							$distribution = new Distrbution($system);
-							$distribution->AddClient(new System($clientIpAddress));
-							$distribution->Start();
-						} else
-							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
+						if(self::Lock('roomlist')) {
+							$rooms = json_decode($this->GetBuffer('roomlist'));	
+							$system = new System($ipAddress);
+							$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
+							if($clientIpAddress!==false) {
+								$distribution = new Distrbution($system);
+								$distribution->AddClient(new System($clientIpAddress));
+								$distribution->Start();
+							} else
+								$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
+						} else 
+							throw new Exception('Unable to read current room list');
 					}
 				} catch(Exception $e) {
 					$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
@@ -389,13 +392,16 @@
 					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
 				}
-				$this->SetBuffer('roomlist', json_encode($roomList));
-				$assosiations = $this->CreateProfileAssosiationList($roomList);
-				$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
-				$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
+
+				if(self::Lock('roomlist')) {
+					$this->SetBuffer('roomlist', json_encode($roomList));
+					$assosiations = $this->CreateProfileAssosiationList($rooList);
+					$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
+					$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
+					self::Unlock('roomlist')
+				}
 			}
 		}
-
 		
 		private function SetValueEx(string $Ident, $Value) {
 			$oldValue = $this->GetValue($Ident);
