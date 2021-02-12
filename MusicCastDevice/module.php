@@ -354,7 +354,7 @@
 				$netUSB = new NetUSB($system);
 				
 				$favourites = $netUSB->Favourites();
-				IPS_LogMessage('UpdateFavourites', json_encode($favourites));
+				//IPS_LogMessage('UpdateFavourites', json_encode($favourites));
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
@@ -449,9 +449,9 @@
 			return false;
 		}
 
-		private function Lock($Ident) {
+		private function Lock(string $Id) {
 			for ($i = 0; $i < 10; $i++) {
-				if (IPS_SemaphoreEnter(get_class() . '_' . (string) $this->InstanceID . (string) $Ident, 1000)) {
+				if (IPS_SemaphoreEnter(get_class() . (string) $this->InstanceID . $Id, 1000)) {
 					return true;
 				} else {
 					IPS_Sleep(mt_rand(1, 5));
@@ -461,8 +461,8 @@
 			return false;
 		}
 
-		private function Unlock($Ident) {
-			IPS_SemaphoreLeave(get_class() . '_' . (string) $this->InstanceID . (string) $Ident);
+		private function Unlock(string $Id) {
+			IPS_SemaphoreLeave(get_class() . (string) $this->InstanceID . $Id);
 		}
 
 	}
