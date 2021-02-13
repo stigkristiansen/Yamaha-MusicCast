@@ -14,6 +14,7 @@ class Errors {
     const UNKNOWNROOM = 'Did not find the room specified: %s';
     const NOTRESPONDING = 'The device %s is not responding (%s)';
     const MISSINGIP = "The device %s is missing information about it's ip address";
+    const ROOMERROR = 'Unable to read current room list';
 }
 
 class Properties {
@@ -39,6 +40,11 @@ class Profiles {
     const MCPLAYLISTS_ICON = 'Music'; 
     const LINK = 'YMC.%s.Link'; 
     const LINK_ICON = 'Link'; 
+}
+
+class Buffers {
+    const ROOMLIST = 'roomlist';
+    const REPORT = 'report';
 }
 
 class Variables {

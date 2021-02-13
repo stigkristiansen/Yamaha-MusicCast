@@ -85,9 +85,9 @@
 				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
 			$report['IpAddressCheck'] = 0;
-			if($this->Lock('report')) {
-				$this->SetBuffer('report', serialize($report));
-				$this->Unlock('report');
+			if($this->Lock(Buffers::REPORT)) {
+				$this->SetBuffer(Buffers::REPORT, serialize($report));
+				$this->Unlock(Buffers::REPORT);
 			}
 		}
 
@@ -201,9 +201,10 @@
 				try {
 					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 					if($this->VerifyDeviceIp($ipAddress)) {
-						if($this->Lock('roomlist')) {
-							$rooms = json_decode($this->GetBuffer('roomlist'));	
-							$this->Unlock('roomlist');
+						if($this->Lock(Buffers::ROOMLIST)) {
+							$rooms = json_decode($this->GetBuffer(Buffers::ROOMLIST));	
+							$this->Unlock(Buffers::ROOMLIST);
+							
 							$system = new System($ipAddress);
 							$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
 							if($clientIpAddress!==false) {
@@ -213,7 +214,7 @@
 							} else
 								$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
 						} else 
-							throw new Exception('Unable to read current room list');
+							throw new Exception(Errors::ROOMERROR);
 					}
 				} catch(Exception $e) {
 					$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
@@ -361,8 +362,8 @@
 				//IPS_LogMessage('UpdateFavourites', json_encode($favourites));
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
-					$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
-					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+					$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
+					$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', $assosiations);
 				}
 			}
 		}
@@ -376,8 +377,8 @@
 				$playlists = $netUSB->MCPlaylists();
 				if(count($playlists)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
-					$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
-					$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', $assosiations);
+					$profileName = sprint(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
+					$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', $assosiations);
 				}
 			}
 		}
@@ -394,12 +395,13 @@
 					$roomList[] = $room['name'];
 				}
 
-				if($this->Lock('roomlist')) {
-					$this->SetBuffer('roomlist', json_encode($roomList));
+				if($this->Lock(Buffers::ROOMLIST)) {
+					$this->SetBuffer(Buffers::ROOMLIST, json_encode($roomList));
+					$this->Unlock(Buffers::ROOMLIST);
 					$assosiations = $this->CreateProfileAssosiationList($roomList);
-					$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
-					$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', $assosiations);	
-					$this->Unlock('roomlist');
+					$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
+					$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
+					
 				}
 			}
 		}
@@ -415,9 +417,9 @@
 				if($this->Ping($IpAddress)) {
 					$report['IpAddressCheck'] = 0; // Reset count on success
 				
-					if($this->Lock('report')) {
-						$this->SetBuffer('report', serialize($report));
-						$this->Unlock('report');
+					if($this->Lock(Buffers::REPORT)) {
+						$this->SetBuffer(Buffers::REPORT, serialize($report));
+						$this->Unlock(Buffers::REPORT);
 					}
 				
 					return true;
@@ -426,9 +428,9 @@
 			else
 				$msg = sprintf(Errors::MISSINGIP, (string) $this->InstanceID);	
 			
-			if($this->Lock('report')) {
-				$report = unserialize($this->GetBuffer('report'));
-				$this->Unlock('report');
+			if($this->Lock(Buffers::REPORT)) {
+				$report = unserialize($this->GetBuffer(Buffers::REPORT));
+				$this->Unlock(Buffers::REPORT);
 			}
 			
 			$countReported = isset($report['IpAddressCheck'])?$report['IpAddressCheck']:0;
@@ -436,9 +438,9 @@
 				$countReported++;
 				$report['IpAddressCheck'] = $countReported;
 				
-				if($this->Lock('report')) {
-					$this->SetBuffer('report', serialize($report));
-					$this->Unlock('report');
+				if($this->Lock(Buffers::REPORT)) {
+					$this->SetBuffer(Buffers::REPORT, serialize($report));
+					$this->Unlock(Buffers::REPORT);
 				}
 				
 				$this->LogMessage($msg, KL_ERROR);
