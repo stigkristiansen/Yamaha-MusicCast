@@ -13,7 +13,7 @@
 			$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 			$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
-			$this->RegisterProfileIntegerEx(Profiles::CONTROL, 'Speaker', '', '', [
+			$this->RegisterProfileIntegerEx(Profiles::CONTROL, Profiles::CONTROL_ICON, '', '', [
 				[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
 				[PlaybackState::PLAY_ID, PlaybackState::PLAY_TEXT,  '', -1],
 				[PlaybackState::PAUSE_ID, PlaybackState::PAUSE_TEXT, '', -1],
@@ -38,7 +38,7 @@
 			$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 5);
 
 			$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
-			$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', []);
+			$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
 			$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 6);
 			$this->EnableAction(Variables::LINK_IDENT);
 
@@ -49,27 +49,27 @@
 
 			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
-			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
+			$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
 			$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
 			$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
 			$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
-			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
+			$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
 			$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 			$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 		}
 
 		public function Destroy() {
-			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
+			$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 			$this->DeleteProfile($profileName);
 
-			$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
+			$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 			$this->DeleteProfile($profileName);
 
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
-				$this->DeleteProfile('YMC.Control');
+				$this->DeleteProfile(Profiles::CONTROL);
 
 			//Never delete this line!
 			parent::Destroy();
