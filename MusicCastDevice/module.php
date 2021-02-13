@@ -377,7 +377,7 @@
 				$playlists = $netUSB->MCPlaylists();
 				if(count($playlists)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($playlists);
-					$profileName = sprint(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
+					$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 					$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', $assosiations);
 				}
 			}
