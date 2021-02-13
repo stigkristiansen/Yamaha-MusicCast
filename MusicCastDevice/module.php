@@ -13,7 +13,7 @@
 			$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 			$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
-			$this->RegisterProfileIntegerEx('YMC.Control', 'Speaker', '', '', [
+			$this->RegisterProfileIntegerEx(Profiles::CONTROL, 'Speaker', '', '', [
 				[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
 				[PlaybackState::PLAY_ID, PlaybackState::PLAY_TEXT,  '', -1],
 				[PlaybackState::PAUSE_ID, PlaybackState::PAUSE_TEXT, '', -1],
@@ -37,7 +37,7 @@
 
 			$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 5);
 
-			$profileName = 'YMC.' . (string) $this->InstanceID . ".Link";
+			$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, 'Link', '', '', []);
 			$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 6);
 			$this->EnableAction(Variables::LINK_IDENT);
@@ -47,12 +47,14 @@
 			$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 9);
 			$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 10);
 
-			$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
+			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
+			$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
 			$this->EnableAction(Variables::FAVOURITE_IDENT);
 
-			$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
+			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
+			$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, 'Music', '', '', []);
 			$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 			$this->EnableAction(Variables::MCPLAYLIST_IDENT);

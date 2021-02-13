@@ -30,6 +30,13 @@ class Timers {
 
 }
 
+class Profiles {
+    const CONTROL = 'YMC.Control';
+    const FAVORITES = 'YMC.%s.Favorites';
+    const MCPLAYLISTS = 'YMC.%s.Playlists';
+    const LINK = 'YMC.%s.Link'; 
+}
+
 class Variables {
     const VOLUME_IDENT = 'Volume';
     const VOLUME_TEXT = 'Volume';
