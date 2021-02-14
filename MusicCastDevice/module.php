@@ -198,41 +198,33 @@
 			if($RoomIndex==0) {
 				$this->StopLink();
 			} else {
-				try {
-					$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-					if($this->VerifyDeviceIp($ipAddress)) {
-						if($this->Lock(Buffers::ROOMLIST)) {
-							$rooms = json_decode($this->GetBuffer(Buffers::ROOMLIST));	
-							$this->Unlock(Buffers::ROOMLIST);
-							
-							$system = new System($ipAddress);
-							$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
-							if($clientIpAddress!==false) {
-								$distribution = new Distrbution($system);
-								$distribution->AddClient(new System($clientIpAddress));
-								$distribution->Start();
-							} else
-								$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
-						} else 
-							throw new Exception(Errors::ROOMERROR);
-					}
-				} catch(Exception $e) {
-					$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
+				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+				if($this->VerifyDeviceIp($ipAddress)) {
+					if($this->Lock(Buffers::ROOMLIST)) {
+						$rooms = json_decode($this->GetBuffer(Buffers::ROOMLIST));	
+						$this->Unlock(Buffers::ROOMLIST);
+						
+						$system = new System($ipAddress);
+						$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
+						if($clientIpAddress!==false) {
+							$distribution = new Distrbution($system);
+							$distribution->AddClient(new System($clientIpAddress));
+							$distribution->Start();
+						} else
+							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
+					} else 
+						throw new Exception(Errors::ROOMERROR);
 				}
 			}
 		}
 
 		private function StopLink() {
-			try {
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
 				if($this->VerifyDeviceIp($ipAddress)) {	
 					$system = new System($ipAddress);
 					$distribution = new Distrbution($system);
 					$distribution->Stop();
 				}
-			} catch(Exception $e) {
-				$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
-			}
 		}
 
 		private function Update(){
