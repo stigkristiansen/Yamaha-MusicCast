@@ -47,8 +47,6 @@ class System {
                 throw new Exception("Failed to initilize the System object. Ivalid zone");
         } else
             throw new Exception("Failed to initilize the System object");
-
-        //var_dump($featuresResult);
     }
 
     public function Features() {
