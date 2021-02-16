@@ -26,8 +26,9 @@
 
 			$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 			$this->EnableAction(Variables::CONTROL_IDENT);
-			$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 5000, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 255);'); // Using RequestAction on "Control" to excecute private functions inside scheduled scripts. 
-			$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 30000, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 254);');
+			// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
+			$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 5000, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 255);'); 
+			$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 254);');
 			
 			$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 			$this->EnableAction(Variables::VOLUME_IDENT);
@@ -47,13 +48,11 @@
 			$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 9);
 			$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 10);
 
-			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Favorites";
 			$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
 			$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
 			$this->EnableAction(Variables::FAVOURITE_IDENT);
 
-			//$profileName = 'YMC.' . (string) $this->InstanceID . ".Playlists";
 			$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
 			$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
@@ -144,7 +143,6 @@
 					case Variables::POWER_IDENT:
 						$this->SetValueEx($Ident, $Value);
 						$this->Power($Value);
-						//if($Value)
 						$this->Update();
 						break;
 					case Variables::FAVOURITE_IDENT:
@@ -228,14 +226,12 @@
 		}
 
 		private function Update(){
-			//IPS_LogMessage((string)$this->InstanceID, 'Inside Update');
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$zone = new Zone($system);
 								
 				$status = $zone->Status();
-				//IPS_LogMessage((string)$this->InstanceID, 'Zone->Status returned: '.json_encode($status));
 				if($status->power=='on') {
 					$netUSB = new NetUSB($system);
 					$playInfo = $netUSB->PlayInfo();
@@ -351,7 +347,6 @@
 				$netUSB = new NetUSB($system);
 				
 				$favourites = $netUSB->Favourites();
-				//IPS_LogMessage('UpdateFavourites', json_encode($favourites));
 				if(count($favourites)>0) {
 					$assosiations = $this->CreateProfileAssosiationList($favourites);
 					$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
