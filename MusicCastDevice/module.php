@@ -200,7 +200,9 @@
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 				if($this->VerifyDeviceIp($ipAddress)) {
 					IPS_LogMessage('MusicCast', 'Starting linking... IP-address verified ');
-					$selectedRoom = GetProfileAssosiationName(sprintf(Profiles::LINK, (string) $this->InstanceID), $RoomIndex);
+					$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
+					IPS_LogMessage('MusicCast', 'Querying profile ' . $profileName);
+					$selectedRoom = $this->GetProfileAssosiationName($profileName, $RoomIndex);
 					IPS_LogMessage('MusicCast', 'Starting linking...GetProfileAssosiationName has been called');
 					IPS_LogMessage('MusicCast', 'Linking to room: ' . $selectedRoom);
 					if($selectedRoom!==false) {
