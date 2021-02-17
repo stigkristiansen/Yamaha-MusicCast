@@ -199,6 +199,7 @@
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 				if($this->VerifyDeviceIp($ipAddress)) {
 					$selectedRoom = GetProfileAssosiationName(sprintf(Profiles::LINK, (string) $this->InstanceID), $RoomIndex);
+					IPS_LogMessage('MusicCast', 'Linking to room: ' . $selectedRoom);
 					if($selectedRoom!==false) {
 						$system = new System($ipAddress);
 						$clientIpAddress = $system->FindRoom($selectedRoom);
