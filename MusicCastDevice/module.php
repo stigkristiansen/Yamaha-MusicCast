@@ -401,7 +401,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function VerifyDeviceIp($IpAddress) {
 		if(strlen($IpAddress)>0)
-			if($this->Ping($IpAddress)) {
+			if($this->PingTest($IpAddress)) {
 				$report['IpAddressCheck'] = 0; // Reset count on success
 			
 				if($this->Lock(Buffers::REPORT)) {
@@ -436,7 +436,7 @@ class MusicCastDevice extends IPSModule {
 		return false;	
 	}
 
-	private function Ping(string $IPAddress) {
+	private function PingTest(string $IPAddress) {
 		$wait = 500;
 		for($count=0;$count<3;$count++) {
 			if(Sys_Ping($IPAddress, $wait))

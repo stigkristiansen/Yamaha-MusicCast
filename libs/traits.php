@@ -177,7 +177,7 @@ trait ProfileHelper {
 
 trait BufferHelper {
     protected function Lock(string $Id) {
-		for ($i = 0; $i < 10; $i++) {
+		for ($count=0;$count<10;$count++) {
 			if (IPS_SemaphoreEnter(get_class() . (string) $this->InstanceID . $Id, 1000)) {
 				return true;
 			} else {
