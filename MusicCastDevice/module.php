@@ -193,6 +193,7 @@
 		}
 
 		private function StartLink(int $RoomIndex) {
+			IPS_LogMessage('MusicCast', 'Starting linking to room with index ' . $RoomIndex);
 			if($RoomIndex==0) {
 				$this->StopLink();
 			} else {
