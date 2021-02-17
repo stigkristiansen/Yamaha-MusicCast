@@ -59,6 +59,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
 		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
+		
 	}
 
 	public function Destroy() {
