@@ -43,11 +43,11 @@ trait HttpRequest {
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
     }
 
-    protected function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {
-	    if(self::Ping($IpAddress)) {
-			$completeUrl = 'http://'.$IpAddress.$DeltaUrl;
+    protected function HttpPostJson(string $DeltaUrl, string $JsonParams) {
+	    if(self::Ping($this->$IpAddress)) {
+			$completeUrl = 'http://'.$this->$IpAddress.$DeltaUrl;
 			
-			$result = self::request ('post', $completeUrl, $JsonParams);
+			$result = self::request('post', $completeUrl, $JsonParams);
 
             $originalResult = $result;
 			$result = json_decode($result);
@@ -65,12 +65,12 @@ trait HttpRequest {
 			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));	
     }
 
-    protected function Ping(string $IPAddress) {
+    protected function Ping(string $IpAddress) {
         return true; // Checked in module.php
 
         $wait = 500;
         for($count=0;$count<3;$count++) {
-            if(Sys_Ping($IPAddress, $wait))
+            if(Sys_Ping($IpAddress, $wait))
                 return true;
             $wait*=2;
         }
@@ -111,9 +111,7 @@ trait HttpRequest {
 }
 
 
-trait ProfileHelper
-{
-
+trait ProfileHelper {
     protected function DeleteProfile($Name) {
         if(IPS_VariableProfileExists($Name))
             IPS_DeleteVariableProfile($Name);
@@ -175,4 +173,23 @@ trait ProfileHelper
         return false;
     
     }
+}
+
+trait BufferHelper {
+    protected function Lock(string $Id) {
+		for ($i = 0; $i < 10; $i++) {
+			if (IPS_SemaphoreEnter(get_class() . (string) $this->InstanceID . $Id, 1000)) {
+				return true;
+			} else {
+				IPS_Sleep(mt_rand(1, 5));
+			}
+		}
+
+		return false;
+	}
+
+	protected function Unlock(string $Id) {
+		IPS_SemaphoreLeave(get_class() . (string) $this->InstanceID . $Id);
+	}
+
 }

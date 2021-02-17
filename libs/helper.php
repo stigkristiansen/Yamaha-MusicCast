@@ -43,7 +43,6 @@ class Profiles {
 }
 
 class Buffers {
-    const ROOMLIST = 'roomlist';
     const REPORT = 'report';
 }
 

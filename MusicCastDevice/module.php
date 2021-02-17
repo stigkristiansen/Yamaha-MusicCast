@@ -6,6 +6,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 
 class MusicCastDevice extends IPSModule {
 	use ProfileHelper;
+	use BufferHelper;
 
 	public function Create() {
 		//Never delete this line!
@@ -446,21 +447,7 @@ class MusicCastDevice extends IPSModule {
 		return false;
 	}
 
-	private function Lock(string $Id) {
-		for ($i = 0; $i < 10; $i++) {
-			if (IPS_SemaphoreEnter(get_class() . (string) $this->InstanceID . $Id, 1000)) {
-				return true;
-			} else {
-				IPS_Sleep(mt_rand(1, 5));
-			}
-		}
 
-		return false;
-	}
-
-	private function Unlock(string $Id) {
-		IPS_SemaphoreLeave(get_class() . (string) $this->InstanceID . $Id);
-	}
 
 }
 
