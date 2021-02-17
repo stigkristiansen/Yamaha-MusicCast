@@ -1,5 +1,7 @@
 <?PHP
 
+declare(strict_types=1);
+
 class Distrbution {
     use HttpRequest;
 
