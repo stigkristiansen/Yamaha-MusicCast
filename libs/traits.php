@@ -161,4 +161,18 @@ trait ProfileHelper
 
         return $assosiations;
     }
+
+    protected function GetProfileAssosiationName($ProfileName, $Index) {
+        $profile = IPS_GetVariableProfile($ProfileName);
+    
+        if($profile!==false) {
+            foreach($profile['Associations'] as $association) {
+                if($association['Value']==$Index)
+                    return $association['Name'];
+            }
+        } 
+    
+        return false;
+    
+    }
 }

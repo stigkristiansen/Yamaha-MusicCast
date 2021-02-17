@@ -198,7 +198,20 @@
 			} else {
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 				if($this->VerifyDeviceIp($ipAddress)) {
-					if($this->Lock(Buffers::ROOMLIST)) {
+					$selectedRoom = GetProfileAssosiationName(sprintf(Profiles::LINK, (string) $this->InstanceID), $RoomIndex);
+					if($selectedRoom!==false) {
+						$system = new System($ipAddress);
+						$clientIpAddress = $system->FindRoom($selectedRoom);
+						if($clientIpAddress!==false) {
+							$distribution = new Distrbution($system);
+							$distribution->AddClient(new System($clientIpAddress));
+							$distribution->Start();
+						} else
+							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $selectedRoom), KL_ERROR);
+					}  else
+						$this->LogMessage(Errors::ROOMERROR, KL_ERROR);
+										
+					/*if($this->Lock(Buffers::ROOMLIST)) {
 						$rooms = json_decode($this->GetBuffer(Buffers::ROOMLIST));	
 						$this->Unlock(Buffers::ROOMLIST);
 						
@@ -209,9 +222,10 @@
 							$distribution->AddClient(new System($clientIpAddress));
 							$distribution->Start();
 						} else
-							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR);
+							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR); 
 					} else 
-						throw new Exception(Errors::ROOMERROR);
+						throw new Exception(Errors::ROOMERROR); */
+				
 				}
 			}
 		}
@@ -382,14 +396,15 @@
 					$roomList[] = $room['name'];
 				}
 
-				if($this->Lock(Buffers::ROOMLIST)) {
-					$this->SetBuffer(Buffers::ROOMLIST, json_encode($roomList));
-					$this->Unlock(Buffers::ROOMLIST);
-					$assosiations = $this->CreateProfileAssosiationList($roomList);
-					$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
-					$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
+				//if($this->Lock(Buffers::ROOMLIST)) {
+				//	$this->SetBuffer(Buffers::ROOMLIST, json_encode($roomList));
+				//	$this->Unlock(Buffers::ROOMLIST);
+				
+				$assosiations = $this->CreateProfileAssosiationList($roomList);
+				$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
+				$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
 					
-				}
+				//}
 			}
 		}
 		
