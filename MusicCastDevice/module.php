@@ -66,6 +66,9 @@
 			$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 			$this->DeleteProfile($profileName);
 
+			$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
+			$this->DeleteProfile($profileName);
+
 			$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 			if(count(IPS_GetInstanceListByModuleID($module->id))==0)
 				$this->DeleteProfile(Profiles::CONTROL);
@@ -193,18 +196,13 @@
 		}
 
 		private function StartLink(int $RoomIndex) {
-			IPS_LogMessage('MusicCast', 'Starting linking to room with index ' . $RoomIndex);
 			if($RoomIndex==0) {
 				$this->StopLink();
 			} else {
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 				if($this->VerifyDeviceIp($ipAddress)) {
-					IPS_LogMessage('MusicCast', 'Starting linking... IP-address verified ');
 					$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
-					IPS_LogMessage('MusicCast', 'Querying profile ' . $profileName);
 					$selectedRoom = $this->GetProfileAssosiationName($profileName, $RoomIndex);
-					IPS_LogMessage('MusicCast', 'Starting linking...GetProfileAssosiationName has been called');
-					IPS_LogMessage('MusicCast', 'Linking to room: ' . $selectedRoom);
 					if($selectedRoom!==false) {
 						$system = new System($ipAddress);
 						$clientIpAddress = $system->FindRoom($selectedRoom);
@@ -216,24 +214,7 @@
 							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $selectedRoom), KL_ERROR);
 					}  else
 						$this->LogMessage(Errors::ROOMERROR, KL_ERROR);
-										
-					/*if($this->Lock(Buffers::ROOMLIST)) {
-						$rooms = json_decode($this->GetBuffer(Buffers::ROOMLIST));	
-						$this->Unlock(Buffers::ROOMLIST);
-						
-						$system = new System($ipAddress);
-						$clientIpAddress = $system->FindRoom($rooms[$RoomIndex]);
-						if($clientIpAddress!==false) {
-							$distribution = new Distrbution($system);
-							$distribution->AddClient(new System($clientIpAddress));
-							$distribution->Start();
-						} else
-							$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $rooms[$RoomIndex]), KL_ERROR); 
-					} else 
-						throw new Exception(Errors::ROOMERROR); */
-				
-				} else
-					IPS_LogMessage('MusicCast', 'Linking... IP-address failed!');
+				} 
 			}
 		}
 
@@ -402,16 +383,10 @@
 					$room = $rooms[$idx];
 					$roomList[] = $room['name'];
 				}
-
-				//if($this->Lock(Buffers::ROOMLIST)) {
-				//	$this->SetBuffer(Buffers::ROOMLIST, json_encode($roomList));
-				//	$this->Unlock(Buffers::ROOMLIST);
 				
 				$assosiations = $this->CreateProfileAssosiationList($roomList);
 				$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 				$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
-					
-				//}
 			}
 		}
 		
