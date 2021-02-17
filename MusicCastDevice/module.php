@@ -199,6 +199,7 @@
 			} else {
 				$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 				if($this->VerifyDeviceIp($ipAddress)) {
+					IPS_LogMessage('MusicCast', 'Starting linking... IP-address verified ');
 					$selectedRoom = GetProfileAssosiationName(sprintf(Profiles::LINK, (string) $this->InstanceID), $RoomIndex);
 					IPS_LogMessage('MusicCast', 'Linking to room: ' . $selectedRoom);
 					if($selectedRoom!==false) {
@@ -228,7 +229,8 @@
 					} else 
 						throw new Exception(Errors::ROOMERROR); */
 				
-				}
+				} else
+					IPS_LogMessage('MusicCast', 'Linking... IP-address failed!');
 			}
 		}
 
