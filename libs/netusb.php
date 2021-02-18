@@ -16,7 +16,7 @@ class NetUSB {
     }
 
     public function PlayInfo() {
-        $playInfoJson = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPlayInfo');
+        $playInfoJson = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/getPlayInfo');
 
         if($playInfoJson!==false) {
             $albumartURL = 'http://' . $this->ipAddress . $playInfoJson->albumart_url;
@@ -35,11 +35,11 @@ class NetUSB {
     }
 
     public function Playback(string $State) {
-        $status = self::httpGetJson('/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
+        $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
     }
 
     public function MCPlaylists() {
-        $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getMcPlaylistName');
+        $result = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/getMcPlaylistName');
     
         $playlists[]=' ';
         foreach($result->name_list as $list) {
@@ -64,7 +64,7 @@ class NetUSB {
         if($bank>count($playlists)-1)
             throw new Exception('Unkonown playlist!');
         
-        self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zoneName);
+        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$bank.'&type=play&index='.$index.'&zone='.$this->zoneName);
     }
 
     public function SelectMCPlaylistById (int $Id, $index=0) {
@@ -73,11 +73,11 @@ class NetUSB {
         if($Id>count($playlists)-1 || $Id<0)
             throw new Exception('Unkonown playlist!');
         
-        self::httpGetJson('/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$Id.'&type=play&index='.$index.'&zone='.$this->zoneName);
+        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/manageMcPlaylist?bank='.$Id.'&type=play&index='.$index.'&zone='.$this->zoneName);
     }
 
     public function Favourites(){
-        $result = self::httpGetJson('/YamahaExtendedControl/v1/netusb/getPresetInfo');
+        $result = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/getPresetInfo');
         
         $favourites[]=' ';
         foreach($result->preset_info as $favourite) {
@@ -102,7 +102,7 @@ class NetUSB {
         if($num>count($favourites)-1)
             throw new Exception('Unkonwn favourite!');
 
-        self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$num);    
+        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$num);    
     }
 
     public function SelectFavouriteById(int $Id) {
@@ -111,7 +111,7 @@ class NetUSB {
         if($Id>count($favourites)-1 || $Id<0)
             throw new Exception('Unkonwn favourite!');
 
-        self::httpGetJson('/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$Id);    
+        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$Id);    
     }
 
 }

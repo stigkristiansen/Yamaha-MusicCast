@@ -18,15 +18,15 @@ class System {
     public function __construct(string $ipAddress) {
         $this->ipAddress = $ipAddress;
 
-        $featuresResult = self::HttpGetJson('/YamahaExtendedControl/v1/system/getFeatures');
+        $featuresResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getFeatures');
         if($featuresResult!==false)
             $this->features = $featuresResult;
 
-        $devicdeInfoResult = self::HttpGetJson('/YamahaExtendedControl/v1/system/getDeviceInfo');
+        $devicdeInfoResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getDeviceInfo');
         if($devicdeInfoResult!==false)
             $this->deviceInfo = $devicdeInfoResult;
 
-        $locationInfoResult = self::HttpGetJson('/YamahaExtendedControl/v1/system/getLocationInfo');
+        $locationInfoResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getLocationInfo');
         if($locationInfoResult!==false)
             $this->locationInfo = $locationInfoResult;
 
@@ -94,7 +94,7 @@ class System {
     public function Rooms(){
         $rooms[] = ['name'=>$this->RoomName(), 'ip'=>$this->ipAddress];
 
-        $treeInfo = self::HttpGetJson('/YamahaExtendedControl/v1/system/getMusicCastTreeInfo');
+        $treeInfo = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getMusicCastTreeInfo');
         foreach($treeInfo->mac_address_list as $device) {
             if($this->ipAddress!=$device->ip_address) {
                 $system = new System($device->ip_address);

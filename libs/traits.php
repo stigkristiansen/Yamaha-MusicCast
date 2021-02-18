@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 trait HttpRequest {
     
-    protected function HttpGetJson(string $DeltaUrl) {
+    protected function HttpGetJson(string $IpAddress, string $DeltaUrl) {
 		if(self::Ping($this->ipAddress)) {
-			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
+			$completeUrl = 'http://' . $IpAddress . $DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
 

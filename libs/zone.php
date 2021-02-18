@@ -20,7 +20,7 @@ class Zone {
     }
 
     public function Status() {
-        return self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/getStatus');
+        return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/getStatus');
     }
     
 
@@ -33,7 +33,7 @@ class Zone {
         else 
             $value = 'standby';
 
-        self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);    
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);    
     }
 
     public function Mute(bool $Status) {
@@ -45,21 +45,21 @@ class Zone {
         else 
             $value = 'false';
 
-        self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setMute?enable='.$value);    
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setMute?enable='.$value);    
     }
 
     public function Volume(int $Level) {
         if(!$this->system->ValidateVolume($Level)) 
             throw new Exception('Volume(): Invalid level \"'.$Level.'\"');
         
-        self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setVolume?volume='.$Level);    
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setVolume?volume='.$Level);    
     }
 
     public function Input(string $Input) {
         if(!$this->system->ValidInput($Input))
             throw new Exception('Input(): Invalid input \"'.$Input.'\"');
 
-        self::HttpGetJson('/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input='.$Input);   
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input='.$Input);   
     }
 
 }

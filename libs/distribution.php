@@ -68,7 +68,7 @@ class Distrbution {
     }
 
     private function GetDistributionInfo() {
-        return self::HttpGetJson('/YamahaExtendedControl/v1/dist/getDistributionInfo');    
+        return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/dist/getDistributionInfo');    
     }
 
     private function SetClientInfo(System $Client, string $type='add') {
@@ -100,15 +100,16 @@ class Distrbution {
 
         $jsonParams = json_encode($params);
 
-        return self::HttpPostJson($this->master->IpAddress(), '/YamahaExtendedControl/v1/dist/setServerInfo', $jsonParams);
+        //return self::HttpPostJson($this->master->IpAddress(), '/YamahaExtendedControl/v1/dist/setServerInfo', $jsonParams);
+        return self::HttpPostJson($this->ipAddress, '/YamahaExtendedControl/v1/dist/setServerInfo', $jsonParams);
     }
 
     private function StopDistribution() {
-        return self::HttpGetJson('/YamahaExtendedControl/v1/dist/stopDistribution');
+        return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/dist/stopDistribution');
     }
 
     private function StartDistribution($Num=0) {
-        return self::HttpGetJson('/YamahaExtendedControl/v1/dist/startDistribution?num='.$Num);
+        return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/dist/startDistribution?num='.$Num);
     }
 
     private function ValidateClient(System $Client) {
@@ -128,7 +129,7 @@ class Distrbution {
         $module_length = 40;   
         $steps = round(($length/$module_length) + 0.5);
 
-        for( $i=0; $i<$steps; $i++ ) {
+        for($i=0;$i<$steps;$i++) {
             $result .= sha1(uniqid() . md5(rand() . uniqid()));
         }
 
