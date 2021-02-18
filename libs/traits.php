@@ -45,7 +45,7 @@ trait HttpRequest {
 
     protected function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {
 	    if(self::Ping($IpAddress)) {
-			$completeUrl = 'http://'.$IpAddress.$DeltaUrl;
+			$completeUrl = 'http://' . $IpAddress . $DeltaUrl;
 			
 			$result = self::request('post', $completeUrl, $JsonParams);
 
