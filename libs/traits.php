@@ -5,7 +5,7 @@ declare(strict_types=1);
 trait HttpRequest {
     
     protected function HttpGetJson(string $IpAddress, string $DeltaUrl) {
-		if(self::Ping($this->ipAddress)) {
+		if(self::Ping($IpAddress)) {
 			$completeUrl = 'http://' . $IpAddress . $DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
@@ -23,12 +23,12 @@ trait HttpRequest {
             } else
                 throw new Exception(sprintf("%s returned invalid JSON. The returned value was %s", $completeUrl, $originalResult));
 		} else
-			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
+			throw new Exception(sprintf('Host %s is not responding', $IpAddress));
     }
 
-    protected function HttpGetXML(string $DeltaUrl) {
-		if(self::Ping($this->ipAddress)) {
-			$completeUrl = 'http://'.$this->ipAddress.$DeltaUrl;
+    protected function HttpGetXML(string $IpAddress, string $DeltaUrl) {
+		if(self::Ping($IpAddress)) {
+			$completeUrl = 'http://' . $IpAddress . $DeltaUrl;
 			
 			$result = self::request ('get', $completeUrl);
 
@@ -40,7 +40,7 @@ trait HttpRequest {
             } else
                 throw new Exception(sprintf("%s returned invalid XML. The returned value was %s", $completeUrl, $originalResult));
 		} else
-			throw new Exception(sprintf('Host %s is not responding', $this->ipAddress));
+			throw new Exception(sprintf('Host %s is not responding', $IpAddress));
     }
 
     protected function HttpPostJson(string $IpAddress, string $DeltaUrl, string $JsonParams) {

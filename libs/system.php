@@ -30,7 +30,7 @@ class System {
         if($locationInfoResult!==false)
             $this->locationInfo = $locationInfoResult;
 
-        $deviceDescResult = self::HttpGetXML(':49154/MediaRenderer/desc.xml');
+        $deviceDescResult = self::HttpGetXML($this->ipAddress, ':49154/MediaRenderer/desc.xml');
         if($deviceDescResult!==false)
             $this->deviceDesc = $deviceDescResult;
 
