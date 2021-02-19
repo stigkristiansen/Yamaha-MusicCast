@@ -412,12 +412,15 @@ class MusicCastDevice extends IPSModule {
 					$this->SetBuffer(Buffers::REPORT, serialize($report));
 					$this->Unlock(Buffers::REPORT);
 				}
-			
+				
+				$this->SetStatus(102);
 				return true;
 			} else
 				$msg = sprintf(Errors::NOTRESPONDING, (string) $this->InstanceID, $IpAddress);
 		else
 			$msg = sprintf(Errors::MISSINGIP, (string) $this->InstanceID);	
+
+		$this->SetStatus(104);
 		
 		if($this->Lock(Buffers::REPORT)) {
 			$report = unserialize($this->GetBuffer(Buffers::REPORT));
