@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 trait HttpRequest {
-    
     protected function HttpGetJson(string $IpAddress, string $DeltaUrl) {
 		if(self::Ping($IpAddress)) {
 			$completeUrl = 'http://' . $IpAddress . $DeltaUrl;
@@ -117,8 +116,7 @@ trait ProfileHelper {
             IPS_DeleteVariableProfile($Name);
     }
 
-    protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
-    {
+    protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
         if (!IPS_VariableProfileExists($Name)) {
             IPS_CreateVariableProfile($Name, 1);
         } else {
@@ -133,8 +131,8 @@ trait ProfileHelper {
         IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
     }
 
-    protected function RegisterProfileIntegerEx($Name, $Icon, $Prefix, $Suffix, $Associations)
-    {
+    protected function RegisterProfileIntegerEx($Name, $Icon, $Prefix, $Suffix, $Associations) {
+        
         if (count($Associations) === 0) {
             $MinValue = 0;
             $MaxValue = 0;
@@ -145,8 +143,25 @@ trait ProfileHelper {
 
         $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, 0);
 
-        foreach ($Associations as $Association) {
-            IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
+        foreach ($Associations as $association) {
+            IPS_SetVariableProfileAssociation($Name, $association[0], $association[1], $association[2], $association[3]);
+        }
+        
+        // Remove assiciations that is not specified in $Associations
+        $profileAssociations = IPS_GetVariableProfile($Name)['Associations'];
+        foreach($profileAssociations as $profileAssociation) {
+            $found = false;
+            foreach($Associations as $association) {
+                if($profileAssociation['Value']==$association[0]) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if(!$found) {
+                IPS_SetVariableProfileAssociation($Name, $profileAssociation['Value'], '', '', -1);    
+            }
+
         }
     }
 
