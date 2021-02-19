@@ -158,10 +158,8 @@ trait ProfileHelper {
                 }
             }
 
-            if(!$found) {
+            if(!$found)
                 IPS_SetVariableProfileAssociation($Name, $profileAssociation['Value'], '', '', -1);    
-            }
-
         }
     }
 

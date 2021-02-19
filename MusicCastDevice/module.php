@@ -282,13 +282,16 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists() {
-		$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, 0);
+		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		$this->UpdateFavourites();
-		$this->UpdatePlaylists();
-		$this->UpdateLink();
-
-		$this->SetTimerInterval('UpdateLists' . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+		try {
+			$this->UpdateFavourites();
+			$this->UpdatePlaylists();
+			$this->UpdateLink();
+		} finally {
+			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
+				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+		}
 	}
 	
 	private function SelectFavourite(int $Value) {
