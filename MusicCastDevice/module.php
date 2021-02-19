@@ -282,9 +282,10 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists() {
-		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
-		
 		try {
+			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
+				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
+
 			$this->UpdateFavourites();
 			$this->UpdatePlaylists();
 			$this->UpdateLink();
