@@ -30,7 +30,7 @@ class MusicCastDevice extends IPSModule {
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 5000, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 255);'); 
+		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 255);'); 
 		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 254);');
 		
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
@@ -60,6 +60,8 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
 		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
+
+		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 	}
 
 	public function Destroy() {
@@ -83,18 +85,24 @@ class MusicCastDevice extends IPSModule {
 	public function ApplyChanges() {
 		//Never delete this line!
 		parent::ApplyChanges();
-		
-		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
-		else
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
 		$report['IpAddressCheck'] = 0;
 		if($this->Lock(Buffers::REPORT)) {
 			$this->SetBuffer(Buffers::REPORT, serialize($report));
 			$this->Unlock(Buffers::REPORT);
 		}
+
+		if (IPS_GetKernelRunlevel() == KR_READY) {
+            $this->SetTimers();
+        }
 	}
+
+	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+        parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
+
+        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) 
+            $this->SetTimers();
+    }
 
 	public function RequestAction($Ident, $Value) {
 		try {
@@ -196,6 +204,16 @@ class MusicCastDevice extends IPSModule {
 				];
 		
 		return json_encode($form);
+	}
+
+	private function SetTimers() {
+		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+		else
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
+		
+		$this->SetTimerInterval(Timers::UPDATE, 5000);
+			
 	}
 
 	private function StartLink(int $RoomIndex) {
