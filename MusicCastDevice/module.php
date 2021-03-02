@@ -30,8 +30,8 @@ class MusicCastDevice extends IPSModule {
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 255);'); 
-		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists('.$control.')) RequestAction('.$control.', 254);');
+		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
+		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
 		
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -164,7 +164,7 @@ class MusicCastDevice extends IPSModule {
 						$this->SetValueEx($Ident, $Value);
 						$this->SelectFavourite($Value);
 						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.$favourite.')) RequestAction(' . $favourite . ', 0);');
+						$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $favourite . ')) RequestAction(' . (string) $favourite . ', 0);');
 					}
 					break;
 				case Variables::MCPLAYLIST_IDENT:
@@ -172,7 +172,7 @@ class MusicCastDevice extends IPSModule {
 						$this->SetValueEx($Ident,$Value);
 						$this->SelectMCPlaylist($Value);
 						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists('.$mcPlaylist.')) RequestAction(' . $mcPlaylist . ', 0);');
+						$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $mcPlaylist.')) RequestAction(' . (string) $mcPlaylist . ', 0);');
 					}
 					break;
 				case Variables::LINK_IDENT:
