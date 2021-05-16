@@ -25,11 +25,11 @@ class MusicCastDevice extends IPSModule {
 		]);
 
 		$this->RegisterProfileIntegerEx(Profiles::SLEEP, Profiles::SLEEP_ICON, '', Profiles::SLEEP_SUFIX, [
-			[Sleep::0MIN, Sleep::0MIN_TEXT, '', -1],
-			[Sleep::30MIN, Sleep::30MIN_TEXT, '', -1],
-			[Sleep::60MIN, Sleep::60MIN_TEXT, '', -1],
-			[Sleep::90MIN, Sleep::90MIN_TEXT, '', -1],
-			[Sleep::120MIN, Sleep::120MIN_TEXT, '', -1],
+			[Sleep::DISABLED, Sleep::DISABLED_TEXT, '', -1],
+			[Sleep::STEP1, Sleep::STEP1_TEXT, '', -1],
+			[Sleep::STEP2, Sleep::STEP2_TEXT, '', -1],
+			[Sleep::STEP3, Sleep::STEP3_TEXT, '', -1],
+			[Sleep::STEP4, Sleep::STEP4_TEXT, '', -1],
 		]);
 
 		$this->RegisterProfileBoolean(Profiles::MUTE, Profiles::MUTE_ICON, '', '');

@@ -82,16 +82,16 @@ class Variables {
 }
 
 class Sleep {
-    const 0MIN = 0;
-    const 0MIN_TEXT = 'OFF';
-    const 0MIN = 30;
-    const 0MIN_TEXT = '30';
-    const 0MIN = 60;
-    const 0MIN_TEXT = '60';
-    const 0MIN = 90;
-    const 0MIN_TEXT = '90';
-    const 0MIN = 120;
-    const 0MIN_TEXT = '120';
+    const DISABLED = 0;
+    const DISABLED_TEXT = 'OFF';
+    const STEP1 = 30;
+    const STEP1_TEXT = '30';
+    const STEP2 = 60;
+    const STEP2_TEXT = '60';
+    const STEP3 = 90;
+    const STEP3_TEXT = '90';
+    const STEP4 = 120;
+    const STEP4_TEXT = '120';
 }
 
 class PlaybackState {
