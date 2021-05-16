@@ -139,7 +139,7 @@ class MusicCastDevice extends IPSModule {
 								$this->UpdateLists();
 								break;
 						}
-					} else if($this->GetValue(Variables::POWER_IDENT)) { 
+					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Don't care if the device is off
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
 								$this->SetValueEx($Ident, PlaybackState::PREVIOUS_ID);
@@ -165,11 +165,10 @@ class MusicCastDevice extends IPSModule {
 					}
 					break;
 				case Variables::SLEEP_IDENT:
-					$this->LogMessage($this->GetValue(Variables::SLEEP_IDENT), KL_MESSAGE);
-					//if(!$this->GetValue(Variables::SLEEP_IDENT)===false) {
+					if(!$this->GetValue(Variables::POWER_IDENT) {
 						$this->SetValueEx($Ident, $Value);
 						$this->Sleep($Value);
-					//}
+					}
 					break;
 				case Variables::VOLUME_IDENT:
 					if($this->GetValue(Variables::POWER_IDENT)) {
@@ -291,6 +290,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::POWER_IDENT, true);
 				$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
 				$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
+				$this->SetValueEx(Variables::SLEEP_IDENT, $status->sleep);
 
 				if($distribution->IsActive()==false)
 					$this->SetValueEx(Variables::LINK_IDENT, 0);
