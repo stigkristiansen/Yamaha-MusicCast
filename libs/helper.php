@@ -38,7 +38,7 @@ class Profiles {
     const MUTE_ICON = 'Speaker';
     const SLEEP = 'YMC.Sleep';
     const SLEEP_ICON = 'Sleep';
-    const SLEEP_SUFIX = 'min.'
+    const SLEEP_SUFIX = 'min.';
     const FAVORITES = 'YMC.%s.Favorites';
     const FAVORITES_ICON = 'Music';
     const MCPLAYLISTS = 'YMC.%s.Playlists';
