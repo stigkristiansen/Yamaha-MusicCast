@@ -34,7 +34,7 @@ class Timers {
 class Profiles {
     const CONTROL = 'YMC.Control';
     const CONTROL_ICON = 'Speaker';
-    const MUTE = 'YMC.Mute';
+    const MUTE = 'YMC.Mute.Reversed';
     const MUTE_ICON = 'Speaker';
     const SLEEP = 'YMC.Sleep';
     const SLEEP_ICON = 'Sleep';
