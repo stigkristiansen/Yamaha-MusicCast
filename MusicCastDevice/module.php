@@ -24,7 +24,7 @@ class MusicCastDevice extends IPSModule {
 			[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 		]);
 
-		$this->RegisterProfileIntegerEx(Profiles::SLEEP, Profiles::SLEEP_ICON, '', Profiles::SLEEP_SUFIX, [
+		$this->RegisterProfileIntegerEx(Profiles::SLEEP, Profiles::SLEEP_ICON, '', '', [
 			[Sleep::DISABLED, Sleep::DISABLED_TEXT, '', -1],
 			[Sleep::STEP1, Sleep::STEP1_TEXT, '', -1],
 			[Sleep::STEP2, Sleep::STEP2_TEXT, '', -1],
@@ -161,6 +161,7 @@ class MusicCastDevice extends IPSModule {
 					}
 					break;
 				case Variables::SLEEP_IDENT:
+					$this->LogMessage('SLEEP!!', KL_MESSAGE);
 					if($this->GetValue(Variables::SLEEP_IDENT)) {
 						$this->SetValueEx($Ident, $Value);
 						$this->Sleep($Value);

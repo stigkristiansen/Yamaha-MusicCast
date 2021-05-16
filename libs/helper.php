@@ -85,13 +85,13 @@ class Sleep {
     const DISABLED = 0;
     const DISABLED_TEXT = 'OFF';
     const STEP1 = 30;
-    const STEP1_TEXT = '30';
+    const STEP1_TEXT = '30 min.';
     const STEP2 = 60;
-    const STEP2_TEXT = '60';
+    const STEP2_TEXT = '60 min.';
     const STEP3 = 90;
-    const STEP3_TEXT = '90';
+    const STEP3_TEXT = '90 min.';
     const STEP4 = 120;
-    const STEP4_TEXT = '120';
+    const STEP4_TEXT = '120 min';
 }
 
 class PlaybackState {
