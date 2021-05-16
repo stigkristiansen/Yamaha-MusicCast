@@ -165,6 +165,7 @@ class MusicCastDevice extends IPSModule {
 					}
 					break;
 				case Variables::SLEEP_IDENT:
+					$this->LogMessage($this->GetValue(Variables::SLEEP_IDENT), KL_MESSAGE);
 					//if(!$this->GetValue(Variables::SLEEP_IDENT)===false) {
 						$this->SetValueEx($Ident, $Value);
 						$this->Sleep($Value);
