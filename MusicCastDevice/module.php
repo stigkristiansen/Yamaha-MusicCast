@@ -125,7 +125,7 @@ class MusicCastDevice extends IPSModule {
     }
 
 	public function RequestAction($Ident, $Value) {
-		$this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
+		// $this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
 
 		try {
 			switch ($Ident) {
@@ -165,8 +165,7 @@ class MusicCastDevice extends IPSModule {
 					}
 					break;
 				case Variables::SLEEP_IDENT:
-					$this->LogMessage('SLEEP!!', KL_MESSAGE);
-					if($this->GetValue(Variables::SLEEP_IDENT)) {
+					if(!$this->GetValue(Variables::SLEEP_IDENT)===false) {
 						$this->SetValueEx($Ident, $Value);
 						$this->Sleep($Value);
 					}
