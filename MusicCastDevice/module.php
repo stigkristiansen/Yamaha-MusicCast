@@ -237,6 +237,16 @@ class MusicCastDevice extends IPSModule {
 		return json_encode($form);
 	}
 
+	public function GetControlStatus() {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress);
+			$netUSB = new NetUSB($system);
+			$playInfo = $netUSB->PlayInfo();
+			return $playInfo->Playback();
+		}
+	}
+
 	private function SetTimers() {
 		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
