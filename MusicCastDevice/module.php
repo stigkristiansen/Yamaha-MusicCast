@@ -39,6 +39,10 @@ class MusicCastDevice extends IPSModule {
 
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
+
+		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
+		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
+		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -46,7 +50,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, Profiles::MUTE, 4);
 		$this->EnableAction(Variables::MUTE_IDENT);
 
-		$control = $this->RegisterVariableInteger(Variables::SLEEP_IDENT, Variables::SLEEP_TEXT, Profiles::SLEEP, 5);
+		$this->RegisterVariableInteger(Variables::SLEEP_IDENT, Variables::SLEEP_TEXT, Profiles::SLEEP, 5);
 		$this->EnableAction(Variables::SLEEP_IDENT);
 
 		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 6);
@@ -71,9 +75,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 13);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
-		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
-		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		
 		
 
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
