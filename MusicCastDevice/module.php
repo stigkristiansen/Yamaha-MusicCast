@@ -24,8 +24,16 @@ class MusicCastDevice extends IPSModule {
 			[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 		]);
 
+		$this->RegisterProfileIntegerEx(Profiles::SLEEP, Profiles::SLEEP_ICON, '', Profiles::SLEEP_SUFIX, [
+			[Sleep::0MIN, Sleep::0MIN_TEXT, '', -1],
+			[Sleep::30MIN, Sleep::30MIN_TEXT, '', -1],
+			[Sleep::60MIN, Sleep::60MIN_TEXT, '', -1],
+			[Sleep::90MIN, Sleep::90MIN_TEXT, '', -1],
+			[Sleep::120MIN, Sleep::120MIN_TEXT, '', -1],
+		]);
+
 		$this->RegisterProfileBoolean(Profiles::MUTE, Profiles::MUTE_ICON, '', '');
-		
+				
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);
 
@@ -38,26 +46,29 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, Profiles::MUTE, 4);
 		$this->EnableAction(Variables::MUTE_IDENT);
 
-		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 5);
+		$control = $this->RegisterVariableInteger(Variables::SLEEP_IDENT, Variables::SLEEP_TEXT, Profiles::SLEEP, 5);
+		$this->EnableAction(Variables::SLEEP_IDENT);
+
+		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 6);
 
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 6);
+		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 7);
 		$this->EnableAction(Variables::LINK_IDENT);
 
-		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 7);
-		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 8);
-		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 9);
-		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 10);
+		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 8);
+		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 9);
+		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 10);
+		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 11);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 11);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 12);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 13);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
@@ -82,6 +93,7 @@ class MusicCastDevice extends IPSModule {
 		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
 			$this->DeleteProfile(Profiles::CONTROL);
 			$this->DeleteProfile(Profiles::MUTE);
+			$this->DeleteProfile(Profiles::SLEEP);
 		}
 		
 		//Never delete this line!
@@ -146,6 +158,12 @@ class MusicCastDevice extends IPSModule {
 								$this->Playback(PlaybackState::NEXT);
 								break;
 						}
+					}
+					break;
+				case Variables::SLEEP_IDENT:
+					if($this->GetValue(Variables::SLEEP_IDENT)) {
+						$this->SetValueEx($Ident, $Value);
+						$this->Sleep($Value);
 					}
 					break;
 				case Variables::VOLUME_IDENT:
@@ -335,6 +353,15 @@ class MusicCastDevice extends IPSModule {
 			$netUSB->SelectMCPlaylistById($Value);
 		}
 	}
+
+	private function Sleep(int $Minutes) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress);
+			$zone = new Zone($system);
+			$zone->Sleep($Minutes);
+		}
+	}	
 
 	private function Volume(int $Level) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);

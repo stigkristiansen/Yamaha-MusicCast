@@ -26,7 +26,7 @@ class Zone {
 
     public function Power(bool $Status) {
         if(!$this->system->ValidFeature('power'))
-            throw new Exception('Power(): Invalid feature \"power\"');
+            throw new Exception('Power(): Invalid feature "power"');
 
         if($Status)
             $value = 'on';
@@ -34,6 +34,13 @@ class Zone {
             $value = 'standby';
 
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power='.$value);    
+    }
+
+    public function Sleep(int $Minutes) {
+        if(!$this->ValidateSleep($Minutes)) 
+            throw new Exception('Sleep(): Invalid level "'.$Minutes.'"');
+        
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setSleep?sleep='.$Minutes);    
     }
 
     public function Mute(bool $Status) {
@@ -60,6 +67,19 @@ class Zone {
             throw new Exception('Input(): Invalid input \"'.$Input.'\"');
 
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input='.$Input);   
+    }
+
+    private function ValidateSleep(int $Minutes) {
+        switch($Minutes) {
+            case 0:
+            case 30:
+            case 60:
+            case 90:
+            case 120:
+                return true;
+        }
+
+        return false;
     }
 
 }

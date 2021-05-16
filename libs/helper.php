@@ -36,6 +36,9 @@ class Profiles {
     const CONTROL_ICON = 'Speaker';
     const MUTE = 'YMC.Mute';
     const MUTE_ICON = 'Speaker';
+    const SLEEP = 'YMC.Sleep';
+    const SLEEP_ICON = 'Sleep';
+    const SLEEP_SUFIX = 'min.'
     const FAVORITES = 'YMC.%s.Favorites';
     const FAVORITES_ICON = 'Music';
     const MCPLAYLISTS = 'YMC.%s.Playlists';
@@ -50,6 +53,8 @@ class Buffers {
 }
 
 class Variables {
+    const SLEEP_IDENT = 'Sleep';
+    const SLEEP_TEXT = 'Sleep';
     const VOLUME_IDENT = 'Volume';
     const VOLUME_TEXT = 'Volume';
     const MUTE_IDENT = 'Mute';
@@ -74,6 +79,19 @@ class Variables {
     const FAVOURITE_TEXT = 'Favourite';
     const MCPLAYLIST_IDENT = 'MCPlaylist';
     const MCPLAYLIST_TEXT = 'Playlist';
+}
+
+class Sleep {
+    const 0MIN = 0;
+    const 0MIN_TEXT = 'OFF';
+    const 0MIN = 30;
+    const 0MIN_TEXT = '30';
+    const 0MIN = 60;
+    const 0MIN_TEXT = '60';
+    const 0MIN = 90;
+    const 0MIN_TEXT = '90';
+    const 0MIN = 120;
+    const 0MIN_TEXT = '120';
 }
 
 class PlaybackState {
