@@ -29,10 +29,13 @@ class MusicCastDevice extends IPSModule {
 			[Sleep::STEP1, Sleep::STEP1_TEXT, '', -1],
 			[Sleep::STEP2, Sleep::STEP2_TEXT, '', -1],
 			[Sleep::STEP3, Sleep::STEP3_TEXT, '', -1],
-			[Sleep::STEP4, Sleep::STEP4_TEXT, '', -1],
+			[Sleep::STEP4, Sleep::STEP4_TEXT, '', -1]
 		]);
 
-		$this->RegisterProfileBoolean(Profiles::MUTE, Profiles::MUTE_ICON, '', '');
+		$this->RegisterProfileBooleanEx(Profiles::MUTE, Profiles::MUTE_ICON, '', '', [
+			[true, 'Muted', '', -1],
+			[false, 'Unmuted', '', -1]
+		]);
 				
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);

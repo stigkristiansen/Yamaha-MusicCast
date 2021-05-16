@@ -154,7 +154,6 @@ trait ProfileHelper {
                 IPS_SetVariableProfileAssociation($Name, $profileAssociation['Value'], '', '', -1);    
         }
     }
-
     
     protected function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
         if (!IPS_VariableProfileExists($Name)) {
