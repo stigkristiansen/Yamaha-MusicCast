@@ -40,7 +40,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);
 
-		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
+		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, Profiles::CONTROL, 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
 
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 

@@ -28,13 +28,12 @@ class Timers {
     const UPDATELISTS = 'UpdateLists';
     const RESETFAVOURITE = 'ResetFavourite';
     const RESETMCPLAYLIST= 'ResetMCPLaylist';
-
 }
 
 class Profiles {
     const CONTROL = 'YMC.Control';
     const CONTROL_ICON = 'Speaker';
-    const MUTE = 'YMC_Mute.Reversed';
+    const MUTE = 'YMC.Mute';
     const MUTE_ICON = 'Speaker';
     const SLEEP = 'YMC.Sleep';
     const SLEEP_ICON = 'Sleep';
@@ -45,7 +44,6 @@ class Profiles {
     const MCPLAYLISTS_ICON = 'Music'; 
     const LINK = 'YMC.%s.Link'; 
     const LINK_ICON = 'Link'; 
-
 }
 
 class Buffers {
