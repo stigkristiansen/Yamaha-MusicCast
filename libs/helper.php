@@ -34,12 +34,15 @@ class Timers {
 class Profiles {
     const CONTROL = 'YMC.Control';
     const CONTROL_ICON = 'Speaker';
+    const MUTE = 'YMC.Mute';
+    const MUTE_ICON = 'Speaker';
     const FAVORITES = 'YMC.%s.Favorites';
     const FAVORITES_ICON = 'Music';
     const MCPLAYLISTS = 'YMC.%s.Playlists';
     const MCPLAYLISTS_ICON = 'Music'; 
     const LINK = 'YMC.%s.Link'; 
     const LINK_ICON = 'Link'; 
+
 }
 
 class Buffers {

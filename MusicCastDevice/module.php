@@ -23,20 +23,19 @@ class MusicCastDevice extends IPSModule {
 			[PlaybackState::STOP_ID, PlaybackState::STOP_TEXT,  '', -1],
 			[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 		]);
+
+		$this->RegisterProfileBoolean(Profiles::MUTE, Profiles::MUTE_ICON, '', '');
 		
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);
 
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, 'YMC.Control', 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
-		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
-		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
-		
+				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
 		$this->EnableAction(Variables::VOLUME_IDENT);
 
-		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, '~Switch', 4);
+		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, Profiles::MUTE, 4);
 		$this->EnableAction(Variables::MUTE_IDENT);
 
 		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 5);
@@ -61,6 +60,11 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 12);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
+		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
+		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
+		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		
+
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 	}
 
@@ -75,9 +79,11 @@ class MusicCastDevice extends IPSModule {
 		$this->DeleteProfile($profileName);
 
 		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
-		if(count(IPS_GetInstanceListByModuleID($module->id))==0)
+		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
 			$this->DeleteProfile(Profiles::CONTROL);
-
+			$this->DeleteProfile(Profiles::MUTE);
+		}
+		
 		//Never delete this line!
 		parent::Destroy();
 	}
