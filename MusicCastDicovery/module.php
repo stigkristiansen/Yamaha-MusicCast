@@ -97,8 +97,6 @@ declare(strict_types=1);
 			$SSDPInstance = IPS_GetInstanceListByModuleID('{FFFFA648-B296-E785-96ED-065F7CEE6F29}')[0];
         	$discoveredDevices = YC_SearchDevices($SSDPInstance, 'urn:schemas-upnp-org:device:MediaRenderer:1');
 
-			$discoveredDevices = YC_SearchDevices(45404, "urn:schemas-upnp-org:device:MediaRenderer:1");
-
 			$devices = [];
 			foreach($discoveredDevices as $device) {
 				if(isset($device['Fields'][0]) && isset($device['IPv4'])) {
@@ -139,6 +137,8 @@ declare(strict_types=1);
 					}
 				}
 			}
+
+			$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('Found %d MusicCast devices...', count($devices)), 0);
 
 			return $devices;
 		}
