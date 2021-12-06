@@ -107,7 +107,7 @@ declare(strict_types=1);
 					if(stripos($field0, 'Location: ')===0) {
 						$url = substr($field0, stripos($field0, 'http://'));
 						if($url!=$field0) {
-							$result = HttpGet($url);
+							$result = $this->HttpGet($url);
 							$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); 
 										
 							if(!isset($xml->{"device"}->{"manufacturer"})) {
@@ -160,6 +160,28 @@ declare(strict_types=1);
 			return $instances;
 		}
 
+		private function HttpGet($Url) {
+			$ch = curl_init();
+			
+			curl_setopt($ch, CURLOPT_URL, $Url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
+						
+			$result = curl_exec($ch);
+		
+			$response = array('httpcode' => curl_getinfo($ch, CURLINFO_RESPONSE_CODE));
+		
+			if($result===false) {
+				$response['error'] = true;
+				$response['errortext'] = curl_error($ch);
+					
+				return $response;
+			} 
+		
+			$response['error'] = false;
+			$response['xml'] =  $result;
+		
+			return  $response;
+		}
 		
 		
 	}
