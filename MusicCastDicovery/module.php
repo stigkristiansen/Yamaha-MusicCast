@@ -108,7 +108,16 @@ declare(strict_types=1);
 						$url = substr($field0, stripos($field0, 'http://'));
 						if($url!=$field0) {
 							$result = $this->HttpGet($url);
+
+							if($result['error']) {
+								continue;
+							}
+
 							$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); 
+
+							if($xml===false) {
+								continue;
+							}
 										
 							if(!isset($xml->{"device"}->{"manufacturer"})) {
 								continue;
