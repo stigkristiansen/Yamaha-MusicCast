@@ -1,0 +1,12 @@
+{
+    "id": "{2b599a82-3a19-47df-94a9-15a947c0e684}",
+    "name": "MusicCast Discovery",
+    "type": 5,
+    "vendor": "Yamaha",
+    "aliases": [],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "YMCD",
+    "url": ""
+}

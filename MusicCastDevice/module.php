@@ -13,6 +13,10 @@ class MusicCastDevice extends IPSModule {
 		parent::Create();
 
 		$this->RegisterPropertyString(Properties::IPADDRESS, '');
+		$this->RegisterPropertyString(Properties::MODEL, '');
+		$this->RegisterPropertyString(Properties::NAME, '');
+		$this->RegisterPropertyString(Properties::SERIALNUMBER, '');
+		
 		$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
@@ -217,7 +221,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	public function GetConfigurationForm () {
+	/*public function GetConfigurationForm () {
 		$control = $this->GetIDForIdent(Variables::CONTROL_IDENT);
 		
 		$form =	["elements"=>	[
@@ -235,7 +239,7 @@ class MusicCastDevice extends IPSModule {
 				];
 		
 		return json_encode($form);
-	}
+	}*/
 
 	public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);

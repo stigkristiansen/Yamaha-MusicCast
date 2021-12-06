@@ -18,6 +18,9 @@ class Errors {
 }
 
 class Properties {
+    const MODEL = 'Model';
+    const SERIALNUMBER = 'SerialNumber';
+    const NAME = 'Name';
     const IPADDRESS = 'IPAddress';
     const AUTOUPDATELISTS= 'AutoUpdateLists';
     const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
