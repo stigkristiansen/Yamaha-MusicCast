@@ -92,6 +92,8 @@ declare(strict_types=1);
 
 		
 		private function DiscoverMusicCastDevices() : array {
+			$this->LogMessage('Discovering MusicCast devices...', KL_NOTIFY);
+
 			$this->SendDebug(IPS_GetName($this->InstanceID), 'Discovering MusicCast devices...', 0);
 
 			$SSDPInstance = IPS_GetInstanceListByModuleID('{FFFFA648-B296-E785-96ED-065F7CEE6F29}')[0];
