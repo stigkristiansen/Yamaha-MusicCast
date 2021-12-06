@@ -47,7 +47,7 @@ declare(strict_types=1);
 				// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 				$instanceId = array_search($serialNumber, $instances);
 				if ($instanceId !== false) {
-					$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('The product (%s) already has an instance (%s). Adding InstanceId...', $productId, $instanceId), 0);
+					$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('The product (%s) already has an instance (%s). Adding InstanceId...', $serialNumber, $instanceId), 0);
 					unset($instances[$instanceId]); // Remove from list to avoid duplicates
 					$value['instanceID'] = $instanceId;
 				} 
