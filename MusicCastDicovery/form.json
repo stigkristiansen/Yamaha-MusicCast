@@ -17,8 +17,8 @@
 			"visible": false
         },
         {
-            "type": "Configurator",
             "name": "Discovery",
+            "type": "Configurator",
             "add": false,
             "delete": true,
             "sort": {
