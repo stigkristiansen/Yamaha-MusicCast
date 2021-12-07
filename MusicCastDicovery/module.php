@@ -7,6 +7,9 @@ declare(strict_types=1);
 		public function Create() {
 			//Never delete this line!
 			parent::Create();
+
+			$this->SetBuffer('Devices', json_encode([]));
+            $this->SetBuffer('SearchActive', json_encode(false));
 		}
 
 		public function Destroy() {
@@ -20,18 +23,55 @@ declare(strict_types=1);
 		}
 
 		public function GetConfigurationForm() {
+			$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
+            $this->SendDebug(__FUNCTION__, sprintf('SearchActive is %s', $this->GetBuffer('SearchActive'), 0);
+            
+			$devices = json_decode($this->GetBuffer('Devices'));
+            
+			if (!json_decode($this->GetBuffer('SearchActive'))) {
+                $this->SetBuffer('SearchActive', json_encode(true));
+				$this->SendDebug(__FUNCTION__, 'SearchActive ACTIVATED', 0);
+
+				$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread', 0);
+				$this->RegisterOnceTimer('LoadDevicesTimer', 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Discover", 0);');
+            }
+
+			$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+			$form['actions'][0]['visible'] = count($devices)==0,
+			$form['actions'][1]['values'] = $devices;
+
+			$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
+		
+            return json_encode($form);
+		}
+
+		public function RequestAction($Ident, $Value) {
+			$this->SendDebug( __FUNCTION__ , sprintf('ReqestAction called for Ident "%s" with Value %s', $Ident, (string)$Value), 0);
+
+			switch (strtolower($Ident)) {
+				case 'discover':
+					$this->LoadDevices();
+					break;
+			}
+		}
+		
+		private function LoadDevices() {
+			$this->SendDebug(__FUNCTION__, 'Updating Discovery form...', 0);
+
 			$devices = $this->DiscoverMusicCastDevices();
 			$instances = $this->GetMusicCastInstances();
-	
-			$values = [];
+			
+			$this->SetBuffer('SearchActive', json_encode(false));
+            $this->SendDebug(__FUNCTION__, 'SearchActive DEACTIVATED', 0);
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), 'Building Discovery form...', 0);
-	
+			$values = [];
+			
 			// Add devices that are discovered
-			if(count($devices)>0)
-				$this->SendDebug(IPS_GetName($this->InstanceID), 'Adding discovered products...', 0);
-			else
-				$this->SendDebug(IPS_GetName($this->InstanceID), 'No products discovered!', 0);
+			if(count($devices)>0) {
+				$this->SendDebug(__FUNCTION__, 'Adding discovered products...', 0);
+			} else {
+				$this->SendDebug(__FUNCTION__, 'No products discovered!', 0);
+			}
 
 			foreach ($devices as $serialNumber => $device) {
 				$value = [
@@ -42,12 +82,12 @@ declare(strict_types=1);
 					'instanceID' => 0
 				];
 
-				$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('Added product with id "%s"', $serialNumber), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('Added product with id "%s"', $serialNumber), 0);
 				
 				// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 				$instanceId = array_search($serialNumber, $instances);
 				if ($instanceId !== false) {
-					$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('The product (%s) already has an instance (%s). Adding InstanceId...', $serialNumber, $instanceId), 0);
+					$this->SendDebug(__FUNCTION__, sprintf('The product (%s) already has an instance (%s). Adding InstanceId...', $serialNumber, $instanceId), 0);
 					unset($instances[$instanceId]); // Remove from list to avoid duplicates
 					$value['instanceID'] = $instanceId;
 				} 
@@ -68,7 +108,7 @@ declare(strict_types=1);
 
 			// Add devices that are not discovered, but created earlier
 			if(count($instances)>0) {
-				$this->SendDebug(IPS_GetName($this->InstanceID), 'Adding instances that are not discovered...', 0);
+				$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered...', 0);
 			}
 			foreach ($instances as $instanceId => $serialNumber) {
 				$values[] = [
@@ -79,22 +119,24 @@ declare(strict_types=1);
 					'instanceID' => $instanceId
 				];
 
-				$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('Adding instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('Adding instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
 			}
 
-			$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
-			$form['actions'][0]['values'] = $values;
+			$newDevices = json_encode($values);
+			$this->SetBuffer('Devices', $newDevices);
+            
+			$this->UpdateFormField('configurator', 'values', $newDevices);
+            $this->UpdateFormField('searchingInfo', 'visible', false);
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), 'Building form completed', 0);
+			$this->SendDebug(__FUNCTION__, 'Updating form completed', 0);
 
-			return json_encode($form);
 		}
 
 		
 		private function DiscoverMusicCastDevices() : array {
 			$this->LogMessage('Discovering MusicCast devices...', KL_NOTIFY);
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), 'Discovering MusicCast devices...', 0);
+			$this->SendDebug(__FUNCTION__, 'Discovering MusicCast devices...', 0);
 
 			$SSDPInstance = IPS_GetInstanceListByModuleID('{FFFFA648-B296-E785-96ED-065F7CEE6F29}')[0];
         	$discoveredDevices = YC_SearchDevices($SSDPInstance, 'urn:schemas-upnp-org:device:MediaRenderer:1');
@@ -112,7 +154,7 @@ declare(strict_types=1);
 							if($result['error']) {
 								$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
 								$this->LogMessage($msg, KL_ERROR);
-								$this->SendDebug(IPS_GetName($this->InstanceID), $msg, 0);
+								$this->SendDebug(__FUNCTION__, $msg, 0);
 								continue;
 							}
 
@@ -152,7 +194,7 @@ declare(strict_types=1);
 				}
 			}
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('Found %d MusicCast devices...', count($devices)), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d MusicCast devices...', count($devices)), 0);
 
 			return $devices;
 		}
@@ -160,7 +202,7 @@ declare(strict_types=1);
 		private function GetMusicCastInstances () : array {
 			$instances = [];
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), 'Searching for existing instances of MusicCast devices...', 0);
+			$this->SendDebug(__FUNCTION__, 'Searching for existing instances of MusicCast devices...', 0);
 
 			$instanceIds = IPS_GetInstanceListByModuleID('{5B66102A-96ED-DF96-0B89-54E37501F997}');
         	
@@ -168,8 +210,8 @@ declare(strict_types=1);
 				$instances[$instanceId] = IPS_GetProperty($instanceId, 'SerialNumber');
 			}
 
-			$this->SendDebug(IPS_GetName($this->InstanceID), sprintf('Found %d instances of MusicCast devices', count($instances)), 0);
-			$this->SendDebug(IPS_GetName($this->InstanceID), 'Finished searching for MusicCast devices', 0);	
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d instances of MusicCast devices', count($instances)), 0);
+			$this->SendDebug(__FUNCTION__, 'Finished searching for MusicCast devices', 0);	
 
 			return $instances;
 		}
