@@ -37,7 +37,7 @@ declare(strict_types=1);
             }
 
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
-			$form['actions'][0]['visible'] = count($devices)==0,
+			$form['actions'][0]['visible'] = count($devices)==0;
 			$form['actions'][1]['values'] = $devices;
 
 			$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
