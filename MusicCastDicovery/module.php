@@ -111,7 +111,7 @@ declare(strict_types=1);
 
 							if($result['error']) {
 								$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
-								$this->LogMessage(sprintf($msg, KL_ERROR);
+								$this->LogMessage($msg, KL_ERROR);
 								$this->SendDebug(IPS_GetName($this->InstanceID), $msg, 0);
 								continue;
 							}
