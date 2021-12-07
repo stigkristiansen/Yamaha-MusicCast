@@ -24,7 +24,7 @@ declare(strict_types=1);
 
 		public function GetConfigurationForm() {
 			$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
-            $this->SendDebug(__FUNCTION__, sprintf('SearchActive is %s', $this->GetBuffer('SearchActive'), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('SearchActive is %s', $this->GetBuffer('SearchActive')), 0);
             
 			$devices = json_decode($this->GetBuffer('Devices'));
             
