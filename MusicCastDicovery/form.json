@@ -10,7 +10,7 @@
     ],
     "actions": [
         {
-            "name": "searchingInfo",
+            "name": "SearchingInfo",
 			"type": "ProgressBar",
 			"caption": "The configurator is currently searching for devices. Please wait...",
 			"indeterminate": true,

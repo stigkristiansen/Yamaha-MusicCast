@@ -131,8 +131,8 @@ declare(strict_types=1);
 
 			IPS_LogMessage('MusicCast', $newDevices);
             
-			$this->UpdateFormField('configurator', 'values', $newDevices);
-            $this->UpdateFormField('searchingInfo', 'visible', false);
+			$this->UpdateFormField('Configurator', 'values', $newDevices);
+            $this->UpdateFormField('SearchingInfo', 'visible', false);
 
 			$this->SendDebug(__FUNCTION__, 'Updating form completed', 0);
 
