@@ -25,9 +25,7 @@ declare(strict_types=1);
 		public function GetConfigurationForm() {
 			$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
             $this->SendDebug(__FUNCTION__, sprintf('SearchActive is %s', $this->GetBuffer('SearchActive')), 0);
-            
-			$this->SendDebug(__FUNCTION__, sprintf('Devices from buffer is "%s"',$this->GetBuffer('Devices')), 0);
-			
+            			
 			$devices = json_decode($this->GetBuffer('Devices'));
            
 			if (!json_decode($this->GetBuffer('SearchActive'))) {
@@ -43,8 +41,6 @@ declare(strict_types=1);
 			$form['actions'][1]['values'] = $devices;
 
 			$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
-			
-			$this->SendDebug(__FUNCTION__, sprintf('Complete form is "%s', json_encode($form)), 0);
 
             return json_encode($form);
 		}
@@ -128,9 +124,7 @@ declare(strict_types=1);
 
 			$newDevices = json_encode($values);
 			$this->SetBuffer('Devices', $newDevices);
-
-			IPS_LogMessage('MusicCast', $newDevices);
-            
+			            
 			$this->UpdateFormField('Discovery', 'values', $newDevices);
             $this->UpdateFormField('SearchingInfo', 'visible', false);
 
