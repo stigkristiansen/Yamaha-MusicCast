@@ -124,6 +124,8 @@ declare(strict_types=1);
 
 			$newDevices = json_encode($values);
 			$this->SetBuffer('Devices', $newDevices);
+
+			IPS_LogMessage('MusicCast', $newDevices);
             
 			$this->UpdateFormField('configurator', 'values', $newDevices);
             $this->UpdateFormField('searchingInfo', 'visible', false);
