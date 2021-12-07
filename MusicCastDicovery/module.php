@@ -110,10 +110,13 @@ declare(strict_types=1);
 							$result = $this->HttpGet($url);
 
 							if($result['error']) {
+								$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
+								$this->LogMessage(sprintf($msg, KL_ERROR);
+								$this->SendDebug(IPS_GetName($this->InstanceID), $msg, 0);
 								continue;
 							}
 
-							$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); 
+							$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); // simplexml_load_string don't accept ":" in tags...
 
 							if($xml===false) {
 								continue;
