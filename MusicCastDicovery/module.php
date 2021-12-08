@@ -90,7 +90,7 @@ declare(strict_types=1);
 					$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Adding InstanceId and changing the name...', $serialNumber, $instanceId), 0);
 					unset($instances[$instanceId]); // Remove from list to avoid duplicates
 					$value['instanceID'] = $instanceId;
-					$value['Name'] = IPS_GetName($instanceId)
+					$value['Name'] = IPS_GetName($instanceId);
 				} 
 				
 				$value['create'] = [
