@@ -29,9 +29,9 @@ declare(strict_types=1);
 			$devices = json_decode($this->GetBuffer('Devices'));
            
 			if (!json_decode($this->GetBuffer('SearchInProgress'))) {
-                $this->SetBuffer('SearchInProgress', json_encode(true));
-				$this->SendDebug(__FUNCTION__, 'SearchInProgress is ACTIVATED', 0);
-
+                $this->SendDebug(__FUNCTION__, 'Setting SearchInProgress to TRUE', 0);
+				$this->SetBuffer('SearchInProgress', json_encode(true));
+				
 				$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread...', 0);
 				$this->RegisterOnceTimer('LoadDevicesTimer', 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Discover", 0);');
             }
@@ -61,14 +61,14 @@ declare(strict_types=1);
 			$devices = $this->DiscoverMusicCastDevices();
 			$instances = $this->GetMusicCastInstances();
 			
+			$this->SendDebug(__FUNCTION__, 'Setting SearchInProgress to FALSE', 0);
 			$this->SetBuffer('SearchInProgress', json_encode(false));
-            $this->SendDebug(__FUNCTION__, 'SearchInProgress is DEACTIVATED', 0);
-
+            
 			$values = [];
 			
 			// Add devices that are discovered
 			if(count($devices)>0) {
-				$this->SendDebug(__FUNCTION__, 'Adding discovered products...', 0);
+				$this->SendDebug(__FUNCTION__, 'Adding discovered devices...', 0);
 			} else {
 				$this->SendDebug(__FUNCTION__, 'No devices discovered!', 0);
 			}
@@ -129,7 +129,7 @@ declare(strict_types=1);
 			$this->UpdateFormField('Discovery', 'values', $newDevices);
             $this->UpdateFormField('SearchingInfo', 'visible', false);
 
-			$this->SendDebug(__FUNCTION__, 'Updating form completed', 0);
+			$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
 
 		}
 
@@ -196,6 +196,7 @@ declare(strict_types=1);
 			}
 
 			$this->SendDebug(__FUNCTION__, sprintf('Found %d MusicCast devices...', count($devices)), 0);
+			$this->SendDebug(__FUNCTION__, 'Finished discovering MusicCast devices', 0);
 
 			return $devices;
 		}
