@@ -39,7 +39,7 @@ declare(strict_types=1);
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
 			$form['actions'][0]['visible'] = count($devices)==0;
 			
-			$this->SendDebug(__FUNCTION__, 'Adding chached devices to the form', 0);
+			$this->SendDebug(__FUNCTION__, 'Adding cached devices to the form', 0);
 			$form['actions'][1]['values'] = $devices;
 
 			$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
@@ -90,7 +90,7 @@ declare(strict_types=1);
 				// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 				$instanceId = array_search($serialNumber, $instances);
 				if ($instanceId !== false) {
-					$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Adding InstanceId and changing the name...', $serialNumber, $instanceId), 0);
+					$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
 					unset($instances[$instanceId]); // Remove from list to avoid duplicates
 					$value['instanceID'] = $instanceId;
 					$value['Name'] = IPS_GetName($instanceId);
@@ -133,9 +133,7 @@ declare(strict_types=1);
             $this->UpdateFormField('SearchingInfo', 'visible', false);
 
 			$this->SendDebug(__FUNCTION__, 'Updating Discovery form completed', 0);
-
 		}
-
 		
 		private function DiscoverMusicCastDevices() : array {
 			$this->LogMessage('Discovering MusicCast devices...', KL_NOTIFY);
