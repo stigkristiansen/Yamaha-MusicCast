@@ -38,6 +38,8 @@ declare(strict_types=1);
 
 			$form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
 			$form['actions'][0]['visible'] = count($devices)==0;
+			
+			$this->SendDebug(__FUNCTION__, 'Adding chached devices to the form', 0);
 			$form['actions'][1]['values'] = $devices;
 
 			$this->SendDebug(__FUNCTION__, 'Finished generating the form', 0);
@@ -50,6 +52,7 @@ declare(strict_types=1);
 
 			switch (strtolower($Ident)) {
 				case 'discover':
+					$this->SendDebug(__FUNCTION__, 'Calling LoadDevices()...', 0);
 					$this->LoadDevices();
 					break;
 			}
@@ -195,7 +198,7 @@ declare(strict_types=1);
 				}
 			}
 
-			$this->SendDebug(__FUNCTION__, sprintf('Found %d MusicCast devices...', count($devices)), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d MusicCast device(s)', count($devices)), 0);
 			$this->SendDebug(__FUNCTION__, 'Finished discovering MusicCast devices', 0);
 
 			return $devices;
@@ -212,13 +215,13 @@ declare(strict_types=1);
 				$instances[$instanceId] = IPS_GetProperty($instanceId, 'SerialNumber');
 			}
 
-			$this->SendDebug(__FUNCTION__, sprintf('Found %d instances of MusicCast devices', count($instances)), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of MusicCast devices', count($instances)), 0);
 			$this->SendDebug(__FUNCTION__, 'Finished searching for MusicCast devices', 0);	
 
 			return $instances;
 		}
 
-		private function HttpGet($Url) {
+		private function HttpGet($Url) : array {
 			$ch = curl_init();
 			
 			curl_setopt($ch, CURLOPT_URL, $Url);
