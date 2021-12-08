@@ -9,7 +9,7 @@ declare(strict_types=1);
 			parent::Create();
 
 			$this->SetBuffer('Devices', json_encode([]));
-            $this->SetBuffer('SearchActive', json_encode(false));
+            $this->SetBuffer('SearchInProgress', json_encode(false));
 		}
 
 		public function Destroy() {
@@ -24,15 +24,15 @@ declare(strict_types=1);
 
 		public function GetConfigurationForm() {
 			$this->SendDebug(__FUNCTION__, 'Generating the form...', 0);
-            $this->SendDebug(__FUNCTION__, sprintf('SearchActive is %s', $this->GetBuffer('SearchActive')), 0);
+            $this->SendDebug(__FUNCTION__, sprintf('SearchInProgress is "%s"', json_decode($this->GetBuffer('SearchInProgress'))?'TRUE':'FALSE'), 0);
             			
 			$devices = json_decode($this->GetBuffer('Devices'));
            
-			if (!json_decode($this->GetBuffer('SearchActive'))) {
-                $this->SetBuffer('SearchActive', json_encode(true));
-				$this->SendDebug(__FUNCTION__, 'SearchActive ACTIVATED', 0);
+			if (!json_decode($this->GetBuffer('SearchInProgress'))) {
+                $this->SetBuffer('SearchInProgress', json_encode(true));
+				$this->SendDebug(__FUNCTION__, 'SearchInProgress is ACTIVATED', 0);
 
-				$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread', 0);
+				$this->SendDebug(__FUNCTION__, 'Starting a timer to process the search in a new thread...', 0);
 				$this->RegisterOnceTimer('LoadDevicesTimer', 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Discover", 0);');
             }
 
@@ -61,8 +61,8 @@ declare(strict_types=1);
 			$devices = $this->DiscoverMusicCastDevices();
 			$instances = $this->GetMusicCastInstances();
 			
-			$this->SetBuffer('SearchActive', json_encode(false));
-            $this->SendDebug(__FUNCTION__, 'SearchActive DEACTIVATED', 0);
+			$this->SetBuffer('SearchInProgress', json_encode(false));
+            $this->SendDebug(__FUNCTION__, 'SearchInProgress is DEACTIVATED', 0);
 
 			$values = [];
 			
@@ -70,7 +70,7 @@ declare(strict_types=1);
 			if(count($devices)>0) {
 				$this->SendDebug(__FUNCTION__, 'Adding discovered products...', 0);
 			} else {
-				$this->SendDebug(__FUNCTION__, 'No products discovered!', 0);
+				$this->SendDebug(__FUNCTION__, 'No devices discovered!', 0);
 			}
 
 			foreach ($devices as $serialNumber => $device) {
@@ -82,12 +82,12 @@ declare(strict_types=1);
 					'instanceID' => 0
 				];
 
-				$this->SendDebug(__FUNCTION__, sprintf('Added product with id "%s"', $serialNumber), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('Added device with serialnumber "%s"', $serialNumber), 0);
 				
 				// Check if discovered device has an instance that is created earlier. If found, set InstanceID
 				$instanceId = array_search($serialNumber, $instances);
 				if ($instanceId !== false) {
-					$this->SendDebug(__FUNCTION__, sprintf('The product (%s) already has an instance (%s). Adding InstanceId...', $serialNumber, $instanceId), 0);
+					$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Adding InstanceId...', $serialNumber, $instanceId), 0);
 					unset($instances[$instanceId]); // Remove from list to avoid duplicates
 					$value['instanceID'] = $instanceId;
 				} 
@@ -113,13 +113,13 @@ declare(strict_types=1);
 			foreach ($instances as $instanceId => $serialNumber) {
 				$values[] = [
 					'SerialNumber'  => $serialNumber, 
-					'Name' 		 => json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
-					'Model'		 => json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-					'IPAddress'	 => json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
-					'instanceID' => $instanceId
+					'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
+					'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
+					'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
+					'instanceID' 	=> $instanceId
 				];
 
-				$this->SendDebug(__FUNCTION__, sprintf('Adding instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
+				$this->SendDebug(__FUNCTION__, sprintf('Added instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
 			}
 
 			$newDevices = json_encode($values);
