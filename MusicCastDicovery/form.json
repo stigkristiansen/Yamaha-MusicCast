@@ -29,17 +29,17 @@
                 {
                     "caption": "Name",
                     "name": "Name",
-                    "width": "auto"
+                    "width": "200px"
                 }, 
                 {
                     "caption": "Model",
                     "name": "Model",
-                    "width": "auto"
+                    "width": "150px"
                 },
                 {
                     "caption": "Serial Number",
                     "name": "SerialNumber",
-                    "width": "auto"
+                    "width": "150px"
                 },                
                 {
                     "caption": "IP Address",
