@@ -82,9 +82,6 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 13);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
-		
-		
-
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 	}
 
