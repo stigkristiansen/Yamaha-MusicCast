@@ -29,6 +29,15 @@ class MusicCastDevice extends IPSModule {
 			[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
 		]);
 
+		$this->RegisterProfileIntegerEx(Profiles::INFORMATION, Profiles::INFORMATION_ICON, '', '', [
+			[PlaybackState::NOTHING_ID, PlaybackState::NOTHING_TEXT,  '', -1],
+			[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
+			[PlaybackState::PLAY_ID, PlaybackState::PLAY_TEXT,  '', -1],
+			[PlaybackState::PAUSE_ID, PlaybackState::PAUSE_TEXT, '', -1],
+			[PlaybackState::STOP_ID, PlaybackState::STOP_TEXT,  '', -1],
+			[PlaybackState::NEXT_ID, PlaybackState::NEXT_TEXT,  '', -1]
+		]);
+
 		$this->RegisterProfileIntegerEx(Profiles::SLEEP, Profiles::SLEEP_ICON, '', '', [
 			[Sleep::DISABLED, Sleep::DISABLED_TEXT, '', -1],
 			[Sleep::STEP1, Sleep::STEP1_TEXT, '', -1],
@@ -42,8 +51,6 @@ class MusicCastDevice extends IPSModule {
 			[false, 'Unmuted', '', -1]
 		]);
 
-		$this->RegisterProfileInteger(Profiles::INFORMATION, Profiles::INFORMATION_ICON, '', '');
-				
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);
 
