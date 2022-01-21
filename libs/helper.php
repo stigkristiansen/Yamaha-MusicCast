@@ -30,8 +30,8 @@ class Timers {
     const UPDATE = 'Update';
     const UPDATELISTS = 'UpdateLists';
     const RESETFAVOURITE = 'ResetFavourite';
-    const RESETMCPLAYLIST= 'ResetMCPLaylist';
-    const RESETCONTROL 'ResetControl';
+    const RESETMCPLAYLIST = 'ResetMCPLaylist';
+    const RESETCONTROL = 'ResetControl';
 }
 
 class Profiles {
