@@ -151,6 +151,7 @@ class MusicCastDevice extends IPSModule {
 								$this->SetValue(Variables::Control_IDENT, PlaybackState::NOTHING_ID);
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
+						$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
 						$this->SetTimerInterval(Timers::RESETCONTROL, 5000);
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
