@@ -133,7 +133,7 @@ class MusicCastDevice extends IPSModule {
     }
 
 	public function RequestAction($Ident, $Value) {
-		// $this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
+		$this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
 
 		try {
 			switch ($Ident) {
