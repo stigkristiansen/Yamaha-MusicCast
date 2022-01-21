@@ -31,6 +31,7 @@ class Timers {
     const UPDATELISTS = 'UpdateLists';
     const RESETFAVOURITE = 'ResetFavourite';
     const RESETMCPLAYLIST= 'ResetMCPLaylist';
+    const RESETCONTROL 'ResetControl';
 }
 
 class Profiles {
@@ -62,6 +63,8 @@ class Variables {
     const MUTE_TEXT = 'Mute';
     const CONTROL_IDENT = 'Control';
     const CONTROL_TEXT = 'Action';
+    const STATUS_IDENT = 'Status';
+    const STTUS_TEXT = 'Status';
     const POWER_IDENT = 'Power';
     const POWER_TEXT = 'Power';
     const LINK_IDENT = 'Link';
@@ -96,6 +99,9 @@ class Sleep {
 }
 
 class PlaybackState {
+    const NOTHING = 'nothing';
+    const NOTHING_TEXT = '';
+    const NOTHING_ID = 0;
     const PLAY = 'play';
     const PLAY_TEXT = 'Play';
     const PLAY_ID = 1;

@@ -21,6 +21,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
 		$this->RegisterProfileIntegerEx(Profiles::CONTROL, Profiles::CONTROL_ICON, '', '', [
+			[PlaybackState::NOTHING_ID, PlaybackState::NOTHING_TEXT,  '', -1],
 			[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
 			[PlaybackState::PLAY_ID, PlaybackState::PLAY_TEXT,  '', -1],
 			[PlaybackState::PAUSE_ID, PlaybackState::PAUSE_TEXT, '', -1],
@@ -47,39 +48,42 @@ class MusicCastDevice extends IPSModule {
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, Profiles::CONTROL, 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
 
+		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STTUS_TEXT, Profiles::CONTROL, 3);
+
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
 		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 253);');
 				
-		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 3);
+		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
 		$this->EnableAction(Variables::VOLUME_IDENT);
 
-		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, Profiles::MUTE, 4);
+		$this->RegisterVariableBoolean(Variables::MUTE_IDENT, Variables::MUTE_TEXT, Profiles::MUTE, 5);
 		$this->EnableAction(Variables::MUTE_IDENT);
 
-		$this->RegisterVariableInteger(Variables::SLEEP_IDENT, Variables::SLEEP_TEXT, Profiles::SLEEP, 5);
+		$this->RegisterVariableInteger(Variables::SLEEP_IDENT, Variables::SLEEP_TEXT, Profiles::SLEEP, 6);
 		$this->EnableAction(Variables::SLEEP_IDENT);
 
-		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 6);
+		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, '', 7);
 
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 7);
+		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 8);
 		$this->EnableAction(Variables::LINK_IDENT);
 
-		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 8);
-		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 9);
-		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 10);
-		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 11);
+		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 9);
+		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 10);
+		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 11);
+		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 12);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 12);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 13);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 13);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 14);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -142,8 +146,12 @@ class MusicCastDevice extends IPSModule {
 							case 254: // Call UpdateLists
 								$this->UpdateLists();
 								break;
+							case 253:
+								$this->SetTimerInterval(Timers::RESETCONTROL, 0);
+								$this->SetValue(Variables::Control_IDENT, Playback::NOTHING_ID);
 						}
-					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Don't care if the device is off
+					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
+						$this->SetTimerInterval(Timers::RESETCONTROL, 5000);
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
 								$this->SetValueEx($Ident, PlaybackState::PREVIOUS_ID);
@@ -310,7 +318,7 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::LINK_IDENT, 0);
 
 				$control = $playInfo->Playback();
-				$this->SetValueEx(Variables::CONTROL_IDENT, $control);
+				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
 				if($control==3) { // Stop
 					$this->SetValueEx(Variables::INPUT_IDENT, '');
@@ -330,7 +338,8 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::VOLUME_IDENT, 0);
 				$this->SetValueEx(Variables::MUTE_IDENT, false);
 
-				$this->SetValueEx(Variables::CONTROL_IDENT, 3); // Stop
+				$this->SetValueEx(Variables::CONTROL_IDENT, Playback::NOTHING_ID);
+				$this->SetValueEx(Variables::STATUS_IDENT, Playback::NOTHING_ID); 
 
 				$this->SetValueEx(Variables::INPUT_IDENT, '');
 				$this->SetValueEx(Variables::ARTIST_IDENT, '');
