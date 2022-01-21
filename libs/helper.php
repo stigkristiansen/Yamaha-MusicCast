@@ -37,6 +37,8 @@ class Timers {
 class Profiles {
     const CONTROL = 'YMC.Control';
     const CONTROL_ICON = 'Execute';
+    const INFORMATION = 'YMC.Information';
+    const INFORMATION_ICON = 'Information';
     const MUTE = 'YMC.Mute';
     const MUTE_ICON = 'Speaker';
     const SLEEP = 'YMC.Sleep';
@@ -64,7 +66,7 @@ class Variables {
     const CONTROL_IDENT = 'Control';
     const CONTROL_TEXT = 'Action';
     const STATUS_IDENT = 'Status';
-    const STTUS_TEXT = 'Status';
+    const STATUS_TEXT = 'Status';
     const POWER_IDENT = 'Power';
     const POWER_TEXT = 'Power';
     const LINK_IDENT = 'Link';

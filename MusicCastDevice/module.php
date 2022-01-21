@@ -41,6 +41,8 @@ class MusicCastDevice extends IPSModule {
 			[true, 'Muted', '', -1],
 			[false, 'Unmuted', '', -1]
 		]);
+
+		$this->RegisterProfileInteger(Profiles::INFORMATION, Profiles::INFORMATION_ICON, '', '');
 				
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
 		$this->EnableAction(Variables::POWER_IDENT);
@@ -48,7 +50,7 @@ class MusicCastDevice extends IPSModule {
 		$control = $this->RegisterVariableInteger(Variables::CONTROL_IDENT, Variables::CONTROL_TEXT, Profiles::CONTROL, 2);
 		$this->EnableAction(Variables::CONTROL_IDENT);
 
-		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STTUS_TEXT, Profiles::CONTROL, 3);
+		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STATUS_TEXT, Profiles::INFORMATION, 3);
 
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
@@ -104,6 +106,7 @@ class MusicCastDevice extends IPSModule {
 			$this->DeleteProfile(Profiles::CONTROL);
 			$this->DeleteProfile(Profiles::MUTE);
 			$this->DeleteProfile(Profiles::SLEEP);
+			$this->DeleteProfile(Profiles::INFORMATION);
 		}
 		
 		//Never delete this line!
@@ -149,7 +152,7 @@ class MusicCastDevice extends IPSModule {
 							case 253:
 								$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 								$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-								
+
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
 						//$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
