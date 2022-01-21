@@ -133,7 +133,7 @@ class MusicCastDevice extends IPSModule {
     }
 
 	public function RequestAction($Ident, $Value) {
-		$this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
+		//$this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
 
 		try {
 			switch ($Ident) {
@@ -147,12 +147,12 @@ class MusicCastDevice extends IPSModule {
 								$this->UpdateLists();
 								break;
 							case 253:
-								$this->SetTimerInterval(Timers::RESETCONTROL, 0);
+								$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 								$this->SetValue(Variables::Control_IDENT, PlaybackState::NOTHING_ID);
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
-						$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
-						$this->SetTimerInterval(Timers::RESETCONTROL, 5000);
+						//$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
+						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 5000);
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
 								$this->SetValueEx($Ident, PlaybackState::PREVIOUS_ID);
