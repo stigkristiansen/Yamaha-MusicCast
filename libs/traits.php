@@ -183,7 +183,7 @@ trait ProfileHelper {
         $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, 0);
 
         foreach ($Associations as $association) {
-            $this->LogMessage($Name . ':' . $association[0] . ':' . $association[1] . ':' . $association[2] . ':' . $association[3], KL_MESSAGE);
+            //$this->LogMessage($Name . ':' . $association[0] . ':' . $association[1] . ':' . $association[2] . ':' . $association[3], KL_MESSAGE);
             IPS_SetVariableProfileAssociation($Name, $association[0], $association[1], $association[2], $association[3]);
         }
         
