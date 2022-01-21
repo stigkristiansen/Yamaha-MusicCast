@@ -101,7 +101,7 @@ class Sleep {
 class PlaybackState {
     const NOTHING = 'nothing';
     const NOTHING_TEXT = '';
-    const NOTHING_ID = 0;
+    const NOTHING_ID = -1;
     const PLAY = 'play';
     const PLAY_TEXT = 'Play';
     const PLAY_ID = 1;
