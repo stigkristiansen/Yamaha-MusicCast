@@ -148,7 +148,7 @@ class MusicCastDevice extends IPSModule {
 								break;
 							case 253:
 								$this->SetTimerInterval(Timers::RESETCONTROL, 0);
-								$this->SetValue(Variables::Control_IDENT, Playback::NOTHING_ID);
+								$this->SetValue(Variables::Control_IDENT, PlaybackState::NOTHING_ID);
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
 						$this->SetTimerInterval(Timers::RESETCONTROL, 5000);
@@ -338,8 +338,8 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::VOLUME_IDENT, 0);
 				$this->SetValueEx(Variables::MUTE_IDENT, false);
 
-				$this->SetValueEx(Variables::CONTROL_IDENT, Playback::NOTHING_ID);
-				$this->SetValueEx(Variables::STATUS_IDENT, Playback::NOTHING_ID); 
+				$this->SetValueEx(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+				$this->SetValueEx(Variables::STATUS_IDENT, PlaybackState::STOP_ID); 
 
 				$this->SetValueEx(Variables::INPUT_IDENT, '');
 				$this->SetValueEx(Variables::ARTIST_IDENT, '');
