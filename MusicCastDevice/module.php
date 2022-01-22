@@ -132,14 +132,20 @@ class MusicCastDevice extends IPSModule {
 
 		if (IPS_GetKernelRunlevel() == KR_READY) {
             $this->SetTimers();
+			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
+			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
         }
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
 
-        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) 
-            $this->SetTimers();
+        if ($Message == IPS_KERNELMESSAGE && $Data[0] == KR_READY) {
+			$this->SetTimers();
+			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
+			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+		}
+            
     }
 
 	public function RequestAction($Ident, $Value) {
@@ -156,10 +162,9 @@ class MusicCastDevice extends IPSModule {
 							case 254: // Call UpdateLists
 								$this->UpdateLists();
 								break;
-							case 253:
+							case 253: 
 								$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 								$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powerd on
 						//$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
@@ -351,7 +356,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::MUTE_IDENT, false);
 
 				$this->SetValueEx(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-				$this->SetValueEx(Variables::STATUS_IDENT, PlaybackState::STOP_ID); 
+				$this->SetValueEx(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID); 
 
 				$this->SetValueEx(Variables::INPUT_IDENT, '');
 				$this->SetValueEx(Variables::ARTIST_IDENT, '');
