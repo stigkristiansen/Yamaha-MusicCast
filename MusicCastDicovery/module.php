@@ -222,6 +222,14 @@ declare(strict_types=1);
 		private function HttpGet($Url) : array {
 			$ch = curl_init();
 			
+			$headers = array(
+				'User-Agent:Symcon',
+				'Accept:application/vnd.musiccast.v1+json',
+				'X-AppName:MusicCast/Symcon',
+				'X-AppPort:41100'
+			);
+	
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_URL, $Url);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true );
 						
