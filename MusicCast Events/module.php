@@ -37,6 +37,6 @@ declare(strict_types=1);
 			$data = json_decode($JSONString);
 			//IPS_LogMessage('Splitter RECV', utf8_decode($data->Buffer . ' - ' . $data->ClientIP . ' - ' . $data->ClientPort));
 
-			$this->SendDataToChildren(json_encode(['DataID' => '{9289561D-252B-265E-D638-3898E391FD06}', 'Buffer' => $data->Buffer, $data->ClientIP, $data->ClientPort]));
+			$this->SendDataToChildren(json_encode(['DataID' => '{9289561D-252B-265E-D638-3898E391FD06}', 'Buffer' => $data->Buffer, 'IP' => $data->ClientIP, 'Port' => $data->ClientPort]));
 		}
 	}
