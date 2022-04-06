@@ -3,28 +3,28 @@
 declare(strict_types=1);
 	class MusicCastEvents extends IPSModule
 	{
-		public function Create()
-		{
+		public function Create() {
 			//Never delete this line!
 			parent::Create();
 
 			$this->ForceParent('{82347F20-F541-41E1-AC5B-A636FD3AE2D8}');
 		}
 
-		public function Destroy()
-		{
+		public function Destroy() {
 			//Never delete this line!
 			parent::Destroy();
 		}
 
-		public function ApplyChanges()
-		{
+		public function ApplyChanges() {
 			//Never delete this line!
 			parent::ApplyChanges();
 		}
 
-		public function ForwardData($JSONString)
-		{
+		public function GetConfigurationForParent() { 
+			return '{"Open":true,"BindPort":41100,"Host":"","Port":0,"EnableBroadcast":false,"EnableReuseAddress":true}'; 
+		}
+		
+		public function ForwardData($JSONString) {
 			$data = json_decode($JSONString);
 			IPS_LogMessage('Splitter FRWD', utf8_decode($data->Buffer . ' - ' . $data->ClientIP . ' - ' . $data->ClientPort));
 
@@ -33,8 +33,7 @@ declare(strict_types=1);
 			return 'String data for device instance!';
 		}
 
-		public function ReceiveData($JSONString)
-		{
+		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			IPS_LogMessage('Splitter RECV', utf8_decode($data->Buffer . ' - ' . $data->ClientIP . ' - ' . $data->ClientPort));
 

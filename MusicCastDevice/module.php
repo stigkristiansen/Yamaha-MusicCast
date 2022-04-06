@@ -139,10 +139,6 @@ class MusicCastDevice extends IPSModule {
         }
 	}
 
-	public  function GetConfigurationForParent ( )  { 
-		return '{"Open":true,"BindPort":41100,"Host":"","Port":0,"EnableBroadcast":false,"EnableReuseAddress":true}'; 
-	}
-
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         parent::MessageSink($TimeStamp, $SenderID, $Message, $Data);
 
@@ -268,6 +264,13 @@ class MusicCastDevice extends IPSModule {
 		
 		return json_encode($form);
 	}*/
+
+	public function ReceiveData($JSONString)
+	{
+		$data = json_decode($JSONString);
+		IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
+		$this->SendDebug( __FUNCTION__ , $data->Buffer, 0);
+	}
 
 	public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
