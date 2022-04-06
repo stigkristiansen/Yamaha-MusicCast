@@ -4,9 +4,13 @@
     "type": 3,
     "vendor": "Yamaha",
     "aliases": [],
-    "parentRequirements": [],
+    "parentRequirements": [
+        "{E0F5561C-3B46-4687-3B21-BD908D806C51}"
+    ],
     "childRequirements": [],
-    "implemented": [],
+    "implemented": [
+        "{9289561D-252B-265E-D638-3898E391FD06}"
+    ],
     "prefix": "YMC",
     "url": ""
 }

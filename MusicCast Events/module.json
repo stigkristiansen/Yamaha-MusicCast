@@ -1,0 +1,19 @@
+{
+    "id": "{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}",
+    "name": "MusicCast Events",
+    "type": 2,
+    "vendor": "Yamaha",
+    "aliases": [],
+    "parentRequirements": [
+        "{C8792760-65CF-4C53-B5C7-A30FCC84FEFE}"
+    ],
+    "childRequirements": [
+        "{9289561D-252B-265E-D638-3898E391FD06}"
+    ],
+    "implemented": [
+        "{E0F5561C-3B46-4687-3B21-BD908D806C51}",
+        "{7A1272A4-CBDB-46EF-BFC6-DCF4A53D2FC7}"
+    ],
+    "prefix": "YMC",
+    "url": ""
+}

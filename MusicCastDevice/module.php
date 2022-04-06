@@ -12,6 +12,8 @@ class MusicCastDevice extends IPSModule {
 		//Never delete this line!
 		parent::Create();
 
+		$this->RequireParent('{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}');
+
 		$this->RegisterPropertyString(Properties::IPADDRESS, '');
 		$this->RegisterPropertyString(Properties::MODEL, '');
 		$this->RegisterPropertyString(Properties::NAME, '');
