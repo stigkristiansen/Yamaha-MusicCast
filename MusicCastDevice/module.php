@@ -269,7 +269,7 @@ class MusicCastDevice extends IPSModule {
 	{
 		$data = json_decode($JSONString);
 		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
-		$this->SendDebug( __FUNCTION__ , $data->Buffer.' - '. $data->ClientIP, 0);
+		$this->SendDebug( __FUNCTION__ , $JSONString, 0);
 	}
 
 	public function GetControlStatus() {
