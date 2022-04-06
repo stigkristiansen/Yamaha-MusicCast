@@ -12,7 +12,7 @@ class MusicCastDevice extends IPSModule {
 		//Never delete this line!
 		parent::Create();
 
-		$this->RequireParent('{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}');
+		$this->ConnectParent('{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}');
 
 		$this->RegisterPropertyString(Properties::IPADDRESS, '');
 		$this->RegisterPropertyString(Properties::MODEL, '');
@@ -137,6 +137,10 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
         }
+	}
+
+	public  function GetConfigurationForParent ( )  { 
+		return '{"Open":true,"BindPort":41100,"Host":"","Port":0,"EnableBroadcast":false,"EnableReuseAddress":true}'; 
 	}
 
 	public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
