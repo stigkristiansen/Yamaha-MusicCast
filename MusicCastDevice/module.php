@@ -126,6 +126,8 @@ class MusicCastDevice extends IPSModule {
 		//Never delete this line!
 		parent::ApplyChanges();
 
+		$this->SetReceiveDataFilter(sprintf('.*%s.*', $this->ReadPropertyString(Properties::IPADDRESS)));
+
 		$report['IpAddressCheck'] = 0;
 		if($this->Lock(Buffers::REPORT)) {
 			$this->SetBuffer(Buffers::REPORT, serialize($report));
