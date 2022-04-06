@@ -92,7 +92,15 @@ trait HttpRequest {
 				// Get is default for cURL
 				break;
 		}
-		
+
+        $headers = array(
+            'User-Agent:Symcon',
+            'Accept:application/vnd.musiccast.v1+json',
+            'X-AppName:MusicCast/Symcon',
+            'X-AppPort:41100'
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_URL, $Url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
 		
