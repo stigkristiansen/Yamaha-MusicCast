@@ -157,6 +157,9 @@ class MusicCastDevice extends IPSModule {
 
 		try {
 			switch ($Ident) {
+				case 'HandleIncomingData':
+					$this->HandleIncomingData($Value);
+					break;
 				case Variables::CONTROL_IDENT:
 					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
 						switch($Value) {
@@ -275,20 +278,6 @@ class MusicCastDevice extends IPSModule {
 		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.$data->Buffer.'");';
 		$this->RegisterOnceTimer('HandleIncomingData', $script);
 
-	}
-
-	public function RequestAction($Ident, $Value) {
-		try {
-			switch (strtolower($Ident)) {
-				case 'Handleincomingdata':
-					$this->HandleIncomingData($Value);
-					break;
-			}
-		} catch(Exception $e) {
-			$msg = sprintf('An unexpected error occurred: %s',  $e->getMessage());
-			$this->SendDebug(__FUNCTION__, $msg, 0);
-			$this->LogMessage($msg, KL_ERROR);
-		} 
 	}
 
 	private function HandleIncomingData($Data) {
