@@ -281,7 +281,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleIncomingData($Data) {
-		$msg = 'Handling incoming data in new thread: '.$Data;
+		$msg = 'Handling incoming data in a new thread: '.$Data;
 		$data = json_decode($Data);
 
 		$this->SendDebug(__FUNCTION__, $msg, 0);
