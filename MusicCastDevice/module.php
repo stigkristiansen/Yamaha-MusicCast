@@ -267,11 +267,33 @@ class MusicCastDevice extends IPSModule {
 		return json_encode($form);
 	}*/
 
-	public function ReceiveData($JSONString)
-	{
+	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
 		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
-		$this->SendDebug( __FUNCTION__ , $data->Buffer, 0);
+		$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
+
+		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.$data->Buffer.'");';
+		$this->RegisterOnceTimer('HandleIncomingData', $script);
+
+	}
+
+	public function RequestAction($Ident, $Value) {
+		try {
+			switch (strtolower($Ident)) {
+				case 'Handleincomingdata':
+					$this->HandleIncomingData($Value);
+					break;
+			}
+		} catch(Exception $e) {
+			$msg = sprintf('An unexpected error occurred: %s',  $e->getMessage());
+			$this->SendDebug(__FUNCTION__, $msg, 0);
+			$this->LogMessage($msg, KL_ERROR);
+		} 
+	}
+
+	private function HandleIncomingData($Data) {
+		$msg = 'Handling incoming data in new thread: ' $Data;
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 	}
 
 	public function GetControlStatus() {
