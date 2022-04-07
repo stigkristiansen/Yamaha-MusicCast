@@ -158,7 +158,7 @@ class MusicCastDevice extends IPSModule {
 		try {
 			switch ($Ident) {
 				case 'HandleIncomingData':
-					$this->HandleIncomingData($Value);
+					$this->HandleIncomingData(urldecode($Value));
 					break;
 				case Variables::CONTROL_IDENT:
 					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
@@ -275,7 +275,7 @@ class MusicCastDevice extends IPSModule {
 		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
 		$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
 
-		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.$data->Buffer.'");';
+		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.urlencode($data->Buffer).'");';
 		$this->SendDebug( __FUNCTION__ , 'Executing script: '.$script, 0);
 		//$this->RegisterOnceTimer('HandleIncomingData', $script);
 
