@@ -276,13 +276,14 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
 
 		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.urlencode($data->Buffer).'");';
-		$this->SendDebug( __FUNCTION__ , 'Executing script: '.$script, 0);
-		//$this->RegisterOnceTimer('HandleIncomingData', $script);
-
+		//$this->SendDebug( __FUNCTION__ , 'Executing script: '.$script, 0);
+		$this->RegisterOnceTimer('HandleIncomingData', $script);
 	}
 
 	private function HandleIncomingData($Data) {
 		$msg = 'Handling incoming data in new thread: '.$Data;
+		$data = json_decode($Data);
+
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 	}
 
