@@ -442,18 +442,17 @@ class MusicCastDevice extends IPSModule {
 				$playInfo = $netUSB->PlayInfo();
 				$distribution = $distribution = new Distrbution($system);
 
-				//$this->SetValueEx(Variables::POWER_IDENT, true);
-				//$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
-				//$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
+				$this->SetValueEx(Variables::POWER_IDENT, true);
+				$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
+				$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
 				$this->SetValueEx(Variables::SLEEP_IDENT, $status->sleep);
 
 				if($distribution->IsActive()==false)
 					$this->SetValueEx(Variables::LINK_IDENT, 0);
 
-				//$control = $playInfo->Playback();
-				//$this->SetValueEx(Variables::STATUS_IDENT, $control);
+				$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
 
-				/*if($control==3) { // Stop
+				if($control==3) { // Stop
 					$this->SetValueEx(Variables::INPUT_IDENT, '');
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
 					$this->SetValueEx(Variables::TRACK_IDENT, '');
@@ -465,20 +464,20 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 					$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
-				} */
+				} 
 			} else {
-				//$this->SetValueEx(Variables::POWER_IDENT, false);
-				//$this->SetValueEx(Variables::VOLUME_IDENT, 0);
-				//$this->SetValueEx(Variables::MUTE_IDENT, false);
+				$this->SetValueEx(Variables::POWER_IDENT, false);
+				$this->SetValueEx(Variables::VOLUME_IDENT, 0);
+				$this->SetValueEx(Variables::MUTE_IDENT, false);
 
 				$this->SetValueEx(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 				$this->SetValueEx(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID); 
 
-				//$this->SetValueEx(Variables::INPUT_IDENT, '');
-				//$this->SetValueEx(Variables::ARTIST_IDENT, '');
-				//$this->SetValueEx(Variables::TRACK_IDENT, '');
-				//$this->SetValueEx(Variables::ALBUM_IDENT, '');
-				//$this->SetValueEx(Variables::ALBUMART_IDENT, '');
+				$this->SetValueEx(Variables::INPUT_IDENT, '');
+				$this->SetValueEx(Variables::ARTIST_IDENT, '');
+				$this->SetValueEx(Variables::TRACK_IDENT, '');
+				$this->SetValueEx(Variables::ALBUM_IDENT, '');
+				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 			}
 		}
 	}
