@@ -273,7 +273,7 @@ class MusicCastDevice extends IPSModule {
 			foreach($data as $section) {
 				if(is_array($section)) {
 					foreach($section as $key => $value) {
-						$this->SendDebug(__FUNCTION__, 'Processing ' . $key, 0);
+						$this->SendDebug(__FUNCTION__, 'Processing ' . $key . '...', 0);
 						switch(strtolower($key)) {
 							case 'power':
 								$this->HandlePower($value);
