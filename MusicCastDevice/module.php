@@ -307,7 +307,7 @@ class MusicCastDevice extends IPSModule {
 							case 'status_updated':
 								$this->HandleStatusUpdated($value);
 								break;
-							case 'input'
+							case 'input':
 								$this->HandleInput($value);
 							default:
 						}
