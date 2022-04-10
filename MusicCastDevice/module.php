@@ -256,10 +256,9 @@ class MusicCastDevice extends IPSModule {
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
 		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
-		$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
+		//$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
 
 		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.urlencode($data->Buffer).'");';
-		//$this->SendDebug( __FUNCTION__ , 'Executing script: '.$script, 0);
 		$this->RegisterOnceTimer('HandleIncomingData', $script);
 	}
 
@@ -273,7 +272,6 @@ class MusicCastDevice extends IPSModule {
 			foreach($data as $section) {
 				if(is_array($section)) {
 					foreach($section as $key => $value) {
-						//$this->SendDebug(__FUNCTION__, 'Processing ' . $key . '...', 0);
 						switch(strtolower($key)) {
 							case 'power':
 								$this->HandlePower($value);
