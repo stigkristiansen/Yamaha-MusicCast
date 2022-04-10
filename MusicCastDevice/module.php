@@ -319,7 +319,7 @@ class MusicCastDevice extends IPSModule {
 	private function HandlePower(string $State) {
 		switch(strtolower($State)) {
 			case 'on':
-				$this->SetValueEx(Variables::POWER_IDENT, true;
+				$this->SetValueEx(Variables::POWER_IDENT, true);
 				break;
 			case 'standby':
 				$this->SetValueEx(Variables::POWER_IDENT, false);
