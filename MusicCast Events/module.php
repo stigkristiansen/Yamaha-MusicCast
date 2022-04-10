@@ -27,7 +27,7 @@ declare(strict_types=1);
 		public function ReceiveData($JSONString) {
 			$data = json_decode($JSONString);
 			//IPS_LogMessage('Splitter RECV', utf8_decode($data->Buffer . ' - ' . $data->ClientIP . ' - ' . $data->ClientPort));
-			$msg = 'Received data. Sending to children...: ' . $data->buffer;
+			$msg = 'Received data. Sending to children...: ' . $data->Buffer;
 			$this->SendDebug(__FUNCTION__, $msg, 0);
 
 			$this->SendDataToChildren(json_encode(['DataID' => '{9289561D-252B-265E-D638-3898E391FD06}', 'Buffer' => $data->Buffer, 'IP' => $data->ClientIP, 'Port' => $data->ClientPort]));
