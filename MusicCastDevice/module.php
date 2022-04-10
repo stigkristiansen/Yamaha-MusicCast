@@ -282,9 +282,80 @@ class MusicCastDevice extends IPSModule {
 
 	private function HandleIncomingData($Data) {
 		$msg = 'Handling incoming data in a new thread: '.$Data;
-		$data = json_decode($Data);
+		$data = json_decode($Data, true);
+
+		if(is_array($data)) {
+			foreach($data as $section) {
+				if(is_array($section)) {
+					foreach($section as $key => $value) {
+						switch(strtolower($key)) {
+							case 'power':
+								HandlePower($value);
+								break;
+							case 'play_time':
+								HandlePlayTime($value);
+								break;
+							case 'volume':
+								HandleVolume($value);
+								break;
+							case 'mute':
+								HandleMute($value);
+								break;
+							case 'play_info_updated':
+								HandlePlayInfoUpdated($value);
+								break;
+							default:
+						}
+					}
+				} 
+			}
+		else {
+			// Invalid data!
+		}
 
 		$this->SendDebug(__FUNCTION__, $msg, 0);
+	}
+
+	private function HandlePower(string $State) {
+		switch(strtolower($State)) {
+			case 'on':
+				$this->SetValueEx(Variables::POWER_IDENT, true;
+				break;
+			case 'standby':
+				$this->SetValueEx(Variables::POWER_IDENT, false);
+				break;
+		}
+	}
+	
+	private function HandleMute(bool $State) {
+		$this->SetValueEx(Variables::MUTE_IDENT, $State);
+	}
+	
+	private function HandleVolume(int $Volume) {
+		$this->SetValueEx(Variables::VOLUME_IDENT, $Volume);
+	}
+	
+	private function HandlePlayTime(int $Seconds) {
+		
+	}
+	
+	private function HandlePlayInfoUpdated(bool $State) {
+		$playInfo = $this->GetPlayInfo();
+
+		$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+		$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
+		$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
+		$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
+		$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+	}
+
+	private function GetPlayInfo() {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress);
+			$netUSB = new NetUSB($system);
+			return $netUSB->PlayInfo();
+		}
 	}
 
 	public function GetControlStatus() {
@@ -303,7 +374,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
+		//$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
 	}
 
 	private function StartLink(int $RoomIndex) {
