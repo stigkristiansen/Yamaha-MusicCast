@@ -347,6 +347,9 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 		$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 		$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+
+		//$control = $playInfo->Playback();
+		$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
 	}
 
 	private function GetPlayInfo() {
