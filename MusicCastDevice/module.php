@@ -267,7 +267,7 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$data = json_decode($Data, true);
-
+/*
 		if(is_array($data)) {
 			foreach($data as $section) {
 				if(is_array($section)) {
@@ -301,7 +301,7 @@ class MusicCastDevice extends IPSModule {
 		} else {
 			// Invalid data!
 		}
-
+*/
 		
 	}
 
@@ -329,7 +329,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
-		
+		return true;
 	}
 
 	private function HandleSleep(int $Minutes) {
