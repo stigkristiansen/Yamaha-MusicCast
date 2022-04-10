@@ -177,7 +177,7 @@ class MusicCastDevice extends IPSModule {
 						//$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
 
-						$this->SetValueEx($Ident, $value);
+						$this->SetValueEx($Ident, $Value);
 
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
@@ -393,7 +393,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		//$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
 	}
 
 	private function StartLink(int $RoomIndex) {
