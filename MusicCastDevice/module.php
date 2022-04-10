@@ -309,7 +309,7 @@ class MusicCastDevice extends IPSModule {
 					}
 				} 
 			}
-		else {
+		} else {
 			// Invalid data!
 		}
 
