@@ -304,6 +304,11 @@ class MusicCastDevice extends IPSModule {
 							case 'play_info_updated':
 								$this->HandlePlayInfoUpdated($value);
 								break;
+							case 'status_updated':
+								$this->HandleStatusUpdated($value);
+								break;
+							case 'input'
+								$this->HandleInput($value);
 							default:
 						}
 					}
@@ -326,6 +331,10 @@ class MusicCastDevice extends IPSModule {
 				break;
 		}
 	}
+
+	private function HandleInput(string $Input) {
+		$this->SetValueEx(Variables::INPUT_IDENT, $Input);
+	}
 	
 	private function HandleMute(bool $State) {
 		$this->SetValueEx(Variables::MUTE_IDENT, $State);
@@ -338,6 +347,10 @@ class MusicCastDevice extends IPSModule {
 	private function HandlePlayTime(int $Seconds) {
 		
 	}
+
+	private function HandleSleep(int $Minutes) {
+		$this->SetValueEx(Variables::SLEEP_IDENT, $Minutes);
+	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
 		$playInfo = $this->GetPlayInfo();
@@ -348,8 +361,27 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 		$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 
-		//$control = $playInfo->Playback();
 		$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
+	}
+
+	private function HandleStatusUpdated($State) {
+		if($State) {
+			$status = $this->GetStatus();
+			$this->HandlePower($status->power);
+			$this->HandleMute($status->mute);
+			$this->handleSleep($status->sleep);
+			$this->HandleVolume($status->volume);
+			$this->HandleInput($status->input);
+		}
+	}
+
+	private function GetStatus() {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress);
+			$zone = new Zone($system);
+			return $zone->Status();
+		}
 	}
 
 	private function GetPlayInfo() {
@@ -432,8 +464,8 @@ class MusicCastDevice extends IPSModule {
 				if($distribution->IsActive()==false)
 					$this->SetValueEx(Variables::LINK_IDENT, 0);
 
-				$control = $playInfo->Playback();
-				$this->SetValueEx(Variables::STATUS_IDENT, $control);
+				//$control = $playInfo->Playback();
+				//$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
 				/*if($control==3) { // Stop
 					$this->SetValueEx(Variables::INPUT_IDENT, '');
