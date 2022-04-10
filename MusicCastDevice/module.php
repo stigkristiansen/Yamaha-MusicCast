@@ -374,7 +374,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		//$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
 	}
 
 	private function StartLink(int $RoomIndex) {
@@ -421,9 +421,9 @@ class MusicCastDevice extends IPSModule {
 				$playInfo = $netUSB->PlayInfo();
 				$distribution = $distribution = new Distrbution($system);
 
-				$this->SetValueEx(Variables::POWER_IDENT, true);
-				$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
-				$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
+				//$this->SetValueEx(Variables::POWER_IDENT, true);
+				//$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
+				//$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
 				$this->SetValueEx(Variables::SLEEP_IDENT, $status->sleep);
 
 				if($distribution->IsActive()==false)
@@ -432,7 +432,7 @@ class MusicCastDevice extends IPSModule {
 				$control = $playInfo->Playback();
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
-				if($control==3) { // Stop
+				/*if($control==3) { // Stop
 					$this->SetValueEx(Variables::INPUT_IDENT, '');
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
 					$this->SetValueEx(Variables::TRACK_IDENT, '');
@@ -444,20 +444,20 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 					$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
-				}
+				} */
 			} else {
-				$this->SetValueEx(Variables::POWER_IDENT, false);
-				$this->SetValueEx(Variables::VOLUME_IDENT, 0);
-				$this->SetValueEx(Variables::MUTE_IDENT, false);
+				//$this->SetValueEx(Variables::POWER_IDENT, false);
+				//$this->SetValueEx(Variables::VOLUME_IDENT, 0);
+				//$this->SetValueEx(Variables::MUTE_IDENT, false);
 
 				$this->SetValueEx(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 				$this->SetValueEx(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID); 
 
-				$this->SetValueEx(Variables::INPUT_IDENT, '');
-				$this->SetValueEx(Variables::ARTIST_IDENT, '');
-				$this->SetValueEx(Variables::TRACK_IDENT, '');
-				$this->SetValueEx(Variables::ALBUM_IDENT, '');
-				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
+				//$this->SetValueEx(Variables::INPUT_IDENT, '');
+				//$this->SetValueEx(Variables::ARTIST_IDENT, '');
+				//$this->SetValueEx(Variables::TRACK_IDENT, '');
+				//$this->SetValueEx(Variables::ALBUM_IDENT, '');
+				//$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 			}
 		}
 	}
