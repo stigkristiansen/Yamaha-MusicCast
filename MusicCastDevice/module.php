@@ -290,19 +290,19 @@ class MusicCastDevice extends IPSModule {
 					foreach($section as $key => $value) {
 						switch(strtolower($key)) {
 							case 'power':
-								HandlePower($value);
+								$this->HandlePower($value);
 								break;
 							case 'play_time':
-								HandlePlayTime($value);
+								$this->HandlePlayTime($value);
 								break;
 							case 'volume':
-								HandleVolume($value);
+								$this->HandleVolume($value);
 								break;
 							case 'mute':
-								HandleMute($value);
+								$this->HandleMute($value);
 								break;
 							case 'play_info_updated':
-								HandlePlayInfoUpdated($value);
+								$this->HandlePlayInfoUpdated($value);
 								break;
 							default:
 						}
