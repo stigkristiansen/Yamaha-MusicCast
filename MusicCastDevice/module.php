@@ -450,7 +450,8 @@ class MusicCastDevice extends IPSModule {
 				if($distribution->IsActive()==false)
 					$this->SetValueEx(Variables::LINK_IDENT, 0);
 
-				$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
+				$control = $playInfo->Playback();
+				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
 				if($control==3) { // Stop
 					$this->SetValueEx(Variables::INPUT_IDENT, '');
