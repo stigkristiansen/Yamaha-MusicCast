@@ -353,7 +353,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
-		$playInfo = $this->GetPlayInfo();
+		$playInfo = $this->GetMCPlayInfo();
 
 		$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 		$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
@@ -366,7 +366,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function HandleStatusUpdated($State) {
 		if($State) {
-			$status = $this->GetStatus();
+			$status = $this->GetMCStatus();
 			$this->HandlePower($status->power);
 			$this->HandleMute($status->mute);
 			$this->handleSleep($status->sleep);
@@ -375,7 +375,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function GetStatus() {
+	private function GetMCStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
@@ -384,7 +384,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function GetPlayInfo() {
+	private function GetMCPlayInfo() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
