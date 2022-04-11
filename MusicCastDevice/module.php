@@ -7,6 +7,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 class MusicCastDevice extends IPSModule {
 	use ProfileHelper;
 	use BufferHelper;
+	use Utils;
 
 	public function Create() {
 		//Never delete this line!
@@ -259,7 +260,7 @@ class MusicCastDevice extends IPSModule {
 		//$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
 
 		$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.urlencode($data->Buffer).'");';
-		$this->RegisterOnceTimer('HandleIncomingData', $script);
+		$this->RegisterOnceTimer('HandleIncomingData'.$this->GUID(), $script);
 	}
 
 	private function HandleIncomingData($Data) {
