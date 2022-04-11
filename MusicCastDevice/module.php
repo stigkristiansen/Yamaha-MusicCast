@@ -259,17 +259,11 @@ class MusicCastDevice extends IPSModule {
 
 	public function ReceiveData($JSONString) {
 		$data = json_decode($JSONString);
-		//IPS_LogMessage('Device RECV', utf8_decode($data->Buffer));
-		//$this->SendDebug( __FUNCTION__ , 'Received data: '.$data->Buffer, 0);
-
-		//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "HandleIncomingData","'.urlencode($data->Buffer).'");';
-		//$this->RegisterOnceTimer('HandleIncomingData', $script);
-
 		$this->HandleIncomingData($data->Buffer);
 	}
 
 	private function HandleIncomingData($Data) {
-		$msg = 'Handling incoming data: '.$Data;
+		$msg = 'Incoming data: '.$Data;
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$data = json_decode($Data, true);
@@ -418,7 +412,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 3000);
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 10000);
 	}
 
 	private function StartLink(int $RoomIndex) {
