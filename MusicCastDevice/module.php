@@ -292,20 +292,20 @@ class MusicCastDevice extends IPSModule {
 								$this->HandleMute($value);
 								break;
 							case 'play_info_updated':
+								$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
+								
 								$identValue = $value?'true':'false';
 								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$identValue.');';
-								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.(string)$value.');';
-								$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 								
-								//$this->HandlePlayInfoUpdated($value);
+								$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 								break;
 							case 'status_updated':
+								$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
+
 								$identValue = $value?'true':'false';
 								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
-								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.(string)$value.');';
+								
 								$this->RegisterOnceTimer('StatusUpdated', $script);
-
-								//$this->HandleStatusUpdated($value);
 								break;
 							case 'input':
 								$this->HandleInput($value);
@@ -317,8 +317,6 @@ class MusicCastDevice extends IPSModule {
 		} else {
 			// Invalid data!
 		}
-
-		
 	}
 
 	private function HandlePower(string $State) {
@@ -353,8 +351,9 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
-		$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
 		if($State) {
+			$this->SendDebug(__FUNCTION__, 'Processing play_info_updated...', 0);
+
 			$playInfo = $this->GetMCPlayInfo();
 
 			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
@@ -364,12 +363,15 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Skipping processing play_info_updated!', 0);
 		}
 	}
 
 	private function HandleStatusUpdated(bool $State) {
-		$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
 		if($State) {
+			$this->SendDebug(__FUNCTION__, 'Processing status_updated...', 0);
+
 			$status = $this->GetMCStatus();
 		
 			$this->HandlePower($status->power);
@@ -377,6 +379,8 @@ class MusicCastDevice extends IPSModule {
 			$this->handleSleep($status->sleep);
 			$this->HandleVolume($status->volume);
 			$this->HandleInput($status->input);
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Skipping processing status_updated!', 0);
 		}
 	}
 
