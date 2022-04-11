@@ -256,9 +256,9 @@ trait BufferHelper {
 }
 
 trait Utils {
-    protected function GUID(){
+    protected function GUID() {
         mt_srand((int)microtime()*10000);
-        $charid = strtoupper(md5(uniqid(rand(), true)));
+        $charid = strtoupper(md5(uniqid((string)rand(), true)));
         $uuid = '{'
             .substr($charid, 0, 8).'-'
             .substr($charid, 8, 4).'-'
