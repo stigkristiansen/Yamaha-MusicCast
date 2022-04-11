@@ -353,7 +353,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
-		$this->SendDebug(__FUNCTION__, 'Handling play_info_updated...', 0);
+		$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
 		if($State) {
 			$playInfo = $this->GetMCPlayInfo();
 
@@ -368,7 +368,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleStatusUpdated(bool $State) {
-		$this->SendDebug(__FUNCTION__, 'Handling status_updated...', 0);
+		$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
 		if($State) {
 			$status = $this->GetMCStatus();
 		
@@ -414,7 +414,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 5000);
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 3000);
 	}
 
 	private function StartLink(int $RoomIndex) {
