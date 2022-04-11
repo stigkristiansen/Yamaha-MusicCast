@@ -158,8 +158,11 @@ class MusicCastDevice extends IPSModule {
 
 		try {
 			switch ($Ident) {
-				case 'HandleIncomingData':
-					$this->HandleIncomingData(urldecode($Value));
+				case 'PlayInfoUpdated':
+					$this->HandlePlayInfoUpdated($Value);
+					break;
+				case 'StatusUpdated':
+					$this->HandleStatusUpdated($Value);
 					break;
 				case Variables::CONTROL_IDENT:
 					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
@@ -289,9 +292,19 @@ class MusicCastDevice extends IPSModule {
 								$this->HandleMute($value);
 								break;
 							case 'play_info_updated':
+								$identValue = $value?'true':'false';
+								$script = 'IPS_RequestAction(' . (string)123456 . ', "PlayInfoUpdated",'.$identValue.');';
+								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.(string)$value.');';
+								$this->RegisterOnceTimer('PlayInfoUpdated', $script);
+								
 								//$this->HandlePlayInfoUpdated($value);
 								break;
 							case 'status_updated':
+								$identValue = $value?'true':'false';
+								$script = 'IPS_RequestAction(' . (string)123456 . ', "StatusUpdated",'.$identValue.');';
+								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.(string)$value.');';
+								$this->RegisterOnceTimer('StatusUpdated', $script);
+
 								//$this->HandleStatusUpdated($value);
 								break;
 							case 'input':
@@ -340,20 +353,23 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
-		$playInfo = $this->GetMCPlayInfo();
+		if($State) {
+			$playInfo = $this->GetMCPlayInfo();
 
-		$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
-		$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
-		$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
-		$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
-		$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
+			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
+			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
+			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 
-		$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
+			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
+		}
 	}
 
-	private function HandleStatusUpdated($State) {
+	private function HandleStatusUpdated(bool $State) {
 		if($State) {
 			$status = $this->GetMCStatus();
+		
 			$this->HandlePower($status->power);
 			$this->HandleMute($status->mute);
 			$this->handleSleep($status->sleep);
