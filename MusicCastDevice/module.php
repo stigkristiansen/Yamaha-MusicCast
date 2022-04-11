@@ -286,10 +286,10 @@ class MusicCastDevice extends IPSModule {
 								$this->HandleMute($value);
 								break;
 							case 'play_info_updated':
-								$this->HandlePlayInfoUpdated($value);
+								//$this->HandlePlayInfoUpdated($value);
 								break;
 							case 'status_updated':
-								$this->HandleStatusUpdated($value);
+								//$this->HandleStatusUpdated($value);
 								break;
 							case 'input':
 								$this->HandleInput($value);
