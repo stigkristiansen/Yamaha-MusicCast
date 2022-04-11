@@ -293,7 +293,7 @@ class MusicCastDevice extends IPSModule {
 								break;
 							case 'play_info_updated':
 								$identValue = $value?'true':'false';
-								$script = 'IPS_RequestAction(' . (string)123456 . ', "PlayInfoUpdated",'.$identValue.');';
+								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$identValue.');';
 								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.(string)$value.');';
 								$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 								
@@ -301,7 +301,7 @@ class MusicCastDevice extends IPSModule {
 								break;
 							case 'status_updated':
 								$identValue = $value?'true':'false';
-								$script = 'IPS_RequestAction(' . (string)123456 . ', "StatusUpdated",'.$identValue.');';
+								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
 								//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.(string)$value.');';
 								$this->RegisterOnceTimer('StatusUpdated', $script);
 
@@ -353,6 +353,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(bool $State) {
+		$this->SendDebug(__FUNCTION__, 'Handling play_info_updated...', 0);
 		if($State) {
 			$playInfo = $this->GetMCPlayInfo();
 
@@ -367,6 +368,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleStatusUpdated(bool $State) {
+		$this->SendDebug(__FUNCTION__, 'Handling status_updated...', 0);
 		if($State) {
 			$status = $this->GetMCStatus();
 		
