@@ -23,6 +23,9 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
 
+		$this->RegisterProfileInteger(Profiles::POSITION, Profiles::POSITION_ICON, '', ' %', 0, 100, 1);
+		$this->RegisterProfileString(Profiles::TIME, Profiles::TIME_ICON, '', '');
+				
 		$this->RegisterProfileIntegerEx(Profiles::CONTROL, Profiles::CONTROL_ICON, '', '', [
 			[PlaybackState::NOTHING_ID, PlaybackState::NOTHING_TEXT,  '', -1],
 			[PlaybackState::PREVIOUS_ID, PlaybackState::PREVIOUS_TEXT,  '', -1],
@@ -82,21 +85,29 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
 		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 8);
 		$this->EnableAction(Variables::LINK_IDENT);
+		
 
 		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 9);
 		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 10);
 		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 11);
 		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 12);
 
+		$this->RegisterVariableString(Varibles::PLAYTIME_IDENT, Varibles::PLAYTIME_TEXT, Profiles::TIME, 13);
+		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
+
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 13);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 15);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 14);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 16);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
+
+		
+		
+		$this->RegisterVariableInteger('Position', 'Position', 'CCC.Position', 9);
 
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 	}
@@ -117,6 +128,8 @@ class MusicCastDevice extends IPSModule {
 			$this->DeleteProfile(Profiles::MUTE);
 			$this->DeleteProfile(Profiles::SLEEP);
 			$this->DeleteProfile(Profiles::INFORMATION);
+			$this->DeleteProfile(Profiles::POSITION);
+			$this->DeleteProfile(Profiles::TIME);
 		}
 		
 		//Never delete this line!
@@ -354,6 +367,8 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
+			$this->SetValueEx(Variables::TOTALTIME_IDENT, $playInfo->TotalTime());
+			$this->SetValueEx(Variables::PLAYTIME_IDENT, $playInfo->PlayTime());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());

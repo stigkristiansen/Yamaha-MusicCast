@@ -50,6 +50,10 @@ class Profiles {
     const MCPLAYLISTS_ICON = 'Music'; 
     const LINK = 'YMC.%s.Link'; 
     const LINK_ICON = 'Link'; 
+    const POSIION = 'YMC.Position';
+    const POSITION_ICON = 'Distance';
+    const TIME = 'YMC.Time';
+    const TIME_ICON = 'Hourglass';
 }
 
 class Buffers {
@@ -85,6 +89,10 @@ class Variables {
     const FAVOURITE_TEXT = 'Favourite';
     const MCPLAYLIST_IDENT = 'MCPlaylist';
     const MCPLAYLIST_TEXT = 'Playlist';
+    const PLAYTIME_IDENT = 'CurrentTime';
+    const PLAYTIME_TEXT = 'Current';
+    const TOTALTIME_IDENT = 'Duration';
+    const TOTALTIME_TEXT = 'Duration';
 }
 
 class Sleep {
@@ -134,8 +142,10 @@ class PlayInfo {
     private $track;
     private $albumartUrl;
     private $playback;
+    private $totalTIme;
+    private $playTime;
 
-    public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback) {
+    public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
         switch($Input) {
             case 'tidal':
                 $this->input = Input::TIDAL;
@@ -154,6 +164,8 @@ class PlayInfo {
         $this->album = $Album;
         $this->track = $Track;
         $this->albumartUrl = $AlbumartUrl;
+        $this->totalTime = $TotalTime;
+        $this->playTime = $PlayTime;
         
         switch($Playback) {
             case PlaybackState::PLAY:
@@ -192,6 +204,14 @@ class PlayInfo {
 
     public function Playback(){
         return $this->playback;
+    }
+
+    public function TotalTIme() {
+        return $this->TotalTime;
+    }
+
+    public function PlayTime() {
+        return $this->PlayTime;
     }
 }
 
