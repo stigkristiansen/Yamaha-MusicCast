@@ -144,7 +144,7 @@ class PlayInfo {
     private $track;
     private $albumartUrl;
     private $playback;
-    private $totalTIme;
+    private $totalTime;
     private $playTime;
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
@@ -208,12 +208,12 @@ class PlayInfo {
         return $this->playback;
     }
 
-    public function TotalTIme() {
-        return $this->TotalTime;
+    public function TotalTime() {
+        return $this->totalTime;
     }
 
     public function PlayTime() {
-        return $this->PlayTime;
+        return $this->playTime;
     }
 }
 
