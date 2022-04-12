@@ -94,7 +94,7 @@ class MusicCastDevice extends IPSModule {
 
 		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 13);
 		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
-		$this->RegisterVariableInteger(Variables::POSITION, Variables::POSITION_TEXT, Profiles::POSITION, 15);
+		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 15);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
@@ -368,7 +368,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::PLAYTIME_IDENT, $playInfo->PlayTime());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 			
-			
+
 			$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 
