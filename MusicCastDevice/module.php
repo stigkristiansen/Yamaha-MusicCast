@@ -360,6 +360,8 @@ class MusicCastDevice extends IPSModule {
 
 			$playInfo = $this->GetMCPlayInfo();
 
+			$this->SendDebug(__FUNCTION__, json_encode($playInfo), 0);
+
 			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
