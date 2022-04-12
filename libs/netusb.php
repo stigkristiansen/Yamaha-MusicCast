@@ -27,7 +27,7 @@ class NetUSB {
                             $playInfoJson->track,
                             $albumartURL,
                             $playInfoJson->playback,
-                            $$playInfoJson->total_time,
+                            $playInfoJson->total_time,
                             $playInfoJson->play_time
                             );
             
