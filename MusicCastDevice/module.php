@@ -91,9 +91,8 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 10);
 		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 11);
 		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 12);
-		
 
-		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Varibles::PLAYTIME_TEXT, Profiles::TIME, 13);
+		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 13);
 		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
