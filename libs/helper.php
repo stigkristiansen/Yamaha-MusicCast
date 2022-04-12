@@ -93,8 +93,8 @@ class Variables {
     const PLAYTIME_TEXT = 'Current';
     const TOTALTIME_IDENT = 'Duration';
     const TOTALTIME_TEXT = 'Duration';
-    const POSIION_IDENT = 'Position';
-    const POSIION_TEXT = 'Position'; 
+    const POSITION_IDENT = 'Position';
+    const POSITION_TEXT = 'Position'; 
 }
 
 class Sleep {
