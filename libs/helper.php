@@ -84,7 +84,7 @@ class Variables {
     const ALBUM_IDENT = 'Album';
     const ALBUM_TEXT = 'Album';
     const ALBUMART_IDENT = 'Albumart';
-    const ALBUMART_TEXT = 'Abbum art';
+    const ALBUMART_TEXT = 'Album art';
     const FAVOURITE_IDENT = 'Favourite';
     const FAVOURITE_TEXT = 'Favourite';
     const MCPLAYLIST_IDENT = 'MCPlaylist';
