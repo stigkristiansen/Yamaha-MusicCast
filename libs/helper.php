@@ -50,7 +50,7 @@ class Profiles {
     const MCPLAYLISTS_ICON = 'Music'; 
     const LINK = 'YMC.%s.Link'; 
     const LINK_ICON = 'Link'; 
-    const POSIION = 'YMC.Position';
+    const POSITION = 'YMC.Position';
     const POSITION_ICON = 'Distance';
     const TIME = 'YMC.Time';
     const TIME_ICON = 'Hourglass';
