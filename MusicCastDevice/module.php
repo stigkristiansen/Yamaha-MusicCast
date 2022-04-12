@@ -347,7 +347,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
-		return true;
+		$this->SetValueEx(Variables::PLAYTIME_IDENT, $Seconds);
 	}
 
 	private function HandleSleep(int $Minutes) {
@@ -367,6 +367,9 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::TOTALTIME_IDENT, $playInfo->TotalTime());
 			$this->SetValueEx(Variables::PLAYTIME_IDENT, $playInfo->PlayTime());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+			
+			$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
+			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
 		} else {
