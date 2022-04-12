@@ -368,6 +368,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::PLAYTIME_IDENT, $playInfo->PlayTime());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 			
+			
 			$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 
