@@ -405,7 +405,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function GetMCPlayInfo() {
+	public function GetMCPlayInfo() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
