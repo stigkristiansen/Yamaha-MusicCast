@@ -335,7 +335,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleInput(string $Input) {
-		$this->SetValueEx(Variables::INPUT_IDENT, $Input);
+		$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
 	}
 	
 	private function HandleMute(bool $State) {

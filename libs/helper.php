@@ -147,6 +147,22 @@ class PlayInfo {
     private $totalTime;
     private $playTime;
 
+    static function MapInput(string $input) {
+        switch($Input) {
+            case 'tidal':
+                return Input::TIDAL;
+                break;
+            case 'net_radio':
+                    return Input::NETRADIO;
+                    break; 
+            case 'mc_link':
+                    return = Input::LINK;
+                    break;
+            default:
+                return = $Input;
+        }
+    }
+
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
         switch($Input) {
             case 'tidal':
@@ -161,6 +177,8 @@ class PlayInfo {
             default:
                 $this->input = $Input;
         }
+
+        $this->input = PlayInfo::MapInput($Input);
 
         $this->artist = $Artist;
         $this->album = $Album;
