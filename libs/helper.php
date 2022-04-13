@@ -156,7 +156,7 @@ class PlayInfo {
                     return Input::NETRADIO;
                     break; 
             case 'mc_link':
-                    return = Input::LINK;
+                    return Input::LINK;
                     break;
             default:
                 return = $Input;
