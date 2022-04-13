@@ -330,6 +330,14 @@ class MusicCastDevice extends IPSModule {
 				break;
 			case 'standby':
 				$this->SetValueEx(Variables::POWER_IDENT, false);
+
+				$this->SetValueEx(Variables::INPUT_IDENT, '');
+				$this->SetValueEx(Variables::ARTIST_IDENT, '');
+				$this->SetValueEx(Variables::TRACK_IDENT, '');
+				$this->SetValueEx(Variables::ALBUM_IDENT, '');
+				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
+				$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
+				$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 				break;
 		}
 	}
@@ -515,6 +523,8 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::TRACK_IDENT, '');
 					$this->SetValueEx(Variables::ALBUM_IDENT, '');
 					$this->SetValueEx(Variables::ALBUMART_IDENT, '');
+					$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
+					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 				} else {
 					$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
