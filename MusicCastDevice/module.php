@@ -451,7 +451,7 @@ class MusicCastDevice extends IPSModule {
 		else
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 		
-		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 10000);
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 9500);
 	}
 
 	private function StartLink(int $RoomIndex) {
