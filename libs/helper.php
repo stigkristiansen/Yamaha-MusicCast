@@ -164,20 +164,6 @@ class PlayInfo {
     }
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
-        switch($Input) {
-            case 'tidal':
-                $this->input = Input::TIDAL;
-                break;
-            case 'net_radio':
-                    $this->input = Input::NETRADIO;
-                    break; 
-            case 'mc_link':
-                    $this->input = Input::LINK;
-                    break;
-            default:
-                $this->input = $Input;
-        }
-
         $this->input = PlayInfo::MapInput($Input);
 
         $this->artist = $Artist;
