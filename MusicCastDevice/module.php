@@ -353,7 +353,12 @@ class MusicCastDevice extends IPSModule {
 			$totalTime = json_decode($this->GetBuffer(Variables::TOTALTIME_TEXT));
 			$this->Unlock(Variables::TOTALTIME_IDENT);
 
-			$position = (int)ceil((float)($Seconds/$totalTime*100));
+			if($totalTime>0) {
+				$position = (int)ceil((float)($Seconds/$totalTime*100));
+			} else {
+				$position = 0;
+			}
+				
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 		}
 	}
@@ -382,7 +387,12 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::TOTALTIME_IDENT, $this->SecondsToString($playInfo->TotalTime()));
 			$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($playInfo->PlayTime()));
 			
-			$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
+			if($playInfo->TotalTime()>0) {
+				$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
+			} else {
+				$position=0;
+			}
+
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
