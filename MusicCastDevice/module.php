@@ -347,7 +347,15 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
-		$this->SetValueEx(Variables::PLAYTIME_IDENT, $Seconds);
+		$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($playInfo->PlayTime()));
+
+		if($this->Lock(Variables::TOTALTIME_IDENT)) {
+			$totalTime = json_decode($this->GetBuffer(Variables::TOTALTIME_TEXT));
+			$this->Unlock(Variables::TOTALTIME_IDENT);
+
+			$position = (int)ceil((float)($Seconds/$totalTime*100));
+			$this->SetValueEx(Variables::POSITION_IDENT, $position);
+		}
 	}
 
 	private function HandleSleep(int $Minutes) {
@@ -360,17 +368,20 @@ class MusicCastDevice extends IPSModule {
 
 			$playInfo = $this->GetMCPlayInfo();
 
-			$this->SendDebug(__FUNCTION__, json_encode($playInfo), 0);
-
 			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
-			$this->SetValueEx(Variables::TOTALTIME_IDENT, $playInfo->TotalTime());
-			$this->SetValueEx(Variables::PLAYTIME_IDENT, $playInfo->PlayTime());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
-			
 
+			if($this->Lock(Variables::TOTALTIME_IDENT)) {
+				$this->SetBuffer(Variables::TOTALTIME_TEXT, json_encode($playInfo->TotalTime()));
+				$this->Unlock(Variables::TOTALTIME_IDENT);
+			}
+			
+			$this->SetValueEx(Variables::TOTALTIME_IDENT, $this->SecondsToString($playInfo->TotalTime()));
+			$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($playInfo->PlayTime()));
+			
 			$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 
@@ -642,12 +653,7 @@ class MusicCastDevice extends IPSModule {
 			$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
 		}
 	}
-	
-	private function SetValueEx(string $Ident, $Value) {
-		$oldValue = $this->GetValue($Ident);
-		if($oldValue!=$Value)
-			$this->SetValue($Ident, $Value);
-	}
+		
 
 	private function VerifyDeviceIp($IpAddress) {
 		if(strlen($IpAddress)>0)

@@ -296,17 +296,26 @@ trait BufferHelper {
 }
 
 trait Utils {
-    protected function GUID() {
-        mt_srand((int)microtime()*10000);
-        $charid = strtoupper(md5(uniqid((string)rand(), true)));
-        $uuid = '{'
-            .substr($charid, 0, 8).'-'
-            .substr($charid, 8, 4).'-'
-            .substr($charid,12, 4).'-'
-            .substr($charid,16, 4).'-'
-            .substr($charid,20,12)
-            .'}';
+    protected function SecondsToString(float $Seconds, bool $ShowSeconds=false) {
+		if($Seconds>=0) {
+			$s = $Seconds%60;
+			$m = floor(($Seconds%3600)/60);
+			$h = floor(($Seconds%86400)/3600);
+			
+			if($ShowSeconds) {
+				return sprintf('%02d:%02d:%02d', $h, $m, $s);
+			} else {
+				return sprintf('%02d:%02d', $h, $m);
+			}
+		} else {
+			return 'N/A';
+		}
+	}
 
-        return $uuid;
-    }
+    protected function SetValueEx(string $Ident, $Value) {
+		$oldValue = $this->GetValue($Ident);
+		if($oldValue!=$Value)
+			$this->SetValue($Ident, $Value);
+	}
+
 }
