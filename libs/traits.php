@@ -296,7 +296,7 @@ trait BufferHelper {
 }
 
 trait Utils {
-    protected function SecondsToString(float $Seconds, bool $ShowSeconds=false) {
+    protected function SecondsToString(float $Seconds, bool $ShowSeconds=true) {
 		if($Seconds>=0) {
 			$s = $Seconds%60;
 			$m = floor(($Seconds%3600)/60);
