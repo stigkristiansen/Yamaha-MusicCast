@@ -347,7 +347,7 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
-		$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($playInfo->PlayTime()));
+		$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($Seconds));
 
 		if($this->Lock(Variables::TOTALTIME_IDENT)) {
 			$totalTime = json_decode($this->GetBuffer(Variables::TOTALTIME_TEXT));
@@ -358,7 +358,7 @@ class MusicCastDevice extends IPSModule {
 			} else {
 				$position = 0;
 			}
-				
+
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 		}
 	}
