@@ -147,7 +147,7 @@ class PlayInfo {
     private $totalTime;
     private $playTime;
 
-    static function MapInput(string $input) {
+    static function MapInput(string $Input) {
         switch($Input) {
             case 'tidal':
                 return Input::TIDAL;
