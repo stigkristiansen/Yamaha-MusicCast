@@ -550,6 +550,9 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::TRACK_IDENT, '');
 				$this->SetValueEx(Variables::ALBUM_IDENT, '');
 				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
+				$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
+				$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
+
 			}
 		}
 	}
