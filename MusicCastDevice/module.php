@@ -350,7 +350,7 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($Seconds));
 
 		if($this->Lock(Variables::TOTALTIME_IDENT)) {
-			$totalTime = json_decode($this->GetBuffer(Variables::TOTALTIME_TEXT));
+			$totalTime = unserialize($this->GetBuffer(Variables::TOTALTIME_TEXT));
 			$this->Unlock(Variables::TOTALTIME_IDENT);
 
 			if($totalTime>0) {
@@ -380,7 +380,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
 
 			if($this->Lock(Variables::TOTALTIME_IDENT)) {
-				$this->SetBuffer(Variables::TOTALTIME_TEXT, json_encode($playInfo->TotalTime()));
+				$this->SetBuffer(Variables::TOTALTIME_TEXT, serialize($playInfo->TotalTime()));
 				$this->Unlock(Variables::TOTALTIME_IDENT);
 			}
 			
@@ -521,6 +521,11 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 					$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+
+					if($this->Lock(Variables::TOTALTIME_IDENT)) {
+						$this->SetBuffer(Variables::TOTALTIME_TEXT, serialize($playInfo->TotalTime()));
+						$this->Unlock(Variables::TOTALTIME_IDENT);
+					}
 				} 
 			} else {
 				$this->SetValueEx(Variables::POWER_IDENT, false);
