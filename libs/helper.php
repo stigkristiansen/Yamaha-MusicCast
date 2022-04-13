@@ -159,7 +159,7 @@ class PlayInfo {
                     return Input::LINK;
                     break;
             default:
-                return = $Input;
+                return $Input;
         }
     }
 
