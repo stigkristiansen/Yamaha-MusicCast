@@ -54,6 +54,8 @@ class Profiles {
     const POSITION_ICON = 'Distance';
     const TIME = 'YMC.Time';
     const TIME_ICON = 'Hourglass';
+    const MUSIC = 'YMC.Music';
+    const MUSIC_ICON = 'Music';
 }
 
 class Buffers {

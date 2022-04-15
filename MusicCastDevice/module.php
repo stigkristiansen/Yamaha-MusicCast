@@ -25,6 +25,8 @@ class MusicCastDevice extends IPSModule {
 
 		$this->RegisterProfileInteger(Profiles::POSITION, Profiles::POSITION_ICON, '', ' %', 0, 100, 1);
 		$this->RegisterProfileString(Profiles::TIME, Profiles::TIME_ICON, '', '');
+		$this->RegisterProfileString(Profiles::MUSIC, Profiles::MUSIC_ICON, '', '');
+
 				
 		$this->RegisterProfileIntegerEx(Profiles::CONTROL, Profiles::CONTROL_ICON, '', '', [
 			[PlaybackState::NOTHING_ID, PlaybackState::NOTHING_TEXT,  '', -1],
@@ -87,10 +89,10 @@ class MusicCastDevice extends IPSModule {
 		$this->EnableAction(Variables::LINK_IDENT);
 		
 
-		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, '', 9);
-		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, '', 10);
-		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, '', 11);
-		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, '', 12);
+		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 9);
+		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, Profiles::MUSIC, 10);
+		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, Profiles::MUSIC, 11);
+		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, Profiles::MUSIC, 12);
 
 		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 13);
 		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
@@ -127,6 +129,7 @@ class MusicCastDevice extends IPSModule {
 			$this->DeleteProfile(Profiles::INFORMATION);
 			$this->DeleteProfile(Profiles::POSITION);
 			$this->DeleteProfile(Profiles::TIME);
+			$this->DeleteProfile(Profiles::MUSIC;
 		}
 		
 		//Never delete this line!
@@ -544,7 +547,6 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 				$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
 				$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
-
 			}
 		}
 	}
@@ -725,8 +727,5 @@ class MusicCastDevice extends IPSModule {
 
 		return false;
 	}
-
-
-
 }
 
