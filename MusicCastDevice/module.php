@@ -129,7 +129,7 @@ class MusicCastDevice extends IPSModule {
 			$this->DeleteProfile(Profiles::INFORMATION);
 			$this->DeleteProfile(Profiles::POSITION);
 			$this->DeleteProfile(Profiles::TIME);
-			$this->DeleteProfile(Profiles::MUSIC;
+			$this->DeleteProfile(Profiles::MUSIC);
 		}
 		
 		//Never delete this line!
