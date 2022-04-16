@@ -95,17 +95,19 @@ class MusicCastDevice extends IPSModule {
 
 		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 13);
 		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
-		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 15);
+		$this->RegisterVariableString(Variables::TIME_LEFT_IDENT, Variables::TIME_LEFT_TEXT, Profiles::TIME, 15);
+		
+		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 16);
 		$this->EnableAction(Variables::POSITION_IDENT);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 16);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 17);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 17);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 18);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -359,11 +361,14 @@ class MusicCastDevice extends IPSModule {
 
 			if($totalTime>0) {
 				$position = (int)ceil((float)($Seconds/$totalTime*100));
+				$timeLeft = $totalTime-$Seconds;
 			} else {
 				$position = 0;
+				$timeLeft = 0;
 			}
 
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
+			$this->SetValueEx(Variables::TIME_LEFT_IDENT, $this->SecondsToString($timeLeft));
 		}
 	}
 

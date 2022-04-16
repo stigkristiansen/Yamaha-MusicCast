@@ -97,6 +97,8 @@ class Variables {
     const TOTALTIME_TEXT = 'Duration';
     const POSITION_IDENT = 'Position';
     const POSITION_TEXT = 'Position'; 
+    const TIME_LEFT_IDENT = 'TimeLeft';
+    const TIME_LEFT_TEXT = 'Time left';
 }
 
 class Sleep {
