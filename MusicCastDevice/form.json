@@ -20,7 +20,7 @@
             "type": "CheckBox", "name": "AutoUpdateLists", "caption": "Automatically update lists"
         },
         {
-            "type": "NumberSpinner", "name": "UpdateListInterval", "caption": "Interval", "suffix": "seconds"
+            "type": "NumberSpinner", "name": "UpdateListInterval", "caption": "Interval", "suffix": "seconds", "minimum": 15, "max": 300
         }
     ],
     "actions": [
