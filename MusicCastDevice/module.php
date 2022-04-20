@@ -544,22 +544,24 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists(bool $Force=false) {
-		$msg = $Force?Debug::UPDATEALLLISTS:Debug::UPDATELINK;
+		$update = $this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS); 
+		
+		$msg = $Force || $update?Debug::UPDATEALLLISTS:Debug::UPDATELINK;
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
-		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
+		$this->SetTimerInterval(Timers::UPDATELISTS . (string)$this->InstanceID, 0);
 
 		try {
 			$this->UpdateLink();
 
-			if($Force || $this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) {
+			if($Force || $update) {
 				$this->UpdateFavourites();
 				$this->UpdatePlaylists();
 			}
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		} finally {
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string)$this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		}
 	}
 	
