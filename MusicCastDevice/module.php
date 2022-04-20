@@ -66,13 +66,15 @@ class MusicCastDevice extends IPSModule {
 		$this->EnableAction(Variables::CONTROL_IDENT);
 
 		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STATUS_TEXT, Profiles::INFORMATION, 3);
-
-		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-
-		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
-		//$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		
 		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", 0);');
-		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 253);');
+		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Update", 0);');
+		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetControl", 0);');
+		
+		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
+		//$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		//$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
+		//$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 253);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -196,18 +198,25 @@ class MusicCastDevice extends IPSModule {
 				case 'UpdateLists':
 					$this->UpdateLists();
 					break;
+				case 'Update':
+					$this->Update();
+					break;
+				case 'ResetControl':
+					$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
+					$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+					break;
 				case Variables::CONTROL_IDENT:
 					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
 						switch($Value) {
 							case 255: // Call Update();
-								$this->Update();
+								//$this->Update();
 								break;
 							case 254: // Call UpdateLists
 								//$this->UpdateLists();
 								break;
 							case 253: 
-								$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
-								$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+								//$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
+								//$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
