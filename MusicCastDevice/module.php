@@ -544,7 +544,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists(bool $Force=false) {
-		$this->SendDebug(__FUNCTION__, 'Updating lists...', 0);
+		$msg = $Force?Debug::UPDATEALLLISTS:Debug::UPDATELINK;
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
@@ -555,7 +556,8 @@ class MusicCastDevice extends IPSModule {
 				$this->UpdateFavourites();
 				$this->UpdatePlaylists();
 			}
-			
+		} catch (Exception $e) {
+			throw new Exception($e->getMessage());
 		} finally {
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		}

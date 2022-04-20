@@ -18,6 +18,11 @@ class Errors {
     const INVALIDDATA = 'The data received was invalid';
 }
 
+class Debug {
+    const UPDATEALLLISTS = 'Updating all lists...'
+    const UPDATELINK = 'Updating the Link list...';
+}
+
 class Properties {
     const MODEL = 'Model';
     const SERIALNUMBER = 'SerialNumber';
