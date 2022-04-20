@@ -70,11 +70,6 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", 0);');
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Update", 0);');
 		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetControl", 0);');
-		
-		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
-		//$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
-		//$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
-		//$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 253);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -189,6 +184,11 @@ class MusicCastDevice extends IPSModule {
 			switch ($Ident) {
 				case Variables::POSITION_IDENT:
 					return;
+				case Variables::POWER_IDENT:
+					$this->SetValueEx($Ident, $Value);
+					$this->Power($Value);
+					$this->Update();
+					break;
 				case 'PlayInfoUpdated':
 					$this->HandlePlayInfoUpdated($Value);
 					break;
@@ -205,87 +205,55 @@ class MusicCastDevice extends IPSModule {
 					$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 					$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 					break;
-				case Variables::CONTROL_IDENT:
-					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
-						switch($Value) {
-							case 255: // Call Update();
-								//$this->Update();
-								break;
-							case 254: // Call UpdateLists
-								//$this->UpdateLists();
-								break;
-							case 253: 
-								//$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
-								//$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-						}
-					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
-						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
+			}
 
-						$this->SetValueEx($Ident, $Value);
+			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
+				$this->SetValueEx($Ident, $Value);
+				switch ($Ident) {
+					case Variables::CONTROL_IDENT:
+							switch ($Value) {
+								case PlaybackState::PREVIOUS_ID:
+									$this->Playback(PlaybackState::PREVIOUS);
+									break;
+								case PlaybackState::PLAY_ID:
+									$this->Playback(PlaybackState::PLAY);
+									break;
+								case PlaybackState::PAUSE_ID;
+									$this->Playback(PlaybackState::STOP);
+									break;
+								case PlaybackState::STOP_ID:
+									$this->Playback(PlaybackState::STOP);
+									break;
+								case PlaybackState::NEXT_ID:
+									$this->Playback(PlaybackState::NEXT);
+									break;
+							}
 
-						switch ($Value) {
-							case PlaybackState::PREVIOUS_ID:
-								$this->Playback(PlaybackState::PREVIOUS);
-								break;
-							case PlaybackState::PLAY_ID:
-								$this->Playback(PlaybackState::PLAY);
-								break;
-							case PlaybackState::PAUSE_ID;
-								$this->Playback(PlaybackState::STOP);
-								break;
-							case PlaybackState::STOP_ID:
-								$this->Playback(PlaybackState::STOP);
-								break;
-							case PlaybackState::NEXT_ID:
-								$this->Playback(PlaybackState::NEXT);
-								break;
-						}
-					}
-					break;
-				case Variables::SLEEP_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident, $Value);
+							$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
+						
+						break;
+					case Variables::SLEEP_IDENT:
 						$this->Sleep($Value);
-					}
-					break;
-				case Variables::VOLUME_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident, $Value);
+						break;
+					case Variables::VOLUME_IDENT:
 						$this->Volume($Value);
-					}
-					break;
-				case Variables::MUTE_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident, $Vaue);
+						break;
+					case Variables::MUTE_IDENT:
 						$this->Mute($Value);
-					}
-					break;
-				case Variables::POWER_IDENT:
-					$this->SetValueEx($Ident, $Value);
-					$this->Power($Value);
-					$this->Update();
-					break;
-				case Variables::FAVOURITE_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident, $Value);
+						break;
+					case Variables::FAVOURITE_IDENT:
 						$this->SelectFavourite($Value);
 						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
 						$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $favourite . ')) RequestAction(' . (string) $favourite . ', 0);');
-					}
-					break;
-				case Variables::MCPLAYLIST_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident,$Value);
+						break;
+					case Variables::MCPLAYLIST_IDENT:
 						$this->SelectMCPlaylist($Value);
 						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
 						$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $mcPlaylist.')) RequestAction(' . (string) $mcPlaylist . ', 0);');
-					}
-					break;
-				case Variables::LINK_IDENT:
-					if($this->GetValue(Variables::POWER_IDENT)) {
-						$this->SetValueEx($Ident,$Value);
+						break;
+					case Variables::LINK_IDENT:
 						$this->StartLink($Value);
-					}
+				}
 			}
 		} catch(Exception $e) {
 			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
