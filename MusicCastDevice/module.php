@@ -434,16 +434,6 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	/*public function GetControlStatus() {
-		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
-			$netUSB = new NetUSB($system);
-			$playInfo = $netUSB->PlayInfo();
-			return $playInfo->Playback();
-		}
-	}*/
-
 	private function StartLink(int $RoomIndex) {
 		if($RoomIndex==0) {
 			$this->StopLink();

@@ -180,7 +180,6 @@ class PlayInfo {
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
         $this->input = PlayInfo::MapInput($Input);
-
         $this->artist = $Artist;
         $this->album = $Album;
         $this->track = $Track;
