@@ -55,8 +55,8 @@ class MusicCastDevice extends IPSModule {
 		]);
 
 		$this->RegisterProfileBooleanEx(Profiles::MUTE, Profiles::MUTE_ICON, '', '', [
-			[true, 'Muted', '', -1],
-			[false, 'Unmuted', '', -1]
+			[true, Mute::MUTED, '', -1],
+			[false, Mute::UNMUTED, '', -1]
 		]);
 
 		$this->RegisterVariableBoolean(Variables::POWER_IDENT, Variables::POWER_TEXT, '~Switch', 1);
@@ -169,7 +169,9 @@ class MusicCastDevice extends IPSModule {
     }
 
 	public function RequestAction($Ident, $Value) {
-		//$this->LogMessage("RequestAction: ".$Ident.":".$Value, KL_MESSAGE);
+		//$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
+		//$this->SendDebug(__FUNCTION__, $msg, 0);
+		
 		try {
 			switch ($Ident) {
 				case Variables::POSITION_IDENT:
@@ -274,8 +276,8 @@ class MusicCastDevice extends IPSModule {
 		$this->HandleIncomingData($data->Buffer);
 	}
 
-	private function HandleIncomingData($Data) {
-		$msg = 'Incoming data: '.$Data;
+	private function HandleIncomingData(string $Data) {
+		$msg = sprintf('Incoming data: %s', $Data);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$data = json_decode($Data, true);
@@ -283,8 +285,7 @@ class MusicCastDevice extends IPSModule {
 		try {
 			if(is_array($data)) {
 				foreach($data as $section) {
-					if(is_array($section)) {
-						foreach($section as $key => $value) {
+					if(is_array($section)) { // Only process if it's an array
 							switch(strtolower($key)) {
 								case 'power':
 									$this->HandlePower($value);
@@ -405,7 +406,6 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
-
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
 		} else {
 			$this->SendDebug(__FUNCTION__, 'Skipping processing play_info_updated!', 0);
@@ -480,10 +480,15 @@ class MusicCastDevice extends IPSModule {
 						$distribution = new Distrbution($system);
 						$distribution->AddClient(new System($clientIpAddress));
 						$distribution->Start();
-					} else
-						$this->LogMessage(sprintf(Errors::UNKNOWNROOM, $selectedRoom), KL_ERROR);
-				}  else
+					} else {
+						$msg = sprintf(Errors::UNKNOWNROOM, $selectedRoom);
+						$this->LogMessage($msg, KL_ERROR);
+						$this->SendDebug(__FUNCTION__, $msg, 0);
+					}
+				}  else {
 					$this->LogMessage(Errors::ROOMERROR, KL_ERROR);
+					$this->SendDebug(__FUNCTION__, Errors::ROOMERROR, 0);
+				}
 			} 
 		}
 	}
@@ -683,7 +688,6 @@ class MusicCastDevice extends IPSModule {
 			$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
 		}
 	}
-		
 
 	private function VerifyDeviceIp($IpAddress) {
 		if(strlen($IpAddress)>0)
@@ -702,6 +706,8 @@ class MusicCastDevice extends IPSModule {
 		else
 			$msg = sprintf(Errors::MISSINGIP, (string) $this->InstanceID);	
 
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+		
 		$this->SetStatus(104);
 		
 		if($this->Lock(Buffers::REPORT)) {
@@ -718,7 +724,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SetBuffer(Buffers::REPORT, serialize($report));
 				$this->Unlock(Buffers::REPORT);
 			}
-			
+
 			$this->LogMessage($msg, KL_ERROR);
 		}
 		

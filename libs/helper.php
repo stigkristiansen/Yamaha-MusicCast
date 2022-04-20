@@ -115,6 +115,11 @@ class Sleep {
     const STEP4_TEXT = '120 min';
 }
 
+class Mute {
+    const MUTED = 'Muted';
+    const UNMUTED = 'Unmuted';
+}
+
 class PlaybackState {
     const NOTHING = 'nothing';
     const NOTHING_TEXT = ' ';
