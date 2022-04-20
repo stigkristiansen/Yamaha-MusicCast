@@ -240,12 +240,12 @@ class MusicCastDevice extends IPSModule {
 					case Variables::FAVOURITE_IDENT:
 						$this->SelectFavourite($Value);
 						$favourite = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $favourite . ')) RequestAction(' . (string) $favourite . ', 0);');
+						$this->RegisterOnceTimer(Timers::RESETFAVOURITE . (string)$this->InstanceID, 'IPS_Sleep(5000);if(IPS_VariableExists(' . (string)$favourite . ')) RequestAction(' . (string)$favourite . ', 0);');
 						break;
 					case Variables::MCPLAYLIST_IDENT:
 						$this->SelectMCPlaylist($Value);
 						$mcPlaylist = IPS_GetObjectIDByIdent($Ident, $this->InstanceID);
-						$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string) $this->InstanceID, 'IPS_Sleep(7000);if(IPS_VariableExists(' . (string) $mcPlaylist.')) RequestAction(' . (string) $mcPlaylist . ', 0);');
+						$this->RegisterOnceTimer(Timers::RESETMCPLAYLIST . (string)$this->InstanceID, 'IPS_Sleep(5000);if(IPS_VariableExists(' . (string)$mcPlaylist.')) RequestAction(' . (string)$mcPlaylist . ', 0);');
 						break;
 					case Variables::LINK_IDENT:
 						$this->StartLink($Value);
@@ -534,14 +534,14 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists(bool $Force=false) {
-		$update = $this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS); 
-		
-		$msg = $Force || $update?Debug::UPDATEALLLISTS:Debug::UPDATELINK;
-		$this->SendDebug(__FUNCTION__, $msg, 0);
-
-		$this->SetTimerInterval(Timers::UPDATELISTS . (string)$this->InstanceID, 0);
-
 		try {
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string)$this->InstanceID, 0);
+
+			$update = $this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS); 
+			
+			$msg = $Force || $update?Debug::UPDATEALLLISTS:Debug::UPDATELINK;
+			$this->SendDebug(__FUNCTION__, $msg, 0);
+
 			$this->UpdateLink();
 
 			if($Force || $update) {
