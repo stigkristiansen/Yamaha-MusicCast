@@ -188,23 +188,23 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx($Ident, $Value);
 					$this->Power($Value);
 					$this->Update();
-					break;
+					return;
 				case 'PlayInfoUpdated':
 					$this->HandlePlayInfoUpdated($Value);
-					break;
+					return;
 				case 'StatusUpdated':
 					$this->HandleStatusUpdated($Value);
-					break;
+					return;
 				case 'UpdateLists':
 					$this->UpdateLists();
-					break;
+					return;
 				case 'Update':
 					$this->Update();
-					break;
+					return;
 				case 'ResetControl':
 					$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 					$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-					break;
+					return;
 			}
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
