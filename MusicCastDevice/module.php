@@ -194,30 +194,24 @@ class MusicCastDevice extends IPSModule {
 								$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 						}
 					} else if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
-						//$this->LogMessage('Handeling Control: '.$Value, KL_MESSAGE);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
 
 						$this->SetValueEx($Ident, $Value);
 
 						switch ($Value) {
 							case PlaybackState::PREVIOUS_ID:
-								//$this->SetValueEx($Ident, PlaybackState::PREVIOUS_ID);
 								$this->Playback(PlaybackState::PREVIOUS);
 								break;
 							case PlaybackState::PLAY_ID:
-								//$this->SetValueEx($Ident, PlaybackState::PLAY_ID);
 								$this->Playback(PlaybackState::PLAY);
 								break;
 							case PlaybackState::PAUSE_ID;
-								//$this->SetValueEx($Ident, PlaybackState::PAUSE_ID);
 								$this->Playback(PlaybackState::STOP);
 								break;
 							case PlaybackState::STOP_ID:
-								//$this->SetValueEx($Ident, PlaybackState::STOP_ID);
 								$this->Playback(PlaybackState::STOP);
 								break;
 							case PlaybackState::NEXT_ID:
-								//$this->SetValueEx($Ident, PlaybackState::NEXT_ID);
 								$this->Playback(PlaybackState::NEXT);
 								break;
 						}
@@ -269,7 +263,9 @@ class MusicCastDevice extends IPSModule {
 					}
 			}
 		} catch(Exception $e) {
-			$this->LogMessage(sprintf(Errors::UNEXPECTED,  $e->getMessage()), KL_ERROR);
+			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
+			$this->LogMessage($msg, KL_ERROR);
+			$this->SendDebug(__FUNCTION__, $msg, 0);
 		}
 	}
 
@@ -284,48 +280,54 @@ class MusicCastDevice extends IPSModule {
 
 		$data = json_decode($Data, true);
 
-		if(is_array($data)) {
-			foreach($data as $section) {
-				if(is_array($section)) {
-					foreach($section as $key => $value) {
-						switch(strtolower($key)) {
-							case 'power':
-								$this->HandlePower($value);
-								break;
-							case 'play_time':
-								$this->HandlePlayTime($value);
-								break;
-							case 'volume':
-								$this->HandleVolume($value);
-								break;
-							case 'mute':
-								$this->HandleMute($value);
-								break;
-							case 'play_info_updated':
-								$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
-								
-								$identValue = $value?'true':'false';
-								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$identValue.');';
-								
-								$this->RegisterOnceTimer('PlayInfoUpdated', $script);
-								break;
-							case 'status_updated':
-								$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
+		try {
+			if(is_array($data)) {
+				foreach($data as $section) {
+					if(is_array($section)) {
+						foreach($section as $key => $value) {
+							switch(strtolower($key)) {
+								case 'power':
+									$this->HandlePower($value);
+									break;
+								case 'play_time':
+									$this->HandlePlayTime($value);
+									break;
+								case 'volume':
+									$this->HandleVolume($value);
+									break;
+								case 'mute':
+									$this->HandleMute($value);
+									break;
+								case 'play_info_updated':
+									$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
+									
+									//$identValue = $value?'true':'false';
+									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$value?'true':'false'.');';
+									
+									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
+									break;
+								case 'status_updated':
+									$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
 
-								$identValue = $value?'true':'false';
-								$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
-								
-								$this->RegisterOnceTimer('StatusUpdated', $script);
-								break;
-							case 'input':
-								$this->HandleInput($value);
-							default:
+									//$identValue = $value?'true':'false';
+									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$value?'true':'false'.');';
+									
+									$this->RegisterOnceTimer('StatusUpdated', $script);
+									break;
+								case 'input':
+									$this->HandleInput($value);
+								default:
+							}
 						}
-					}
-				} 
+					} 
+				}
+			} else {
+				throw new Exception(Errors::INVALIDATA);
 			}
-		} else {
-			// Invalid data!
+		} catch(Exception $e) {
+			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
+			$this->LogMessage($msg, KL_ERROR);
+			$this->SendDebug(__FUNCTION__, $msg, 0);
 		}
 	}
 
@@ -435,7 +437,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	public function GetMCPlayInfo() {
+	private function GetMCPlayInfo() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
@@ -444,7 +446,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	public function GetControlStatus() {
+	/*public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
@@ -452,7 +454,7 @@ class MusicCastDevice extends IPSModule {
 			$playInfo = $netUSB->PlayInfo();
 			return $playInfo->Playback();
 		}
-	}
+	}*/
 
 	private function SetTimers() {
 		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 

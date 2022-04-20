@@ -15,6 +15,7 @@ class Errors {
     const NOTRESPONDING = 'The device %s is not responding (%s)';
     const MISSINGIP = "The device %s is missing information about it's ip address";
     const ROOMERROR = 'Unable to read current room list';
+    const INVALIDDATA = 'The data received was invalid';
 }
 
 class Properties {
