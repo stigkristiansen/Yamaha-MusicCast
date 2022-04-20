@@ -19,7 +19,7 @@ class Errors {
 }
 
 class Debug {
-    const UPDATEALLLISTS = 'Updating all lists...'
+    const UPDATEALLLISTS = 'Updating all lists...';
     const UPDATELINK = 'Updating the Link list...';
 }
 
