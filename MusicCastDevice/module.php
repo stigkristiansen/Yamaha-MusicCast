@@ -68,8 +68,10 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STATUS_TEXT, Profiles::INFORMATION, 3);
 
 		// Using RequestAction on variable "Control" to excecute private functions inside scheduled scripts. 
+
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 255);'); 
-		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		//$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 254);');
+		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", 0);';
 		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'if(IPS_VariableExists(' . (string) $control . ')) RequestAction(' . (string) $control . ', 253);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
@@ -168,6 +170,15 @@ class MusicCastDevice extends IPSModule {
             
     }
 
+	private function SetTimers() {
+		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+		else
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
+		
+		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 9500);
+	}
+
 	public function RequestAction($Ident, $Value) {
 		//$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
 		//$this->SendDebug(__FUNCTION__, $msg, 0);
@@ -182,6 +193,9 @@ class MusicCastDevice extends IPSModule {
 				case 'StatusUpdated':
 					$this->HandleStatusUpdated($Value);
 					break;
+				case 'UpdateLists':
+					$this->UpdateLists();
+					break;
 				case Variables::CONTROL_IDENT:
 					if($Value>200) { // Values above 200 is used inside scheduled scripts and Form Actions
 						switch($Value) {
@@ -189,7 +203,7 @@ class MusicCastDevice extends IPSModule {
 								$this->Update();
 								break;
 							case 254: // Call UpdateLists
-								$this->UpdateLists();
+								//$this->UpdateLists();
 								break;
 							case 253: 
 								$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
@@ -457,15 +471,6 @@ class MusicCastDevice extends IPSModule {
 		}
 	}*/
 
-	private function SetTimers() {
-		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
-		else
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
-		
-		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 9500);
-	}
-
 	private function StartLink(int $RoomIndex) {
 		if($RoomIndex==0) {
 			$this->StopLink();
@@ -566,6 +571,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateLists() {
+		$this->SendDebug(__FUNCTION__, 'Updating lists...', 0);
+
 		try {
 			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
 				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
