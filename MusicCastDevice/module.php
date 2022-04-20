@@ -502,6 +502,7 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 					$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
 					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
+					$this->SetValueEx(Variables::POSITION_IDENT, 0);
 				} else {
 					$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
@@ -513,6 +514,17 @@ class MusicCastDevice extends IPSModule {
 						$this->SetBuffer(Variables::TOTALTIME_TEXT, serialize($playInfo->TotalTime()));
 						$this->Unlock(Variables::TOTALTIME_IDENT);
 					}
+
+					$this->SetValueEx(Variables::TOTALTIME_IDENT, $this->SecondsToString($playInfo->TotalTime()));
+					$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($playInfo->PlayTime()));
+					
+					if($playInfo->TotalTime()>0) {
+						$position = (int)ceil((float)($playInfo->PlayTime()/$playInfo->TotalTime()*100));
+					} else {
+						$position=0;
+					}
+		
+					$this->SetValueEx(Variables::POSITION_IDENT, $position);
 				} 
 			} else {
 				$this->SetValueEx(Variables::POWER_IDENT, false);
@@ -529,6 +541,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::ALBUMART_IDENT, '');
 				$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
 				$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
+				$this->SetValueEx(Variables::POSITION_IDENT, 0);
 			}
 		}
 	}
