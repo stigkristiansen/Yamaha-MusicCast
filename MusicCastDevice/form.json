@@ -28,7 +28,7 @@
             "type": "Label", "caption": "Playlists and Favourites"
         },
         {
-            "type": "Button", "caption": "Update Lists", "onClick": "IPS_RequestAction($id, 'Control', 254);", "confirm": "Would you like to update the \"Favourites-\" and \"Playlists\"?"
+            "type": "Button", "caption": "Update Lists", "onClick": "IPS_RequestAction($id, 'UpdateLists', true);", "confirm": "Would you like to update the \"Favourites-\" and \"Playlists\"?"
         }
     ],
     "status": []

@@ -67,7 +67,7 @@ class MusicCastDevice extends IPSModule {
 
 		$this->RegisterVariableInteger(Variables::STATUS_IDENT, Variables::STATUS_TEXT, Profiles::INFORMATION, 3);
 		
-		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", 0);');
+		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", false);');
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Update", 0);');
 		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetControl", 0);');
 				
@@ -168,11 +168,7 @@ class MusicCastDevice extends IPSModule {
     }
 
 	private function SetTimers() {
-		if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
-		else
-			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
-		
+		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		$this->SetTimerInterval(Timers::UPDATE  . (string) $this->InstanceID, 9500);
 	}
 
@@ -196,7 +192,7 @@ class MusicCastDevice extends IPSModule {
 					$this->HandleStatusUpdated($Value);
 					return;
 				case 'UpdateLists':
-					$this->UpdateLists();
+					$this->UpdateLists($Value);
 					return;
 				case 'Update':
 					$this->Update();
@@ -547,19 +543,21 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function UpdateLists() {
+	private function UpdateLists(bool $Force=false) {
 		$this->SendDebug(__FUNCTION__, 'Updating lists...', 0);
 
-		try {
-			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
+		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, 0);
 
-			$this->UpdateFavourites();
-			$this->UpdatePlaylists();
+		try {
 			$this->UpdateLink();
+
+			if($Force || $this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) {
+				$this->UpdateFavourites();
+				$this->UpdatePlaylists();
+			}
+			
 		} finally {
-			if($this->ReadPropertyBoolean(Properties::AUTOUPDATELISTS)) 
-				$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
+			$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		}
 	}
 	
