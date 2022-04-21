@@ -369,9 +369,12 @@ class MusicCastDevice extends IPSModule {
 	
 	private function HandlePlayInfoUpdated(bool $State) {
 		if($State) {
-			$this->SendDebug(__FUNCTION__, 'Processing play_info_updated...', 0);
+			$this->SendDebug(__FUNCTION__, 'Processing event play_info_updated...', 0);
 
+			$this->SendDebug(__FUNCTION__, 'Retrieving play_info...', 0);
 			$playInfo = $this->GetMCPlayInfo();
+
+			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
 
 			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
@@ -402,9 +405,13 @@ class MusicCastDevice extends IPSModule {
 
 	private function HandleStatusUpdated(bool $State) {
 		if($State) {
-			$this->SendDebug(__FUNCTION__, 'Processing status_updated...', 0);
+			$this->SendDebug(__FUNCTION__, 'Processing event status_updated...', 0);
+
+			$this->SendDebug(__FUNCTION__, 'Retrieving status...', 0);
 
 			$status = $this->GetMCStatus();
+
+			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
 		
 			$this->HandlePower($status->power);
 			$this->HandleMute($status->mute);
@@ -440,9 +447,12 @@ class MusicCastDevice extends IPSModule {
 		} else {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if($this->VerifyDeviceIp($ipAddress)) {
-				$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
+				$profileName = sprintf(Profiles::LINK, (string)$this->InstanceID);
 				$selectedRoom = $this->GetProfileAssosiationName($profileName, $RoomIndex);
 				if($selectedRoom!==false) {
+					$msg = sprintf('Establishing link with room "%s"...', $selectedRoom);
+					$this->SendDebug(__FUNCTION__, $msg, 0);
+
 					$system = new System($ipAddress);
 					$clientIpAddress = $system->FindRoom($selectedRoom);
 					if($clientIpAddress!==false) {
@@ -463,21 +473,27 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function StopLink() {
-			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
-			if($this->VerifyDeviceIp($ipAddress)) {	
-				$system = new System($ipAddress);
-				$distribution = new Distrbution($system);
-				$distribution->Stop();
-			}
+		$this->SendDebug(__FUNCTION__, 'Stopping link...', 0);
+
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
+		if($this->VerifyDeviceIp($ipAddress)) {	
+			$system = new System($ipAddress);
+			$distribution = new Distrbution($system);
+			$distribution->Stop();
+		}
 	}
 
 	private function Update(){
+		$this->SendDebug(__FUNCTION__, 'Starting scheduled retrieving of information...', 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$zone = new Zone($system);
 							
 			$status = $zone->Status();
+
+			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
+			
 			if($status->power=='on') {
 				$netUSB = new NetUSB($system);
 				$playInfo = $netUSB->PlayInfo();
