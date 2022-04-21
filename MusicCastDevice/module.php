@@ -577,9 +577,14 @@ class MusicCastDevice extends IPSModule {
 				$this->UpdateFavourites();
 				$this->UpdatePlaylists();
 			}
+
+			$msg = $Force || $update?Debug::ALLLISTS:Debug::LINKLIST;
+			$this->SendDebug(__FUNCTION__, $msg, 0);
+
 		} catch (Exception $e) {
 			throw new Exception($e->getMessage());
 		} finally {
+			
 			$this->SetTimerInterval(Timers::UPDATELISTS . (string)$this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);
 		}
 	}

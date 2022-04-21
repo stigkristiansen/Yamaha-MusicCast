@@ -33,6 +33,8 @@ class Debug {
     const GETPLAYINFO = 'Retrieving play_info...';
     const HANDLEPLAYINFO = 'Handling play_info_updated in own thread...';
     const HANDLESTATUSUPDATED = 'Handling status_updated in own thread...';
+    const ALLLISTS = 'Updated all list(s)';
+    const LINKLIST = 'Updated Link list';
 }
 
 class Properties {
