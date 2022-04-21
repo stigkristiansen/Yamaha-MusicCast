@@ -288,7 +288,7 @@ class MusicCastDevice extends IPSModule {
 									$this->HandleMute($value);
 									break;
 								case 'play_info_updated':
-									$this->SendDebug(__FUNCTION__, 'Handling play_info_updated in own thread...', 0);
+									$this->SendDebug(__FUNCTION__, Debug::HANDLEPLAYINFO, 0);
 									
 									$identValue = $value?'true':'false';
 									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$identValue.');';
@@ -296,7 +296,7 @@ class MusicCastDevice extends IPSModule {
 									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 									break;
 								case 'status_updated':
-									$this->SendDebug(__FUNCTION__, 'Handling status_updated in own thread...', 0);
+									$this->SendDebug(__FUNCTION__, Debug::HANDLESTATUSUPDATED, 0);
 
 									$identValue = $value?'true':'false';
 									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
@@ -369,12 +369,12 @@ class MusicCastDevice extends IPSModule {
 	
 	private function HandlePlayInfoUpdated(bool $State) {
 		if($State) {
-			$this->SendDebug(__FUNCTION__, 'Processing event play_info_updated...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::STARTPLAYINFO, 0);
 
-			$this->SendDebug(__FUNCTION__, 'Retrieving play_info...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::GETPLAYINFO, 0);
 			$playInfo = $this->GetMCPlayInfo();
 
-			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 
 			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
@@ -399,19 +399,19 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::POSITION_IDENT, $position);
 			$this->SetValueEx(Variables::STATUS_IDENT, $playInfo->Playback());
 		} else {
-			$this->SendDebug(__FUNCTION__, 'Skipping processing play_info_updated!', 0);
+			$this->SendDebug(__FUNCTION__, Debug::STOPPLAYINFO, 0);
 		}
 	}
 
 	private function HandleStatusUpdated(bool $State) {
 		if($State) {
-			$this->SendDebug(__FUNCTION__, 'Processing event status_updated...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::STARTSTATUSUPDATED, 0);
 
-			$this->SendDebug(__FUNCTION__, 'Retrieving status...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::GETSTATUS, 0);
 
 			$status = $this->GetMCStatus();
 
-			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
+			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 		
 			$this->HandlePower($status->power);
 			$this->HandleMute($status->mute);
@@ -419,7 +419,7 @@ class MusicCastDevice extends IPSModule {
 			$this->HandleVolume($status->volume);
 			$this->HandleInput($status->input);
 		} else {
-			$this->SendDebug(__FUNCTION__, 'Skipping processing status_updated!', 0);
+			$this->SendDebug(__FUNCTION__, Debug::STOPSTATUSUPDATED, 0);
 		}
 	}
 
@@ -450,7 +450,7 @@ class MusicCastDevice extends IPSModule {
 				$profileName = sprintf(Profiles::LINK, (string)$this->InstanceID);
 				$selectedRoom = $this->GetProfileAssosiationName($profileName, $RoomIndex);
 				if($selectedRoom!==false) {
-					$msg = sprintf('Establishing link with room "%s"...', $selectedRoom);
+					$msg = sprintf(Debug::ESTABLISHLINK, $selectedRoom);
 					$this->SendDebug(__FUNCTION__, $msg, 0);
 
 					$system = new System($ipAddress);
@@ -473,7 +473,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function StopLink() {
-		$this->SendDebug(__FUNCTION__, 'Stopping link...', 0);
+		$this->SendDebug(__FUNCTION__, Debug::STOPLINK, 0);
 
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
 		if($this->VerifyDeviceIp($ipAddress)) {	
@@ -484,7 +484,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function Update(){
-		$this->SendDebug(__FUNCTION__, 'Starting scheduled retrieving of information...', 0);
+		$this->SendDebug(__FUNCTION__, Debug::GETINFORMATION, 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
@@ -492,8 +492,8 @@ class MusicCastDevice extends IPSModule {
 							
 			$status = $zone->Status();
 
-			$this->SendDebug(__FUNCTION__, 'Updating variables...', 0);
-			
+			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
+
 			if($status->power=='on') {
 				$netUSB = new NetUSB($system);
 				$playInfo = $netUSB->PlayInfo();

@@ -16,11 +16,23 @@ class Errors {
     const MISSINGIP = "The device %s is missing information about it's ip address";
     const ROOMERROR = 'Unable to read current room list';
     const INVALIDDATA = 'The data received was invalid';
+    const STOPLINK = 'Stopping link...';
 }
 
 class Debug {
-    const UPDATEALLLISTS = 'Updating all lists...';
-    const UPDATELINK = 'Updating the Link list...';
+    const UPDATEALLLISTS = 'Starting scheduled updating of all lists...';
+    const UPDATELINK = 'Starting scheduled updating the Link list...';
+    const ESTABLISHLINK = 'Establishing link with room "%s"...';
+    const UPDATINGVARIABLES = 'Updating variables...';
+    const GETINFORMATION = 'Starting scheduled retrieving of information...';
+    const STOPSTATUSUPDATED = 'Skipping processing status_updated!';
+    const GETSTATUS = 'Retrieving status...';
+    const STARTSTATUSUPDATED = 'Processing event status_updated...';
+    const STOPPLAYINFO = 'Skipping processing play_info_updated!';
+    const STARTPLAYINFO = 'Processing event play_info_updated...';
+    const GETPLAYINFO = 'Retrieving play_info...';
+    const HANDLEPLAYINFO = 'Handling play_info_updated in own thread...';
+    const HANDLESTATUSUPDATED = 'Handling status_updated in own thread...';
 }
 
 class Properties {
