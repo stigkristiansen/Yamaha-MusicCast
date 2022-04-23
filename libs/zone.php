@@ -42,8 +42,8 @@ class Zone {
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setPower?power=' . $value);    
     }
 
-    public function Sleep(int $Minutes, $this->zoneName) {
-        if(!$this->ValidateSleep($Minutes)) 
+    public function Sleep(int $Minutes) {
+        if(!$this->ValidSleep($Minutes)) 
             throw new Exception('Sleep(): Invalid level "' . $Minutes . '"');
         
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setSleep?sleep=' . $Minutes);    
@@ -75,7 +75,7 @@ class Zone {
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input=' . $Input);   
     }
 
-    private function ValidateSleep(int $Minutes) {
+    private function ValidSleep(int $Minutes) {
         switch($Minutes) {
             case 0:
             case 30:
