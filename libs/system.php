@@ -81,9 +81,9 @@ class System {
         return (string)$this->deviceDesc->device->friendlyName;
     }
 
-    public function InputList(){
+    public function InputList(string $ZoneName = 'main'){
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$this->zoneName) {
+            if(strtolower($zone->id)==$ZoneName) {
                 return $zone->input_list;
             }
         }
@@ -115,10 +115,10 @@ class System {
         return false;
     }
     
-    public function ValidFeature(string $Feature) {
+    public function ValidFeature(string $Feature, string $ZoneName = 'main') {
         $Feature = strtolower($Feature);
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$this->zoneName) {
+            if(strtolower($zone->id)==$ZoneName) {
                 foreach($zone->func_list as $func) {
                     if(strtolower($func)==$Feature)
                         return true;
@@ -129,10 +129,10 @@ class System {
         return false;
     }
 
-    public function ValidInput(string $Input) {
+    public function ValidInput(string $Input, string $ZoneName = 'main') {
         $Input = strtolower($Input);
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$this->zoneName) {
+            if(strtolower($zone->id)==$ZoneName) {
                 foreach($zone->input_list as $input) {
                     if(strtolower($input)==$Input)
                         return true;
@@ -145,7 +145,7 @@ class System {
 
     public function ValidateVolume(int $Level, string $ZoneName = 'main') {
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$this->zoneName) {
+            if(strtolower($zone->id)==$ZoneName) {
                 foreach($zone->range_step as $range) {
                     if($range->id=='volume') {
                     $min = $range->min;
