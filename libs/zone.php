@@ -14,7 +14,7 @@ class Zone {
         $this->ipAddress = $this->system->IpAddress();
 
         $ZoneName = strtolower($ZoneName);
-        if($this->system->ValidZone($ZoneName, $ZoneName)) {
+        if($this->system->ValidZone($ZoneName)) {
             $this->zoneName = $ZoneName;
         } else {
             throw new Exception('Failed to initilize the Zone object. Ivalid zone "' . $ZoneName . '"');

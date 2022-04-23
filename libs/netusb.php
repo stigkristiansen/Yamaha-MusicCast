@@ -9,10 +9,15 @@ class NetUSB {
     private $ipAddress;
     private $zoneName;
 
-    public function __construct($System) {
-        //$this->system = $System;
-        $this->zoneName = $System->ZoneName();
+    public function __construct($System, string $ZoneName = 'main') {
         $this->ipAddress = $System->IpAddress();
+
+        $ZoneName = strtolower($ZoneName);
+        if($System->ValidZone($ZoneName)) {
+            $this->zoneName = $ZoneName;
+        } else {
+            throw new Exception('Failed to initilize the NetUSB object. Ivalid zone "' . $ZoneName . '"');
+        }
     }
 
     public function PlayInfo() {
