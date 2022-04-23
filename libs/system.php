@@ -13,7 +13,7 @@ class System {
 
     private $initialized = false;
 
-    private $zoneName;
+    private $zoneNames;
 
     public function __construct(string $ipAddress) {
         $this->ipAddress = $ipAddress;
@@ -22,9 +22,9 @@ class System {
         if($featuresResult!==false)
             $this->features = $featuresResult;
 
-        $devicdeInfoResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getDeviceInfo');
-        if($devicdeInfoResult!==false)
-            $this->deviceInfo = $devicdeInfoResult;
+        $deviceInfoResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getDeviceInfo');
+        if($deviceInfoResult!==false)
+            $this->deviceInfo = $deviceInfoResult;
 
         $locationInfoResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getLocationInfo');
         if($locationInfoResult!==false)
@@ -34,17 +34,17 @@ class System {
         if($deviceDescResult!==false)
             $this->deviceDesc = $deviceDescResult;
 
-        if($devicdeInfoResult!==false && $featuresResult!==false && $deviceDescResult!==false && $locationInfoResult!==false) {
-            if(isset($locationInfoResult->zone_list->main) && $locationInfoResult->zone_list->main == true)
-                $this->zoneName = Zones::MAIN;
-            else if(isset($locationInfoResult->zone_list->zone2) && $locationInfoResult->zone_list->zone2 == true)
-                $this->zoneName = Zones::ZONE2;
-            else if(isset($locationInfoResult->zone_list->zone3) && $locationInfoResult->zone_list->zone3 == true)
-                $this->zoneName = Zones::ZONE3;
-            else if(isset($locationInfoResult->zone_list->zone4) && $locationInfoResult->zone_list->zone4 == true)
-                $this->zoneName = Zones::ZONE4;
-            else 
-                throw new Exception("Failed to initilize the System object. Ivalid zone");
+        if($deviceInfoResult!==false && $featuresResult!==false && $deviceDescResult!==false && $locationInfoResult!==false) {
+            /*if(isset($locationInfoResult->zone_list->main) && $locationInfoResult->zone_list->main == true)
+                $this->zoneNames[] = Zones::MAIN;
+            if(isset($locationInfoResult->zone_list->zone2) && $locationInfoResult->zone_list->zone2 == true)
+                $this->zoneNames[] = Zones::ZONE2;
+            if(isset($locationInfoResult->zone_list->zone3) && $locationInfoResult->zone_list->zone3 == true)
+                $this->zoneNames[] = Zones::ZONE3;
+            if(isset($locationInfoResult->zone_list->zone4) && $locationInfoResult->zone_list->zone4 == true)
+                $this->zoneNames[] = Zones::ZONE4;
+            */
+                
         } else
             throw new Exception("Failed to initilize the System object");
     }
@@ -65,8 +65,8 @@ class System {
         return $this->features->distribution->server_zone_list;
     }
 
-    public function ZoneName() {
-        return $this->zoneName;
+    public function ZoneNames() {
+        return $this->zoneNames;
     }
 
     public function ApiVersion(){
@@ -143,7 +143,7 @@ class System {
         return false;
     }
 
-    public function ValidateVolume(int $Level) {
+    public function ValidateVolume(int $Level, string $ZoneName = 'main') {
         foreach($this->features->zone as $zone) {
             if(strtolower($zone->id)==$this->zoneName) {
                 foreach($zone->range_step as $range) {
@@ -158,6 +158,18 @@ class System {
         }
 
         return false;
+    }
+
+    public function ValidZone(string $ZoneName) {
+        $ZoneName = strtolower($ZoneName);
+        foreach($this->features->zone as $zone) {
+            if($ZoneName==strtolower($zone->id)) {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
 }
