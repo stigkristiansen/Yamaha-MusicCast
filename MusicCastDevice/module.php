@@ -295,8 +295,10 @@ class MusicCastDevice extends IPSModule {
 										'type'=>$sectionKey
 									]);
 									
-									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated","'.$identValue.'");';
+									//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated","'.$identValue.'");';
 									
+									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",\''.$identValue.'\');';
+
 									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 									break;
 								case 'status_updated':
@@ -372,9 +374,9 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayInfoUpdated(String $JsonParameters) {
-		$parameters = joson_decode($JsonParameters);
+		$parameters = json_decode($JsonParameters);
 
-		if($paramters->state) {
+		if($paramters->status) {
 			$this->SendDebug(__FUNCTION__, Debug::STARTPLAYINFO, 0);
 
 			$this->SendDebug(__FUNCTION__, Debug::GETPLAYINFO, 0);
