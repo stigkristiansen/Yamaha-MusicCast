@@ -54,8 +54,6 @@ class Tuner {
         self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/tuner/switchPreset?dir=' . $direction);
     }
 
-    switchPreset
-
     public function PlayInfo() : PlayInfo {
         $playInfoJson = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/tuner/getPlayInfo');
 
