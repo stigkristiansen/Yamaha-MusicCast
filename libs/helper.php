@@ -164,6 +164,9 @@ class Input {
     const TIDAL = 'Tidal';
     const NETRADIO = 'Network Radio';
     const LINK = 'Link';
+    const AM = 'AM';
+    const FM = 'FM';
+    const DAB = 'DAB';
 }
 
 class PlayInfo {
@@ -182,11 +185,20 @@ class PlayInfo {
                 return Input::TIDAL;
                 break;
             case 'net_radio':
-                    return Input::NETRADIO;
-                    break; 
+                return Input::NETRADIO;
+                break; 
             case 'mc_link':
-                    return Input::LINK;
-                    break;
+                return Input::LINK;
+                break;
+            case 'fm':
+                return Input::FM;
+                break;
+            case 'am':
+                return Input::AM;
+                break;
+            case 'dab':
+                return Input::DAB;
+                break;
             default:
                 return $Input;
         }

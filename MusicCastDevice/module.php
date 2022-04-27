@@ -271,7 +271,7 @@ class MusicCastDevice extends IPSModule {
 
 		try {
 			if(is_array($data)) {
-				foreach($data as $section) {
+				foreach($data as $sectionKey => $section) {
 					if(is_array($section)) { // Only process if it is an array
 						foreach($section as $key => $value) {
 							switch(strtolower($key)) {
@@ -290,8 +290,12 @@ class MusicCastDevice extends IPSModule {
 								case 'play_info_updated':
 									$this->SendDebug(__FUNCTION__, Debug::HANDLEPLAYINFO, 0);
 									
-									$identValue = $value?'true':'false';
-									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",'.$identValue.');';
+									$identValue = json_encode([
+										'status'=>$value?'true':'false',
+										'type'=>$sectionKey
+									]);
+									
+									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated","'.$identValue.'");';
 									
 									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 									break;
@@ -367,12 +371,14 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::SLEEP_IDENT, $Minutes);
 	}
 	
-	private function HandlePlayInfoUpdated(bool $State) {
-		if($State) {
+	private function HandlePlayInfoUpdated(String $JsonParameters) {
+		$parameters = joson_decode($JsonParameters);
+
+		if($paramters->state) {
 			$this->SendDebug(__FUNCTION__, Debug::STARTPLAYINFO, 0);
 
 			$this->SendDebug(__FUNCTION__, Debug::GETPLAYINFO, 0);
-			$playInfo = $this->GetMCPlayInfo();
+			$playInfo = $this->GetMCPlayInfo($parameters->type);
 
 			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 
@@ -432,7 +438,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function GetMCPlayInfo() {
+	private function GetMCPlayInfo(string $Type) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
