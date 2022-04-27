@@ -30,7 +30,6 @@ class Debug {
     const STARTSTATUSUPDATED = 'Processing event status_updated...';
     const STOPPLAYINFO = 'Skipping processing play_info_updated!';
     const STARTPLAYINFO = 'Processing event play_info_updated...';
-    const GETPLAYINFO = 'Retrieving play_info...';
     const HANDLEPLAYINFO = 'Handling play_info_updated in own thread...';
     const HANDLESTATUSUPDATED = 'Handling status_updated in own thread...';
     const ALLLISTS = 'Updated all list(s)';

@@ -379,7 +379,7 @@ class MusicCastDevice extends IPSModule {
 		if($parameters->status) {
 			$this->SendDebug(__FUNCTION__, Debug::STARTPLAYINFO, 0);
 
-			$this->SendDebug(__FUNCTION__, Debug::GETPLAYINFO, 0);
+			$this->SendDebug(__FUNCTION__, sprintf(Debug::GETPLAYINFO, $parameters->type), 0);
 			$playInfo = $this->GetMCPlayInfo($parameters->type);
 
 			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
@@ -441,7 +441,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function GetMCPlayInfo(string $Type) {
-		$this->SendDebug(__FUNCTION__, sprintf(Debug::GETPLAYINFO, $Type), 0);
+		
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
