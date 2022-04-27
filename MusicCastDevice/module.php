@@ -376,7 +376,7 @@ class MusicCastDevice extends IPSModule {
 	private function HandlePlayInfoUpdated(String $JsonParameters) {
 		$parameters = json_decode($JsonParameters);
 
-		if($paramters->status) {
+		if($parameters->status) {
 			$this->SendDebug(__FUNCTION__, Debug::STARTPLAYINFO, 0);
 
 			$this->SendDebug(__FUNCTION__, Debug::GETPLAYINFO, 0);
