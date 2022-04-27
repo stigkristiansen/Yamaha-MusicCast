@@ -51,7 +51,7 @@ class Tuner {
             $direction = 'previous';
         }
 
-        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/tuner/switchPreset?dir=' . $direction.);
+        self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/tuner/switchPreset?dir=' . $direction);
     }
 
     switchPreset
