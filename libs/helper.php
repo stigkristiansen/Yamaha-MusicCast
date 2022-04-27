@@ -35,6 +35,7 @@ class Debug {
     const HANDLESTATUSUPDATED = 'Handling status_updated in own thread...';
     const ALLLISTS = 'Updated all list(s)';
     const LINKLIST = 'Updated Link list';
+    const GETPLAYINFO = 'Retrieving PlayInfo for: %s';
 }
 
 class Properties {
