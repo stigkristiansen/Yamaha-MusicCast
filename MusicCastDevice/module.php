@@ -444,8 +444,13 @@ class MusicCastDevice extends IPSModule {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
-			$netUSB = new NetUSB($system);
-			return $netUSB->PlayInfo();
+			if(strtolower($Type)=='netusb') {
+				$obj = new NetUSB($system);
+			} else {
+				$obj = new Tuner($system);
+			}
+			
+			return $obj->PlayInfo();
 		}
 	}
 
