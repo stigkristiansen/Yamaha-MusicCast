@@ -641,7 +641,9 @@ class MusicCastDevice extends IPSModule {
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
 			$system = new System($ipAddress);
+			$this->SendDebug(__FUNCTION__, 'System object created', 0);
 			$netUSB = new NetUSB($system);
+			$this->SendDebug(__FUNCTION__, 'NetUSB object created', 0);
 			$state = $this->MapPlaybackState($Value); 
 			$netUSB->Playback($state);
 		}

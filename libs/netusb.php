@@ -48,7 +48,7 @@ class NetUSB {
         if($this->ValidPlaybackState($State)) {
             $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
         } else {
-            $this->SendDebug(__FUNCTION__, 'Invalit playback state. Throwing an error', 0);
+            $this->SendDebug(__FUNCTION__, 'Invalid playback state. Throwing an error', 0);
             throw new Exception(sprintf('Invalid playback state "%s"', $State));
         }
         
