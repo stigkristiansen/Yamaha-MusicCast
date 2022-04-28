@@ -648,7 +648,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SendDebug(__FUNCTION__, 'State is:' .$state, 0);
 				$netUSB->Playback($state);
 			}
-		} catch (Exception $e) {
+		} catch () {
 			$this->SendDebug(__FUNCTION__, 'Error!!!', 0); 
 			//$this->SendDebug(__FUNCTION__, 'Error:' . $e->getMessage(), 0); 
 		}
