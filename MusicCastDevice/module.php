@@ -635,17 +635,22 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function Playback(int $Value) {
-		$this->SendDebug(__FUNCTION__, 'Playback is called', 0);
-		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)) {
-			$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
-			$system = new System($ipAddress);
-			$this->SendDebug(__FUNCTION__, 'System object created', 0);
-			$netUSB = new NetUSB($system);
-			$this->SendDebug(__FUNCTION__, 'NetUSB object created', 0);
-			$state = $this->MapPlaybackState($Value); 
-			$this->SendDebug(__FUNCTION__, 'State is:' .$state, 0);
-			$netUSB->Playback($state);
+		try {
+			$this->SendDebug(__FUNCTION__, 'Playback is called', 0);
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+			if($this->VerifyDeviceIp($ipAddress)) {
+				$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
+				$system = new System($ipAddress);
+				$this->SendDebug(__FUNCTION__, 'System object created', 0);
+				$netUSB = new NetUSB($system);
+				$this->SendDebug(__FUNCTION__, 'NetUSB object created', 0);
+				$state = $this->MapPlaybackState($Value); 
+				$this->SendDebug(__FUNCTION__, 'State is:' .$state, 0);
+				$netUSB->Playback($state);
+			}
+		} catch (Exception $e) {
+			$this->SendDebug(__FUNCTION__, 'Error!!!', 0); 
+			//$this->SendDebug(__FUNCTION__, 'Error:' . $e->getMessage(), 0); 
 		}
 	}
 
