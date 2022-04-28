@@ -5,8 +5,8 @@ declare(strict_types=1);
 require_once(__DIR__ . "/../libs/autoload.php");
 
 class MusicCastDevice extends IPSModule {
-	use ProfileHelper;
-	use BufferHelper;
+	use Profile;
+	use Buffer;
 	use Utils;
 
 	public function Create() {

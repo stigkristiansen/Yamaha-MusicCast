@@ -118,7 +118,7 @@ trait HttpRequest {
 }
 
 
-trait ProfileHelper {
+trait Profile {
     protected function DeleteProfile($Name) {
         if(IPS_VariableProfileExists($Name))
             IPS_DeleteVariableProfile($Name);
@@ -276,7 +276,7 @@ trait ProfileHelper {
     }
 }
 
-trait BufferHelper {
+trait Buffer {
     protected function Lock(string $Id) {
 		for ($count=0;$count<10;$count++) {
 			if (IPS_SemaphoreEnter(get_class() . (string) $this->InstanceID . $Id, 1000)) {
@@ -293,6 +293,22 @@ trait BufferHelper {
 		IPS_SemaphoreLeave(get_class() . (string) $this->InstanceID . $Id);
 	}
 
+}
+
+trait MusicCast {
+    protected function ValidPlaybackState(string $State) : bool {
+        switch(strtolower($State)) {
+            case PlaybackState::PLAY:
+            case PlaybackState::STOP:
+            case PlaybackState::PAUSE:
+            case PlaybackState::PREVIOUS
+            case PlaybackState::NEXT:
+                return true;
+            default:
+                return false;
+
+        }
+    }
 }
 
 trait Utils {

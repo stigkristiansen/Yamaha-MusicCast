@@ -43,7 +43,12 @@ class NetUSB {
     }
 
     public function Playback(string $State) {
-        $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
+        if($this->ValidPlaybackState($State)) {
+            $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
+        } else {
+            throw new Exception(sprintf('Invalid playback state "%s"', $State));
+        }
+        
     }
 
     public function MCPlaylists() {

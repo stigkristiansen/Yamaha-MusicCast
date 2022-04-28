@@ -34,7 +34,7 @@ class Debug {
     const HANDLESTATUSUPDATED = 'Handling status_updated in own thread...';
     const ALLLISTS = 'Updated all list(s)';
     const LINKLIST = 'Updated Link list';
-    const GETPLAYINFO = 'Retrieving PlayInfo for: %s';
+    const GETPLAYINFO = 'Retrieving PlayInfo for "%s"';
 }
 
 class Properties {
@@ -167,6 +167,7 @@ class Input {
     const AM = 'AM';
     const FM = 'FM';
     const DAB = 'DAB';
+    const CD = 'CD'
 }
 
 class PlayInfo {
@@ -183,22 +184,18 @@ class PlayInfo {
         switch($Input) {
             case 'tidal':
                 return Input::TIDAL;
-                break;
             case 'net_radio':
                 return Input::NETRADIO;
-                break; 
             case 'mc_link':
                 return Input::LINK;
-                break;
             case 'fm':
                 return Input::FM;
-                break;
             case 'am':
                 return Input::AM;
-                break;
             case 'dab':
                 return Input::DAB;
-                break;
+            case 'cd':
+                return Input::CD;
             default:
                 return $Input;
         }
