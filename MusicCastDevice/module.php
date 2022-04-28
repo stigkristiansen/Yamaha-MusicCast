@@ -210,7 +210,8 @@ class MusicCastDevice extends IPSModule {
 					case Variables::CONTROL_IDENT:
 						$this->SendDebug(__FUNCTION__, "It's a control ident", 0);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
-						$this->Playback($this->MapPlaybackState($Value));			
+						$this->Playback($this->MapPlaybackState($Value));		
+						$this->SendDebug(__FUNCTION__, "Handling the control ident is finished", 0);	
 						break;
 					case Variables::SLEEP_IDENT:
 						$this->Sleep($Value);
