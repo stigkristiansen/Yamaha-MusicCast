@@ -173,8 +173,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	public function RequestAction($Ident, $Value) {
-		//$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
-		//$this->SendDebug(__FUNCTION__, $msg, 0);
+		$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 		
 		try {
 			switch ($Ident) {
