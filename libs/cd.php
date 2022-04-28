@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 class Cd {
     use HttpRequest;
-    use MusicCast;
-
+    
     private System $system;
     private $ipAddress;
     private $zoneName;
@@ -48,6 +47,20 @@ class Cd {
             $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/cd/setPlayback?playback='.$State);
         } else {
             throw new Exception(sprintf('Invalid playback state "%s"', $State));
+        }
+    }
+
+    private function ValidPlaybackState(string $State) : bool {
+        switch(strtolower($State)) {
+            case PlaybackState::PLAY:
+            case PlaybackState::STOP:
+            case PlaybackState::PAUSE:
+            case PlaybackState::PREVIOUS:
+            case PlaybackState::NEXT:
+                return true;
+            default:
+                return false;
+
         }
     }
 

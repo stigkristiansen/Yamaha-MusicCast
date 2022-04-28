@@ -644,6 +644,7 @@ class MusicCastDevice extends IPSModule {
 			$netUSB = new NetUSB($system);
 			$this->SendDebug(__FUNCTION__, 'NetUSB object created', 0);
 			$state = $this->MapPlaybackState($Value); 
+			$this->SendDebug(__FUNCTION__, 'State is:' .$state, 0);
 			$netUSB->Playback($state);
 		}
 	}
@@ -747,7 +748,7 @@ class MusicCastDevice extends IPSModule {
 		return false;	
 	}
 
-	private function MapPlaybackState($Value) : string {
+	private function MapPlaybackState(int $Value) : string {
         switch($Value) {
             case PlaybackState::PLAY_ID:
                 return PlaybackState::PLAY;
