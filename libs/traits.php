@@ -301,7 +301,7 @@ trait MusicCast {
             case PlaybackState::PLAY:
             case PlaybackState::STOP:
             case PlaybackState::PAUSE:
-            case PlaybackState::PREVIOUS
+            case PlaybackState::PREVIOUS:
             case PlaybackState::NEXT:
                 return true;
             default:
