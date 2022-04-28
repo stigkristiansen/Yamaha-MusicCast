@@ -205,27 +205,12 @@ class MusicCastDevice extends IPSModule {
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
 				$this->SetValueEx($Ident, $Value);
+				
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
-							switch ($Value) {
-								case PlaybackState::PREVIOUS_ID:
-									$this->Playback(PlaybackState::PREVIOUS);
-									break;
-								case PlaybackState::PLAY_ID:
-									$this->Playback(PlaybackState::PLAY);
-									break;
-								case PlaybackState::PAUSE_ID;
-									$this->Playback(PlaybackState::STOP);
-									break;
-								case PlaybackState::STOP_ID:
-									$this->Playback(PlaybackState::STOP);
-									break;
-								case PlaybackState::NEXT_ID:
-									$this->Playback(PlaybackState::NEXT);
-									break;
-							}
-
-							$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
+						$this->SendDebug(__FUNCTION__, "It's a control ident", 0);
+						$this->Playback($Value);			
+						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
 						
 						break;
 					case Variables::SLEEP_IDENT:
