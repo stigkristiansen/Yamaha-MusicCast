@@ -167,7 +167,7 @@ class Input {
     const AM = 'AM';
     const FM = 'FM';
     const DAB = 'DAB';
-    const CD = 'CD'
+    const CD = 'CD';
 }
 
 class PlayInfo {
