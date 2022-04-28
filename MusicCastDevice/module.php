@@ -210,8 +210,9 @@ class MusicCastDevice extends IPSModule {
 					case Variables::CONTROL_IDENT:
 						$this->SendDebug(__FUNCTION__, "It's a control ident", 0);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
-						$this->Playback($this->MapPlaybackState($Value));		
-						$this->SendDebug(__FUNCTION__, "Handling the control ident is finished", 0);	
+						$state = $this->MapPlaybackState($Value);
+						//$this->Playback($state);		
+						$this->SendDebug(__FUNCTION__, "Handling the control ident is finished. The state was set to " . $state, 0);	
 						break;
 					case Variables::SLEEP_IDENT:
 						$this->Sleep($Value);
@@ -636,7 +637,7 @@ class MusicCastDevice extends IPSModule {
 	private function Playback(string $State) {
 		$this->SendDebug(__FUNCTION__, 'Playback is called', 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
+		if($this->VerifyDeviceIp($ipAddress)) {
 			$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
@@ -646,7 +647,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function Power(bool $State) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
+		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$zone = new Zone($system);
 			$zone->Power($State);
@@ -655,7 +656,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateFavourites() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
+		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
 			
@@ -670,7 +671,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdatePlaylists() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
+		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
 			
@@ -685,7 +686,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateLink() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		if($this->VerifyDeviceIp($ipAddress)){
+		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$rooms = $system->Rooms();
 			$num = count($rooms);
