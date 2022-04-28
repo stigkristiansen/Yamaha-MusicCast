@@ -8,6 +8,7 @@ class MusicCastDevice extends IPSModule {
 	use Profile;
 	use Buffer;
 	use Utils;
+	use MusicCast;
 
 	public function Create() {
 		//Never delete this line!
@@ -641,7 +642,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
-			$state = $this->MapPlaybackState($Value);
+			$state = $this->MapPlaybackState($Value); 
 			$netUSB->Playback($state);
 		}
 	}
