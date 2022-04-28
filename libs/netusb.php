@@ -44,12 +44,12 @@ class NetUSB {
 
     public function Playback(string $State) {
         $this->SendDebug(__FUNCTION__, 'Class NetUSB and function Playback is called', 0);
-        if($this->ValidPlaybackState($State)) {
+        //if($this->ValidPlaybackState($State)) {
             $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
-        } else {
-            $this->SendDebug(__FUNCTION__, 'Invalid playback state. Throwing an error', 0);
-            throw new Exception(sprintf('Invalid playback state "%s"', $State));
-        }
+        //} else {
+        //    $this->SendDebug(__FUNCTION__, 'Invalid playback state. Throwing an error', 0);
+        //    throw new Exception(sprintf('Invalid playback state "%s"', $State));
+        //}
         
     }
 
