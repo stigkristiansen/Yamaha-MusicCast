@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 class NetUSB {
     use HttpRequest;
+    use MusicCast;
 
     private System $system;
     private $ipAddress;

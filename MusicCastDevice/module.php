@@ -210,8 +210,7 @@ class MusicCastDevice extends IPSModule {
 					case Variables::CONTROL_IDENT:
 						$this->SendDebug(__FUNCTION__, "It's a control ident", 0);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
-						//$state = $this->MapPlaybackState($Value);
-						//$this->Playback($state);		
+						$this->Playback($Value);		
 						$state = 'stop';
 						$this->SendDebug(__FUNCTION__, "Handling the control ident is finished. The state was set to " . $state, 0);	
 						break;
@@ -635,14 +634,15 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function Playback(string $State) {
+	private function Playback(int $Value) {
 		$this->SendDebug(__FUNCTION__, 'Playback is called', 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
-			//$netUSB->Playback($State);
+			$state = $this->MapPlaybackState($Value);
+			$netUSB->Playback($state);
 		}
 	}
 
