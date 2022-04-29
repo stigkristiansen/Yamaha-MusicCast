@@ -436,8 +436,8 @@ class MusicCastDevice extends IPSModule {
 					$obj = new CD($system);
 					break;
 				default:
-					throw new Exception(sprintf(Errors::INVALIDTYPE, $Type))
-				}
+					throw new Exception(sprintf(Errors::INVALIDTYPE, $Type));
+			}
 						
 			return $obj->PlayInfo();
 		}
