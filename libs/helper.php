@@ -9,14 +9,21 @@ class Zones {
     const ZONE4 = "zone4";
 }
 
+class Types {
+    const NETUSB = 'netusb';
+    const TUNER = 'tuner';
+    const CD = 'cd';
+}
+
 class Errors {
-    const UNEXPECTED = 'An unexpected error occured. The error was : %s';
-    const UNKNOWNROOM = 'Did not find the room specified: %s';
+    const UNEXPECTED = 'An unexpected error occured. The error was "%s"';
+    const UNKNOWNROOM = 'Did not find the room specified (%s)';
     const NOTRESPONDING = 'The device %s is not responding (%s)';
     const MISSINGIP = "The device %s is missing information about it's ip address";
     const ROOMERROR = 'Unable to read current room list';
     const INVALIDDATA = 'The data received was invalid';
     const STOPLINK = 'Stopping link...';
+    const INVALIDTYPE 'Invalid type (%s)';
 }
 
 class Debug {

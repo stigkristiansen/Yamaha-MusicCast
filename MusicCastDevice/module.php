@@ -422,16 +422,23 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function GetMCPlayInfo(string $Type) {
-		
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
-			if(strtolower($Type)=='netusb') {
-				$obj = new NetUSB($system);
-			} else {
-				$obj = new Tuner($system);
-			}
-			
+			switch(strtolower($Type)) {
+				case Types::NETUSB:
+					$obj = new NetUSB($system);
+					break;
+				case Types::TUNER:
+					$obj = new Tuner($system);
+					break;
+				case Types::CD:
+					$obj = new CD($system);
+					break;
+				default:
+					throw new Exception(sprintf(Errors::INVALIDTYPE, $Type))
+				}
+						
 			return $obj->PlayInfo();
 		}
 	}
