@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-class Cd {
+class CD {
     use HttpRequest;
+    use MusicCast;
     
     private System $system;
     private $ipAddress;
@@ -49,20 +50,4 @@ class Cd {
             throw new Exception(sprintf('Invalid playback state "%s"', $State));
         }
     }
-
-    private function ValidPlaybackState(string $State) : bool {
-        switch(strtolower($State)) {
-            case PlaybackState::PLAY:
-            case PlaybackState::STOP:
-            case PlaybackState::PAUSE:
-            case PlaybackState::PREVIOUS:
-            case PlaybackState::NEXT:
-                return true;
-            default:
-                return false;
-
-        }
-    }
-
-
 }
