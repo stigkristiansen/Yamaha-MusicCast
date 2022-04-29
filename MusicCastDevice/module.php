@@ -173,8 +173,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	public function RequestAction($Ident, $Value) {
-		$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
-		$this->SendDebug(__FUNCTION__, $msg, 0);
+		//$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
+		//$this->SendDebug(__FUNCTION__, $msg, 0);
 		
 		try {
 			switch ($Ident) {
@@ -208,11 +208,8 @@ class MusicCastDevice extends IPSModule {
 				
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
-						$this->SendDebug(__FUNCTION__, "It's a control ident", 0);
+						$this->Playback($Value);
 						$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 2000);
-						$this->Playback($Value);		
-						$state = 'stop';
-						$this->SendDebug(__FUNCTION__, "Handling the control ident is finished. The state was set to " . $state, 0);	
 						break;
 					case Variables::SLEEP_IDENT:
 						$this->Sleep($Value);
@@ -280,11 +277,8 @@ class MusicCastDevice extends IPSModule {
 										'status'=>$value?'true':'false',
 										'type'=>$sectionKey
 									]);
-									
-									//$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated","'.$identValue.'");';
-									
+																											
 									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",\''.$identValue.'\');';
-
 									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 									break;
 								case 'status_updated':
@@ -636,21 +630,15 @@ class MusicCastDevice extends IPSModule {
 
 	private function Playback(int $Value) {
 		try {
-			$this->SendDebug(__FUNCTION__, 'Playback is called', 0);
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			if($this->VerifyDeviceIp($ipAddress)) {
-				$this->SendDebug(__FUNCTION__, 'The device is responding to ping', 0);
 				$system = new System($ipAddress);
-				$this->SendDebug(__FUNCTION__, 'System object created', 0);
 				$netUSB = new NetUSB($system);
-				$this->SendDebug(__FUNCTION__, 'NetUSB object created', 0);
 				$state = $this->MapPlaybackState($Value); 
-				$this->SendDebug(__FUNCTION__, 'State is:' .$state, 0);
 				$netUSB->Playback($state);
 			}
 		} catch (Exception $e) {
-			$this->SendDebug(__FUNCTION__, 'Error!!!', 0); 
-			//$this->SendDebug(__FUNCTION__, 'Error:' . $e->getMessage(), 0); 
+			$this->SendDebug(__FUNCTION__, 'Error:' . $e->getMessage(), 0); 
 		}
 	}
 
