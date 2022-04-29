@@ -23,7 +23,7 @@ class Errors {
     const ROOMERROR = 'Unable to read current room list';
     const INVALIDDATA = 'The data received was invalid';
     const STOPLINK = 'Stopping link...';
-    const INVALIDTYPE 'Invalid type (%s)';
+    const INVALIDTYPE = 'Invalid type (%s)';
 }
 
 class Debug {
