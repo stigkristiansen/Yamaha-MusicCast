@@ -8,6 +8,7 @@ class MusicCastDevice extends IPSModule {
 	use Profile;
 	use Buffer;
 	use Utils;
+	use MusicCast;
 	
 	public function Create() {
 		//Never delete this line!
@@ -741,23 +742,7 @@ class MusicCastDevice extends IPSModule {
 		return false;	
 	}
 
-	private function MapPlaybackState(int $Value) : string {
-        switch($Value) {
-            case PlaybackState::PLAY_ID:
-                return PlaybackState::PLAY;
-            case PlaybackState::STOP_ID:
-                return PlaybackState::STOP;
-            case PlaybackState::PAUSE_ID:
-                return PlaybackState::PAUSE;
-            case PlaybackState::PREVIOUS_ID:
-                return PlaybackState::PREVIOUS;
-            case PlaybackState::NEXT_ID:
-                return PlaybackState::NEXT;
-            default:
-                return PlaybackState::NOTHING;
 
-        }
-    }
 
 	private function PingTest(string $IPAddress) {
 		$wait = 500;

@@ -2,6 +2,26 @@
 
 declare(strict_types=1);
 
+trait MusicCast {
+    protected function MapPlaybackState(int $Value) : string {
+        switch($Value) {
+            case PlaybackState::PLAY_ID:
+                return PlaybackState::PLAY;
+            case PlaybackState::STOP_ID:
+                return PlaybackState::STOP;
+            case PlaybackState::PAUSE_ID:
+                return PlaybackState::PAUSE;
+            case PlaybackState::PREVIOUS_ID:
+                return PlaybackState::PREVIOUS;
+            case PlaybackState::NEXT_ID:
+                return PlaybackState::NEXT;
+            default:
+                return PlaybackState::NOTHING;
+
+        }
+    }
+}
+
 trait HttpRequest {
     protected function HttpGetJson(string $IpAddress, string $DeltaUrl) {
 		if(self::Ping($IpAddress)) {
