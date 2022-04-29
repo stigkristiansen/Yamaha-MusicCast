@@ -20,6 +20,20 @@ trait MusicCast {
 
         }
     }
+
+    protected function ValidPlaybackState(string $State) : bool {
+        switch(strtolower($State)) {
+            case PlaybackState::PLAY:
+            case PlaybackState::STOP:
+            case PlaybackState::PAUSE:
+            case PlaybackState::PREVIOUS:
+            case PlaybackState::NEXT:
+                return true;
+            default:
+                return false;
+
+        }
+    }
 }
 
 trait HttpRequest {

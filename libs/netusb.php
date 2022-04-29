@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class NetUSB {
     use HttpRequest;
-    //use MusicCast;
+    use MusicCast;
 
     private System $system;
     private $ipAddress;
@@ -127,18 +127,6 @@ class NetUSB {
         self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/recallPreset?zone='.$this->zoneName.'&num='.$Id);    
     }
 
-    private function ValidPlaybackState(string $State) : bool {
-        switch(strtolower($State)) {
-            case PlaybackState::PLAY:
-            case PlaybackState::STOP:
-            case PlaybackState::PAUSE:
-            case PlaybackState::PREVIOUS:
-            case PlaybackState::NEXT:
-                return true;
-            default:
-                return false;
 
-        }
-    }
 
 }
