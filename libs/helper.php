@@ -42,6 +42,7 @@ class Debug {
     const ALLLISTS = 'Updated all list(s)';
     const LINKLIST = 'Updated Link list';
     const GETPLAYINFO = 'Retrieving PlayInfo for "%s"';
+    const STOPLINK = 'Stopping the link!';
 }
 
 class Properties {

@@ -492,9 +492,9 @@ class MusicCastDevice extends IPSModule {
 
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
 		if($this->VerifyDeviceIp($ipAddress)) {	
-			//$system = new System($ipAddress);
-			//$distribution = new Distrbution($system);
-			//$distribution->Stop();
+			$system = new System($ipAddress);
+			$distribution = new Distrbution($system);
+			$distribution->Stop();
 		}
 	}
 
