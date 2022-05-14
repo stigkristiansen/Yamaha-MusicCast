@@ -458,6 +458,7 @@ class MusicCastDevice extends IPSModule {
 					$system = new System($ipAddress);
 					$clientIpAddress = $system->FindRoom($selectedRoom);
 					if($clientIpAddress!==false) {
+						$this->SendDebug(__FUNCTION__, sprintf('Linking to room with ip-address %s', $clientIpAddress), 0);
 						$distribution = new Distrbution($system);
 						$distribution->AddClient(new System($clientIpAddress));
 						$distribution->Start();
