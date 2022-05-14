@@ -14,6 +14,15 @@
             "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": true
         },
         {
+            "type" :  "Select" ,  "name" :  "ZoneName" ,  "caption" :  "Zone name" , 
+            "options" :  [ 
+                {  "caption" :  "Main" ,  "value" :  "main"  } , 
+                {  "caption" :  "Zone 2" ,  "value" :  "zone2"  } ,
+                {  "caption" :  "Zone 3" ,  "value":  "zone3"  } , 
+                {  "caption" :  "Zone 4" ,  "value" :  "zone4"  } 
+            ]
+        },
+        {
               "type" :  "ValidationTextBox" ,  "name" :  "IPAddress" ,  "caption" :  "Device IP", "validate" : "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
         },
         {

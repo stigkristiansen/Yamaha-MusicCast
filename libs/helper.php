@@ -51,6 +51,7 @@ class Properties {
     const IPADDRESS = 'IPAddress';
     const AUTOUPDATELISTS= 'AutoUpdateLists';
     const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
+    const ZONENAME = 'ZoneName';
 }
 
 class Timers {

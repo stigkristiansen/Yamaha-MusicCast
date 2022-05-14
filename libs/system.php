@@ -69,6 +69,10 @@ class System {
         return $this->zoneNames;
     }
 
+    public function ZoneName() {
+        return 'main';
+    }
+
     public function ApiVersion(){
         return $this->deviceInfo->api_version;
     }
