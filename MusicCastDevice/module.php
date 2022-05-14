@@ -456,6 +456,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function StartLink(int $RoomIndex) {
 		if($RoomIndex==0) {
+			$this->SendDebug(__FUNCTION__, 'Stopping link...', 0);
 			$this->StopLink();
 		} else {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
