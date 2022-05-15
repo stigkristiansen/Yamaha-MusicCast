@@ -93,7 +93,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					// Check if discovered device has an instance that is created earlier. If found, set InstanceID and Symcon Name
 					$instanceId = array_search(sprintf('%s.%s',$serialNumber, $zone), $instances);
 					if ($instanceId !== false) {
-						$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
+						$this->SendDebug(__FUNCTION__, sprintf('The device with serial number %s and zone "%s" already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $zone, $instanceId, IPS_GetName($instanceId)), 0);
 						unset($instances[$instanceId]); // Remove from list to avoid duplicates
 						$value['instanceID'] = $instanceId;
 						$value['Name'] = IPS_GetName($instanceId);
