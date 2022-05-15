@@ -77,39 +77,42 @@ require_once(__DIR__ . "/../libs/autoload.php");
 				$this->SendDebug(__FUNCTION__, 'No devices discovered!', 0);
 			}
 
-			foreach ($devices as $serialNumber => $device) {
-				$value = [
-					'SerialNumber'	=> $serialNumber,
-					'Name' => $device['Name'],
-					'Model' => $device['Model'],
-					'Zone' => $device['Zones'][0],
-					'IPAddress' => $device['IPAddress'],
-					'instanceID' => 0
-				];
-
-				$this->SendDebug(__FUNCTION__, sprintf('Added device with serialnumber "%s"', $serialNumber), 0);
+			foreach($devices as $serialNumber => $device) {
+				foreach($device['Zones'] as $zone) {
+					$value = [
+						'SerialNumber'	=> $serialNumber,
+						'Name' => $device['Name'],
+						'Model' => $device['Model'],
+						'ZoneName' => ucfirst($zone),
+						'IPAddress' => $device['IPAddress'],
+						'instanceID' => 0
+					];
+	
+					$this->SendDebug(__FUNCTION__, sprintf('Added device with serialnumber "%s"', $serialNumber), 0);
+					
+					// Check if discovered device has an instance that is created earlier. If found, set InstanceID and Symcon Name
+					$instanceId = array_search($serialNumber, $instances);
+					if ($instanceId !== false) {
+						$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
+						unset($instances[$instanceId]); // Remove from list to avoid duplicates
+						$value['instanceID'] = $instanceId;
+						$value['Name'] = IPS_GetName($instanceId);
+					} 
+					
+					$value['create'] = [
+						'moduleID'       => '{5B66102A-96ED-DF96-0B89-54E37501F997}',  
+						'Name'			 => $device['Name'],
+						'configuration'	 => [
+							'SerialNumber' 	=> $serialNumber,
+							'Model' 		=> $device['Model'],
+							'ZoneName' 		=> $zone, 
+							'IPAddress'		=> $device['IPAddress'],
+							'Name'			=> $device['Name']
+						]
+					];
 				
-				// Check if discovered device has an instance that is created earlier. If found, set InstanceID
-				$instanceId = array_search($serialNumber, $instances);
-				if ($instanceId !== false) {
-					$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
-					unset($instances[$instanceId]); // Remove from list to avoid duplicates
-					$value['instanceID'] = $instanceId;
-					$value['Name'] = IPS_GetName($instanceId);
-				} 
-				
-				$value['create'] = [
-					'moduleID'       => '{5B66102A-96ED-DF96-0B89-54E37501F997}',  
-					'Name'			 => $device['Name'],
-					'configuration'	 => [
-						'SerialNumber' 	=> $serialNumber,
-						'Model' 		=> $device['Model'],
-						'IPAddress'		=> $device['IPAddress'],
-						'Name'			=> $device['Name']
-					]
-				];
-			
-				$values[] = $value;
+					$values[] = $value;
+				}
 			}
 
 			// Add devices that are not discovered, but created earlier
@@ -121,6 +124,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					'SerialNumber'  => $serialNumber, 
 					'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
 					'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
+					'ZoneName'		=> json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName'],
 					'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
 					'instanceID' 	=> $instanceId
 				];

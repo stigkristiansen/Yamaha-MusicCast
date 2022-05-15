@@ -38,7 +38,7 @@
                 },
                 {
                     "caption": "Zone",
-                    "name": "Zone",
+                    "name": "ZoneName",
                     "width": "150px"
                 },
                 {
