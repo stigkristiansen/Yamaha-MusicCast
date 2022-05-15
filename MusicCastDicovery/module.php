@@ -197,7 +197,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 								'Model' => $model,
 								'Name' => $name,
 								'IPAddress' => $ipAddress,
-								'Zones' => $system->ZoneNames();
+								'Zones' => $system->ZoneNames()
 							];
 						}
 					}
