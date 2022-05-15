@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+require_once(__DIR__ . "/../libs/autoload.php");
 
 	class MusicCastDiscovery extends IPSModule {
 		public function Create() {
@@ -189,8 +190,15 @@ declare(strict_types=1);
 								continue;
 							}
 							$serialNumber = (string)$xml->{"device"}->{"serialNumber"};
+
+							$system = New System($ipAddress);
 			
-							$devices[$serialNumber] = ['Model' => $model, 'Name' => $name, 'IPAddress' => $ipAddress];
+							$devices[$serialNumber] = [
+								'Model' => $model,
+								'Name' => $name,
+								'IPAddress' => $ipAddress,
+								'Zones' => $system->ZoneNames();
+							];
 						}
 					}
 				}

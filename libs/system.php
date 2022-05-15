@@ -35,7 +35,7 @@ class System {
             $this->deviceDesc = $deviceDescResult;
 
         if($deviceInfoResult!==false && $featuresResult!==false && $deviceDescResult!==false && $locationInfoResult!==false) {
-            /*if(isset($locationInfoResult->zone_list->main) && $locationInfoResult->zone_list->main == true)
+            if(isset($locationInfoResult->zone_list->main) && $locationInfoResult->zone_list->main == true)
                 $this->zoneNames[] = Zones::MAIN;
             if(isset($locationInfoResult->zone_list->zone2) && $locationInfoResult->zone_list->zone2 == true)
                 $this->zoneNames[] = Zones::ZONE2;
@@ -43,8 +43,6 @@ class System {
                 $this->zoneNames[] = Zones::ZONE3;
             if(isset($locationInfoResult->zone_list->zone4) && $locationInfoResult->zone_list->zone4 == true)
                 $this->zoneNames[] = Zones::ZONE4;
-            */
-                
         } else
             throw new Exception("Failed to initilize the System object");
     }
