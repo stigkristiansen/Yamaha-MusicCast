@@ -91,7 +91,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					$this->SendDebug(__FUNCTION__, sprintf('Added device with serialnumber "%s"', $serialNumber), 0);
 					
 					// Check if discovered device has an instance that is created earlier. If found, set InstanceID and Symcon Name
-					$instanceId = array_search($serialNumber, $instances);
+					$instanceId = array_search(sprintf('%s.%s',$serialNumber, $zone), $instances);
 					if ($instanceId !== false) {
 						$this->SendDebug(__FUNCTION__, sprintf('The device (%s) already has an instance (%s). Setting InstanceId and changing the name to "%s"', $serialNumber, $instanceId, IPS_GetName($instanceId)), 0);
 						unset($instances[$instanceId]); // Remove from list to avoid duplicates
@@ -223,7 +223,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 			$instanceIds = IPS_GetInstanceListByModuleID('{5B66102A-96ED-DF96-0B89-54E37501F997}');
         	
         	foreach ($instanceIds as $instanceId) {
-				$instances[$instanceId] = IPS_GetProperty($instanceId, 'SerialNumber');
+				$instances[$instanceId] = sprintf('%s.%s', IPS_GetProperty($instanceId, 'SerialNumber'), IPS_GetProperty($instanceId, 'ZoneName'));
 			}
 
 			$this->SendDebug(__FUNCTION__, sprintf('Found %d instance(s) of MusicCast devices', count($instances)), 0);
