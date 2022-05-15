@@ -82,6 +82,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					'SerialNumber'	=> $serialNumber,
 					'Name' => $device['Name'],
 					'Model' => $device['Model'],
+					'Zone' => $device['Zones'][0],
 					'IPAddress' => $device['IPAddress'],
 					'instanceID' => 0
 				];

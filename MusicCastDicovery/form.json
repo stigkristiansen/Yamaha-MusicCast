@@ -37,6 +37,11 @@
                     "width": "150px"
                 },
                 {
+                    "caption": "Zone",
+                    "name": "Zone",
+                    "width": "150px"
+                },
+                {
                     "caption": "Serial Number",
                     "name": "SerialNumber",
                     "width": "150px"
