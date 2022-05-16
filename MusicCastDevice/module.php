@@ -416,7 +416,7 @@ class MusicCastDevice extends IPSModule {
 	private function GetMCStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 			return $zone->Status();
 		}
@@ -425,7 +425,7 @@ class MusicCastDevice extends IPSModule {
 	private function GetMCPlayInfo(string $Type) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			switch(strtolower($Type)) {
 				case Types::NETUSB:
 					$obj = new NetUSB($system);
@@ -447,7 +447,7 @@ class MusicCastDevice extends IPSModule {
 	public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
 			$playInfo = $netUSB->PlayInfo();
 			return $playInfo->Playback();
@@ -467,7 +467,7 @@ class MusicCastDevice extends IPSModule {
 					$msg = sprintf(Debug::ESTABLISHLINK, $selectedRoom);
 					$this->SendDebug(__FUNCTION__, $msg, 0);
 
-					$system = new System($ipAddress);
+					$system = new System($ipAddress, $zoneName);
 					$clientIpAddress = $system->FindRoom($selectedRoom);
 					if($clientIpAddress!==false) {
 						$this->SendDebug(__FUNCTION__, sprintf('Linking to room with ip-address %s', $clientIpAddress), 0);
@@ -491,8 +491,9 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, Debug::STOPLINK, 0);
 
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);	
-		if($this->VerifyDeviceIp($ipAddress)) {	
-			$system = new System($ipAddress);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);	
+		if($this->VerifyDeviceIp($ipAddress, $zoneName)) {	
+			$system = new System($ipAddress, $zoneName);
 			$distribution = new Distrbution($system);
 			$distribution->Stop();
 		}
@@ -501,8 +502,9 @@ class MusicCastDevice extends IPSModule {
 	private function Update(){
 		$this->SendDebug(__FUNCTION__, Debug::GETINFORMATION, 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 							
 			$status = $zone->Status();
@@ -606,6 +608,7 @@ class MusicCastDevice extends IPSModule {
 	
 	private function SelectFavourite(int $Value) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress) && $Value!=0) { 
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
@@ -615,8 +618,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function SelectMCPlaylist(int $Value) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress) && $Value!=0) { 
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
 			$netUSB->SelectMCPlaylistById($Value);
 		}
@@ -624,8 +628,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function Sleep(int $Minutes) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 			$zone->Sleep($Minutes);
 		}
@@ -633,6 +638,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function Volume(int $Level) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
 			$zone = new Zone($system);
@@ -642,6 +648,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function Mute(bool $State) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress);
 			$zone = new Zone($system);
@@ -652,6 +659,7 @@ class MusicCastDevice extends IPSModule {
 	private function Playback(int $Value) {
 		try {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$system = new System($ipAddress);
 				$netUSB = new NetUSB($system);
@@ -665,8 +673,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function Power(bool $State) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 			$zone->Power($State);
 		}
@@ -674,6 +683,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateFavourites() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress);
 			$netUSB = new NetUSB($system);
@@ -689,8 +699,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdatePlaylists() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
 			
 			$playlists = $netUSB->MCPlaylists();
@@ -704,8 +715,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateLink() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$rooms = $system->Rooms();
 			$num = count($rooms);
 			$roomList[] = 'None';
