@@ -647,7 +647,7 @@ class MusicCastDevice extends IPSModule {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress), $zoneName;
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 			$zone->Volume($Level);
 		}
