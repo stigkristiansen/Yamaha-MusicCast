@@ -451,7 +451,7 @@ class MusicCastDevice extends IPSModule {
 	public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
-		
+
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
@@ -647,7 +647,7 @@ class MusicCastDevice extends IPSModule {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress), $zoneName;
 			$zone = new Zone($system);
 			$zone->Volume($Level);
 		}
@@ -657,7 +657,7 @@ class MusicCastDevice extends IPSModule {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
 			$zone->Mute($State);
 		}
@@ -668,7 +668,7 @@ class MusicCastDevice extends IPSModule {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			if($this->VerifyDeviceIp($ipAddress)) {
-				$system = new System($ipAddress);
+				$system = new System($ipAddress, $zoneName);
 				$netUSB = new NetUSB($system);
 				$state = $this->MapPlaybackState($Value); 
 				$netUSB->Playback($state);
@@ -692,7 +692,7 @@ class MusicCastDevice extends IPSModule {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)) {
-			$system = new System($ipAddress);
+			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
 			
 			$favourites = $netUSB->Favourites();
