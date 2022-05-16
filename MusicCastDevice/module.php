@@ -415,6 +415,8 @@ class MusicCastDevice extends IPSModule {
 
 	private function GetMCStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);
@@ -424,6 +426,8 @@ class MusicCastDevice extends IPSModule {
 
 	private function GetMCPlayInfo(string $Type) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 			switch(strtolower($Type)) {
@@ -446,6 +450,8 @@ class MusicCastDevice extends IPSModule {
 
 	public function GetControlStatus() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
