@@ -12,7 +12,7 @@ class CD {
 
     public function __construct($System) {
         $this->ipAddress = $System->IpAddress();
-        $this->zoneName = $System.->ZoneName();
+        $this->zoneName = $System->ZoneName();
     }
 
     public function PlayInfo() : PlayInfo {
