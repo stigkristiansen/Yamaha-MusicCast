@@ -14,10 +14,11 @@ class System {
     private $initialized = false;
 
     private $zoneNames;
+    private $zoneName;
 
-    public function __construct(string $ipAddress) {
-        $this->ipAddress = $ipAddress;
-
+    public function __construct(string $IpAddress, string $ZoneName = 'main') {
+        $this->ipAddress = $IpAddress;
+        
         $featuresResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getFeatures');
         if($featuresResult!==false)
             $this->features = $featuresResult;
@@ -45,6 +46,12 @@ class System {
                 $this->zoneNames[] = Zones::ZONE4;
         } else
             throw new Exception("Failed to initilize the System object");
+
+        if(array_search(strtolower($ZoneName), $this->zoneNames)===false)
+            throw new Exception("Failed to initilize the System object. Invalid Zone!");
+        
+
+        $this->zoneName = strtolower($ZoneName);
     }
 
     public function Features() {
@@ -68,7 +75,7 @@ class System {
     }
 
     public function ZoneName() {
-        return 'main';
+        return $this->zoneName;
     }
 
     public function ApiVersion(){
@@ -83,9 +90,9 @@ class System {
         return (string)$this->deviceDesc->device->friendlyName;
     }
 
-    public function InputList(string $ZoneName = 'main'){
+    public function InputList(){
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$ZoneName) {
+            if(strtolower($zone->id)==$this->zoneName) {
                 return $zone->input_list;
             }
         }
@@ -117,10 +124,10 @@ class System {
         return false;
     }
     
-    public function ValidFeature(string $Feature, string $ZoneName = 'main') {
+    public function ValidFeature(string $Feature) {
         $Feature = strtolower($Feature);
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$ZoneName) {
+            if(strtolower($zone->id)==$this->zoneName) {
                 foreach($zone->func_list as $func) {
                     if(strtolower($func)==$Feature)
                         return true;
@@ -131,10 +138,10 @@ class System {
         return false;
     }
 
-    public function ValidInput(string $Input, string $ZoneName = 'main') {
+    public function ValidInput(string $Input) {
         $Input = strtolower($Input);
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$ZoneName) {
+            if(strtolower($zone->id)==$this->zoneName) {
                 foreach($zone->input_list as $input) {
                     if(strtolower($input)==$Input)
                         return true;
@@ -145,9 +152,9 @@ class System {
         return false;
     }
 
-    public function ValidateVolume(int $Level, string $ZoneName = 'main') {
+    public function ValidateVolume(int $Level) {
         foreach($this->features->zone as $zone) {
-            if(strtolower($zone->id)==$ZoneName) {
+            if(strtolower($zone->id)==$this->zoneName) {
                 foreach($zone->range_step as $range) {
                     if($range->id=='volume') {
                     $min = $range->min;
@@ -171,7 +178,6 @@ class System {
         }
 
         return false;
-
     }
 
 }

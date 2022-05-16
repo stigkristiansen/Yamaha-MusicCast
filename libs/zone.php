@@ -9,20 +9,14 @@ class Zone {
     private $ipAddress;
     private $zoneName;
 
-    public function __construct(System $System, string $ZoneName='main') {
+    public function __construct(System $System) {
         $this->system = $System;
-        $this->ipAddress = $this->system->IpAddress();
-
-        $ZoneName = strtolower($ZoneName);
-        if($this->system->ValidZone($ZoneName)) {
-            $this->zoneName = $ZoneName;
-        } else {
-            throw new Exception('Failed to initilize the Zone object. Ivalid zone "' . $ZoneName . '"');
-        }
+        $this->ipAddress = $System->IpAddress();
+        $this->zoneName = $System->ZoneName();
     }
 
     public function ZoneName() {
-        return $this->zoneName;
+        return $this->zoneName();
     }
 
     public function Status() {

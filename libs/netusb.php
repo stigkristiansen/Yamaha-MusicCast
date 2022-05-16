@@ -6,19 +6,13 @@ class NetUSB {
     use HttpRequest;
     use MusicCast;
 
-    private System $system;
+    //private System $system;
     private $ipAddress;
     private $zoneName;
 
-    public function __construct($System, string $ZoneName = 'main') {
+    public function __construct($System) {
         $this->ipAddress = $System->IpAddress();
-
-        $ZoneName = strtolower($ZoneName);
-        if($System->ValidZone($ZoneName)) {
-            $this->zoneName = $ZoneName;
-        } else {
-            throw new Exception('Failed to initilize the NetUSB object. Ivalid zone "' . $ZoneName . '"');
-        }
+        $this->zoneName = $System->ZoneName();
     }
 
     public function PlayInfo() {

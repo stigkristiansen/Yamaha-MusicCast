@@ -74,11 +74,11 @@ class Distrbution {
     private function SetClientInfo(System $Client, string $type='add') {
         if(strtolower($type)=='add') {
             $params = array('group_id' => $this->groupID);
-            $zones[] = $this->master->ZoneName();
+            $zones[] = $Client->ZoneName();
             $params['zone'] = $zones;
         } else {
             $params = array('group_id' => '');
-            $zones[] = $this->master->ZoneName();
+            $zones[] = $Client->ZoneName();
             $params['zone'] = $zones;
         }
 

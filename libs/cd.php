@@ -10,15 +10,9 @@ class CD {
     private $ipAddress;
     private $zoneName;
 
-    public function __construct($System, string $ZoneName = 'main') {
+    public function __construct($System) {
         $this->ipAddress = $System->IpAddress();
-
-        $ZoneName = strtolower($ZoneName);
-        if($System->ValidZone($ZoneName)) {
-            $this->zoneName = $ZoneName;
-        } else {
-            throw new Exception(sprintf('Failed to initilize the Tuner object. Ivalid zone "%s"', $ZoneName));
-        }
+        $this->zoneName = $System.->ZoneName();
     }
 
     public function PlayInfo() : PlayInfo {
