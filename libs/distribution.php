@@ -71,8 +71,8 @@ class Distrbution {
         return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/dist/getDistributionInfo');    
     }
 
-    private function SetClientInfo(System $Client, string $type='add') {
-        if(strtolower($type)=='add') {
+    private function SetClientInfo(System $Client, string $Type='add') {
+        if(strtolower($Type)=='add') {
             $params = array('group_id' => $this->groupID);
             $zones[] = $Client->ZoneName();
             $params['zone'] = $zones;
