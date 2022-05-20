@@ -746,6 +746,7 @@ class MusicCastDevice extends IPSModule {
 			for($idx=1;$idx<$num;$idx++) { // $idx is initialized to 1 because index 0 is this instances room name
 				$room = $rooms[$idx];
 				$roomList[] = $room['name'];
+				
 			}
 			
 			$assosiations = $this->CreateProfileAssosiationLinkList($roomList);
