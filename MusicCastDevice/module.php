@@ -185,7 +185,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SendDebug(__FUNCTION__, sprintf('The device name is "%s". Updating form...', $name), 0);
 
 				IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
-				IPS_ApplyChanges();
+				IPS_ApplyChanges($this->InstanceID);
 			} else {
 				$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive the name!', $name), 0);
 			}
