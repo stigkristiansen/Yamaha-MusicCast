@@ -174,9 +174,11 @@ class MusicCastDevice extends IPSModule {
     }
 
 	private function SetNameText() {
+		$this->SendDebug(__FUNCTION__, 'Trying to retrive the device Name...', 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+			$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 			$system = new System($ipAddress, $zoneName);
 			$this->UpdateFormField(Properties::NAME, 'value', $system->NameText());
 		}
