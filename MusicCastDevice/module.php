@@ -477,7 +477,7 @@ class MusicCastDevice extends IPSModule {
 					$system = new System($ipAddress, $zoneName);
 					$clientIpAddress = IPS_GetProperty($InstanceId, Properties::IPADDRESS); //$system->FindRoom($selectedRoom);
 					if($clientIpAddress!='') {
-						$clientZoneName = IPS_GetProperty($instanceId, Properties::ZONENAME);
+						$clientZoneName = IPS_GetProperty($InstanceId, Properties::ZONENAME);
 						$this->SendDebug(__FUNCTION__, sprintf('Linking to room with ip-address %s and zone "%s"', $clientIpAddress, $clientZoneName), 0);
 						
 						$distribution = new Distrbution($system);
