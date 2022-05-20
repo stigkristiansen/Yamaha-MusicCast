@@ -156,7 +156,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 
-			$this->SetNameText();
+			$this->SetDeviceProperties();
         }
 	}
 
@@ -168,16 +168,16 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 
-			$this->SetNameText();
+			$this->SetDeviceProperties();
 		}
             
     }
 
-	private function SetNameText() {
+	private function SetDeviceProperties() {
 		try {
 			$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
+			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
 				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 				$system = new System($ipAddress, $zoneName);
@@ -192,12 +192,11 @@ class MusicCastDevice extends IPSModule {
 					IPS_SetProperty($this->InstanceID, Properties::MODEL, $model);
 					IPS_ApplyChanges($this->InstanceID);
 				} else {
-					$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive the name!', $name), 0);
+					$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive device information!', $name), 0);
 				}
-				//$this->UpdateFormField(Properties::NAME, 'value', $name);
 			}
 		} catch(Exception $e) {
-			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
+			$msg = sprintf(Errors::UNEXPECTED, $e->getMessage());
 			$this->LogMessage($msg, KL_ERROR);
 			$this->SendDebug(__FUNCTION__, $msg, 0);
 		} 
