@@ -174,9 +174,9 @@ class MusicCastDevice extends IPSModule {
     }
 
 	private function SetNameText() {
-		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS)
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
-			$zoneName = $this->ReadPropertyString(Properties::ZONENAME)
+			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			$system = new System($ipAddress, $zoneName);
 			$this->UpdateFormField(Properties::NAME, 'value', $system->NameText());
 		}
@@ -746,7 +746,7 @@ class MusicCastDevice extends IPSModule {
 			for($idx=1;$idx<$num;$idx++) { // $idx is initialized to 1 because index 0 is this instances room name
 				$room = $rooms[$idx];
 				$roomList[] = $room['name'];
-				
+
 			}
 			
 			$assosiations = $this->CreateProfileAssosiationLinkList($roomList);
