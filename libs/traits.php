@@ -296,12 +296,12 @@ trait Profile {
     }
 
     protected function CreateProfileAssosiationLinkList($List) {
-        $assosiations[] = [0, $List[0],  '', -1];
+        $assosiations[] = [0, 'None',  '', -1];
 
         $instanceIds = IPS_GetInstanceListByModuleID('{5B66102A-96ED-DF96-0B89-54E37501F997}');
         foreach($List as $value) {
             foreach($instanceIds as $instanceId) {
-                if(strtolower(IPS_GetProperty($instanceId, Properties::ZONENAME))==strtolower($value)) {
+                if(strtolower(IPS_GetProperty($instanceId, Properties::NAME))==strtolower($value)) {
                     $assosiations[] = [$instanceId, $value,  '', -1];
                     break;        
                 }
