@@ -66,6 +66,10 @@ class System {
         return $this->deviceInfo->model_name;
     }
 
+    public function Serialnumber() {
+        return $this->deviceInfo->system_id;
+    }
+
     public function ZoneList () {
         return $this->features->distribution->server_zone_list;
     }

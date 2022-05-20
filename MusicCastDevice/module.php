@@ -174,23 +174,33 @@ class MusicCastDevice extends IPSModule {
     }
 
 	private function SetNameText() {
-		$this->SendDebug(__FUNCTION__, 'Trying to retrive the device Name...', 0);
-		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
-			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
-			$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
-			$system = new System($ipAddress, $zoneName);
-			$name = $system->NameText();
-			if(strlen($name)>0) {
-				$this->SendDebug(__FUNCTION__, sprintf('The device name is "%s". Updating form...', $name), 0);
-
-				IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
-				IPS_ApplyChanges($this->InstanceID);
-			} else {
-				$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive the name!', $name), 0);
+		try {
+			$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+			If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
+				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
+				$system = new System($ipAddress, $zoneName);
+				$name = $system->NameText();
+				$model = $system->ModelName();
+				$serial = $system->Serialnumber();
+				if(strlen($name)>0) {
+					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
+					
+					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
+					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);
+					IPS_SetProperty($this->InstanceID, Properties::MODEL, $model);
+					IPS_ApplyChanges($this->InstanceID);
+				} else {
+					$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive the name!', $name), 0);
+				}
+				//$this->UpdateFormField(Properties::NAME, 'value', $name);
 			}
-			//$this->UpdateFormField(Properties::NAME, 'value', $name);
-		}
+		} catch(Exception $e) {
+			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
+			$this->LogMessage($msg, KL_ERROR);
+			$this->SendDebug(__FUNCTION__, $msg, 0);
+		} 
 	}
 
 	private function SetTimers() {
