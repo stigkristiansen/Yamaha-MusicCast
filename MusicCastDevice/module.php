@@ -180,8 +180,16 @@ class MusicCastDevice extends IPSModule {
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 			$system = new System($ipAddress, $zoneName);
-			$this->SendDebug(__FUNCTION__, sprintf('The device name is "%s"', $system->NameText()), 0);
-			$this->UpdateFormField(Properties::NAME, 'value', $system->NameText());
+			$name = $system->NameText();
+			if(strlen($name)>0) {
+				$this->SendDebug(__FUNCTION__, sprintf('The device name is "%s". Updating form...', $name), 0);
+
+				IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
+				IPS_ApplyChanges();
+			} else {
+				$this->SendDebug(__FUNCTION__, sprintf('Failed to retrive the name!', $name), 0);
+			}
+			//$this->UpdateFormField(Properties::NAME, 'value', $name);
 		}
 	}
 
