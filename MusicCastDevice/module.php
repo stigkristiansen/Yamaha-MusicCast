@@ -733,7 +733,7 @@ class MusicCastDevice extends IPSModule {
 				$roomList[] = $room['name'];
 			}
 			
-			$assosiations = $this->CreateProfileAssosiationList($roomList);
+			$assosiations = $this->CreateProfileAssosiationLinkList($roomList);
 			$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 			$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
 		}
