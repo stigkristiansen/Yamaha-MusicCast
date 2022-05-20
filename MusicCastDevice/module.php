@@ -175,9 +175,9 @@ class MusicCastDevice extends IPSModule {
 
 	private function SetDeviceProperties() {
 		try {
-			$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
+				$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
 				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 				$system = new System($ipAddress, $zoneName);
