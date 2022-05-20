@@ -155,6 +155,8 @@ class MusicCastDevice extends IPSModule {
             $this->SetTimers();
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+
+			$this->SetNameText();
         }
 	}
 
@@ -165,9 +167,20 @@ class MusicCastDevice extends IPSModule {
 			$this->SetTimers();
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+
+			$this->SetNameText();
 		}
             
     }
+
+	private function SetNameText() {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS)
+		If($ipAddress!='' && $this->ReadPropertyString(Properties::NAME)=='') {
+			$zoneName = $this->ReadPropertyString(Properties::ZONENAME)
+			$system = new System($ipAddress, $zoneName);
+			$this->UpdateFormField(Properties::NAME, 'value', $system->NameText());
+		}
+	}
 
 	private function SetTimers() {
 		$this->SetTimerInterval(Timers::UPDATELISTS . (string) $this->InstanceID, $this->ReadPropertyInteger(Properties::AUTOUPDATELISTINTERVAL)*1000);

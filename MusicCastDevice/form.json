@@ -11,7 +11,7 @@
             "type" :  "ValidationTextBox" ,  "name" :  "SerialNumber" ,  "caption" :  "Serial Number", "enabled": false
         },
         {
-            "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": true
+            "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": false
         },
         {
             "type" :  "Select" ,  "name" :  "ZoneName" ,  "caption" :  "Zone name" , 

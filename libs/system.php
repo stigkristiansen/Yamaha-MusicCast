@@ -90,7 +90,7 @@ class System {
         return (string)$this->deviceDesc->device->friendlyName;
     }
 
-    public function InputList(){
+    public function InputList() {
         foreach($this->features->zone as $zone) {
             if(strtolower($zone->id)==$this->zoneName) {
                 return $zone->input_list;
@@ -98,6 +98,16 @@ class System {
         }
 
         return false;
+    }
+
+    public function NameText() {
+        $result = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getNameText?id='.$this->zoneName);
+
+        if(isset($result->text)) {
+            return $result->text;
+        } else {
+            return '';
+        }
     }
 
     public function Rooms(){
