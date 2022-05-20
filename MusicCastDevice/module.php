@@ -744,7 +744,7 @@ class MusicCastDevice extends IPSModule {
 			$system = new System($ipAddress, $zoneName);
 			$rooms = $system->Rooms();
 			$num = count($rooms);
-			$roomList = array();
+			//$roomList = array();
 			for($idx=1;$idx<$num;$idx++) { // $idx is initialized to 1 because index 0 is this instances room name
 				$room = $rooms[$idx];
 				$roomList[] = $room['name'];
