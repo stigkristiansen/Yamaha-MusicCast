@@ -460,8 +460,8 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function StartLink(int $RoomIndex) {
-		if($RoomIndex==0) {
+	private function StartLink(int $InstanceId) {
+		if($InstanceId==0) {
 			$this->SendDebug(__FUNCTION__, 'Stopping link...', 0);
 			$this->StopLink();
 		} else {
@@ -469,17 +469,19 @@ class MusicCastDevice extends IPSModule {
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$profileName = sprintf(Profiles::LINK, (string)$this->InstanceID);
-				$selectedRoom = $this->GetProfileAssosiationName($profileName, $RoomIndex);
+				$selectedRoom = $this->GetProfileAssosiationName($profileName, $InstanceId);
 				if($selectedRoom!==false) {
 					$msg = sprintf(Debug::ESTABLISHLINK, $selectedRoom);
 					$this->SendDebug(__FUNCTION__, $msg, 0);
 
 					$system = new System($ipAddress, $zoneName);
-					$clientIpAddress = $system->FindRoom($selectedRoom);
-					if($clientIpAddress!==false) {
-						$this->SendDebug(__FUNCTION__, sprintf('Linking to room with ip-address %s', $clientIpAddress), 0);
+					$clientIpAddress = IPS_GetProperty($InstanceId, Properties::IPADDRESS); //$system->FindRoom($selectedRoom);
+					if($clientIpAddress!='') {
+						$clientZoneName = IPS_GetProperty($instanceId, Properties::ZONENAME);
+						$this->SendDebug(__FUNCTION__, sprintf('Linking to room with ip-address %s and zone "%s"', $clientIpAddress, $clientZoneName), 0);
+						
 						$distribution = new Distrbution($system);
-						$distribution->AddClient(new System($clientIpAddress));
+						$distribution->AddClient(new System($clientIpAddress, $clientZoneName));
 						$distribution->Start();
 					} else {
 						$msg = sprintf(Errors::UNKNOWNROOM, $selectedRoom);
