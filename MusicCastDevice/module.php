@@ -286,6 +286,7 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 
 		$data = json_decode($Data, true);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME); 
 
 		try {
 			if(is_array($data)) {
