@@ -335,6 +335,9 @@ class MusicCastDevice extends IPSModule {
 											$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",\''.$identValue.'\');';
 											$this->RegisterOnceTimer('PlayInfoUpdated', $script);
 											break;
+										case 'play_time':
+											$this->HandlePlayTime($value);
+											break;
 									}
 								}
 								break;
