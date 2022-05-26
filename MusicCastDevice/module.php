@@ -290,44 +290,53 @@ class MusicCastDevice extends IPSModule {
 		try {
 			if(is_array($data)) {
 				foreach($data as $sectionKey => $section) {
-					if(is_array($section)) { // Only process if it is an array
-						foreach($section as $key => $value) {
-							switch(strtolower($key)) {
-								case 'power':
-									$this->HandlePower($value);
-									break;
-								case 'play_time':
-									$this->HandlePlayTime($value);
-									break;
-								case 'volume':
-									$this->HandleVolume($value);
-									break;
-								case 'mute':
-									$this->HandleMute($value);
-									break;
-								case 'play_info_updated':
-									$this->SendDebug(__FUNCTION__, Debug::HANDLEPLAYINFO, 0);
-									
-									$identValue = json_encode([
-										'status'=>$value?'true':'false',
-										'type'=>$sectionKey
-									]);
-																											
-									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",\''.$identValue.'\');';
-									$this->RegisterOnceTimer('PlayInfoUpdated', $script);
-									break;
-								case 'status_updated':
-									$this->SendDebug(__FUNCTION__, Debug::HANDLESTATUSUPDATED, 0);
+					if(is_array($section)) {
+						switch($sectionKey) {
+							case $zoneName:
+								foreach($section as $key => $value) {
+									switch(strtolower($key)) {
+										case 'power':
+											$this->HandlePower($value);
+											break; 
+										case 'volume':
+											$this->HandleVolume($value);
+											break;
+										case 'mute':
+											$this->HandleMute($value);
+											break;
+										case 'input':
+											$this->HandleInput($value);
+											break;
+										case 'status_updated':
+											$this->SendDebug(__FUNCTION__, Debug::HANDLESTATUSUPDATED, 0);
 
-									$identValue = $value?'true':'false';
-									$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
-									
-									$this->RegisterOnceTimer('StatusUpdated', $script);
-									break;
-								case 'input':
-									$this->HandleInput($value);
-								default:
-							}
+											$identValue = $value?'true':'false';
+											$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "StatusUpdated",'.$identValue.');';
+											
+											$this->RegisterOnceTimer('StatusUpdated', $script);
+											break;
+									}
+								}
+								break;
+							case 'netusb':
+							case 'tuner':
+							case 'cd':
+								foreach($section as $key => $value) {
+									switch(strtolower($key)) {
+										case 'play_info_updated':
+											$this->SendDebug(__FUNCTION__, Debug::HANDLEPLAYINFO, 0);
+								
+											$identValue = json_encode([
+												'status'=>$value?'true':'false',
+												'type'=>$sectionKey
+											]);
+																													
+											$script = 'IPS_RequestAction(' . (string)$this->InstanceID . ', "PlayInfoUpdated",\''.$identValue.'\');';
+											$this->RegisterOnceTimer('PlayInfoUpdated', $script);
+											break;
+									}
+								}
+								break;
 						}
 					} 
 				}
