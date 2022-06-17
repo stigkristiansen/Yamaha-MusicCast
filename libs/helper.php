@@ -20,7 +20,7 @@ class Errors {
     const UNKNOWNROOM = 'Did not find the room specified (%s)';
     const NOTRESPONDING = 'The device %s is not responding (%s)';
     const MISSINGIP = "The device %s is missing information about it's ip address";
-    const ROOMERROR = 'Unable to read current room list';
+    const ROOMERROR = 'Unable to read room list in profile "%s" or invalid room value %d';
     const INVALIDDATA = 'The data received was invalid';
     const STOPLINK = 'Stopping link...';
     const INVALIDTYPE = 'Invalid type (%s)';
@@ -43,6 +43,7 @@ class Debug {
     const LINKLIST = 'Updated Link list';
     const GETPLAYINFO = 'Retrieving PlayInfo for "%s"';
     const STOPLINK = 'Stopping the link!';
+    const SEARCHFORROOM = 'Seaching for value %d in profile "%s"';
 }
 
 class Properties {

@@ -516,7 +516,7 @@ class MusicCastDevice extends IPSModule {
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$profileName = sprintf(Profiles::LINK, (string)$this->InstanceID);
 
-				$msg = sprintf('Seaching for value %d in profile "%s"', $InstanceId, $profileName);
+				$msg = sprintf(Debug::SEARCHFORROOM, $InstanceId, $profileName);
 				$this->SendDebug(__FUNCTION__, $msg, 0);
 				$selectedRoom = $this->GetProfileAssosiationName($profileName, $InstanceId);
 
@@ -539,8 +539,9 @@ class MusicCastDevice extends IPSModule {
 						$this->SendDebug(__FUNCTION__, $msg, 0);
 					}
 				}  else {
-					$this->LogMessage(Errors::ROOMERROR, KL_ERROR);
-					$this->SendDebug(__FUNCTION__, Errors::ROOMERROR, 0);
+					$msg = sprintf(Errors::ROOMERROR, $profileName, $InstanceId);
+					$this->LogMessage($msg, KL_ERROR);
+					$this->SendDebug(__FUNCTION__, $msg, 0);
 				}
 			} 
 		}
