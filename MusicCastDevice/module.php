@@ -515,7 +515,11 @@ class MusicCastDevice extends IPSModule {
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 			if($this->VerifyDeviceIp($ipAddress)) {
 				$profileName = sprintf(Profiles::LINK, (string)$this->InstanceID);
+
+				$msg = sprintf('Seaching for value %d in profile "%s"', $InstanceId, $ProfileName);
+				$this->SendDebug(__FUNCTION__, $msg, 0);
 				$selectedRoom = $this->GetProfileAssosiationName($profileName, $InstanceId);
+
 				if($selectedRoom!==false) {
 					$msg = sprintf(Debug::ESTABLISHLINK, $selectedRoom);
 					$this->SendDebug(__FUNCTION__, $msg, 0);

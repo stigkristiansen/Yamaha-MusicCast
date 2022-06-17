@@ -312,9 +312,6 @@ trait Profile {
     }
 
     protected function GetProfileAssosiationName($ProfileName, $Index) {
-        $msg = sprintf('Seaching for %d in profile "%s"', $Index, $ProfileName);
-        $this->SendDebug(__FUNCTION__, $msg, 0);
-        
         $profile = IPS_GetVariableProfile($ProfileName);
     
         if($profile!==false) {
