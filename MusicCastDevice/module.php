@@ -126,7 +126,6 @@ class MusicCastDevice extends IPSModule {
 
 		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
-		C
 			$this->DeleteProfile(Profiles::MUTE);
 			$this->DeleteProfile(Profiles::SLEEP);
 			$this->DeleteProfile(Profiles::INFORMATION);
@@ -280,7 +279,7 @@ class MusicCastDevice extends IPSModule {
 		$data = json_decode($JSONString);
 		$this->HandleIncomingData($data->Buffer);
 	}
-	
+
 
 	private function HandleIncomingData(string $Data) {
 		$msg = sprintf('Incoming data: %s', $Data);
