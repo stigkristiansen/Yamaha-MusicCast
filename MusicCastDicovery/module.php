@@ -151,60 +151,75 @@ require_once(__DIR__ . "/../libs/autoload.php");
 
 			$devices = [];
 			foreach($discoveredDevices as $device) {
-				if(isset($device['Fields'][0]) && isset($device['IPv4'])) {
-					$field0 = $device['Fields'][0];
+				if(isset($device['Location']) && isset($device['IPv4'])) {
+					$locationUrl = $device['Location'];
 					$ipAddress = $device['IPv4'];
-					if(stripos($field0, 'Location: ')===0) {
-						$url = substr($field0, stripos($field0, 'http://'));
-						if($url!=$field0) {
-							$result = $this->HttpGet($url);
+					if(strlen($locationUrl)>0) {
+						$result = $this->HttpGet($url);
 
-							if($result['error']) {
-								$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
-								$this->LogMessage($msg, KL_ERROR);
-								$this->SendDebug(__FUNCTION__, $msg, 0);
-								continue;
-							}
-
-							$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); // simplexml_load_string don't accept ":" in tags...
-
-							if($xml===false) {
-								continue;
-							}
-										
-							if(!isset($xml->{"device"}->{"manufacturer"})) {
-								continue;
-							}
-							$manufacturer = (string)$xml->{"device"}->{"manufacturer"};
-						  
-							if(strcasecmp($manufacturer, 'Yamaha Corporation')!=0) {
-								continue;
-							}
-			
-							if(!isset($xml->{"device"}->{"friendlyName"})) {
-								continue;
-							}
-							$name = (string)$xml->{"device"}->{"friendlyName"};
-			
-							if(!isset($xml->{"device"}->{"modelName"})) {
-								continue;
-							}
-							$model = (string)$xml->{"device"}->{"modelName"};
-			
-							if(!isset($xml->{"device"}->{"serialNumber"})) {
-								continue;
-							}
-							$serialNumber = (string)$xml->{"device"}->{"serialNumber"};
-
-							$system = New System($ipAddress);
-			
-							$devices[$serialNumber] = [
-								'Model' => $model,
-								'Name' => $name,
-								'IPAddress' => $ipAddress,
-								'Zones' => $system->ZoneNames()
-							];
+						if($result['error']) {
+							$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
+							$this->LogMessage($msg, KL_ERROR);
+							$this->SendDebug(__FUNCTION__, $msg, 0);
+							continue;
 						}
+
+						$xml = simplexml_load_string(str_replace(':X_', '_X_', $result['xml'])); // simplexml_load_string don't accept ":" in tags...
+
+						if($xml===false) {
+							continue;
+						}
+
+						if(!isset($xml->{"yamaha_X_device"}->{"yamaha_X_URLBase"})) {
+                            continue;
+                        }
+                        $urlBase = (string)$xml->{"yamaha_X_device"}->{"yamaha_X_URLBase"};
+
+                        if(strcasecmp($urlBase, sprintf('http://%s:80/', $ipAddress))!=0) {
+                            continue;
+                        }
+
+                        if(!isset($xml->{"yamaha_X_device"}->{"yamaha_X_serviceList"}->{"yamaha_X_service"}[1]->{"yamaha_X_yxcControlURL"})) {
+                            continue;
+                        }
+                        $controlUrl = (string)$xml->{"yamaha_X_device"}->{"yamaha_X_serviceList"}->{"yamaha_X_service"}[1]->{"yamaha_X_yxcControlURL"};
+
+                        if(strcasecmp($controlUrl, '/YamahaExtendedControl/v1/')!=0) {
+                            continue;
+                        }
+									
+						if(!isset($xml->{"device"}->{"manufacturer"})) {
+							continue;
+						}
+						$manufacturer = (string)$xml->{"device"}->{"manufacturer"};
+						
+						if(strcasecmp($manufacturer, 'Yamaha Corporation')!=0) {
+							continue;
+						}
+		
+						if(!isset($xml->{"device"}->{"friendlyName"})) {
+							continue;
+						}
+						$name = (string)$xml->{"device"}->{"friendlyName"};
+		
+						if(!isset($xml->{"device"}->{"modelName"})) {
+							continue;
+						}
+						$model = (string)$xml->{"device"}->{"modelName"};
+		
+						if(!isset($xml->{"device"}->{"serialNumber"})) {
+							continue;
+						}
+						$serialNumber = (string)$xml->{"device"}->{"serialNumber"};
+
+						$system = New System($ipAddress);
+		
+						$devices[$serialNumber] = [
+							'Model' => $model,
+							'Name' => $name,
+							'IPAddress' => $ipAddress,
+							'Zones' => $system->ZoneNames()
+						];
 					}
 				}
 			}

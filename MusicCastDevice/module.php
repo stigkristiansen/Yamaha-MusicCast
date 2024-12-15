@@ -126,7 +126,7 @@ class MusicCastDevice extends IPSModule {
 
 		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
-			$this->DeleteProfile(Profiles::CONTROL);
+		C
 			$this->DeleteProfile(Profiles::MUTE);
 			$this->DeleteProfile(Profiles::SLEEP);
 			$this->DeleteProfile(Profiles::INFORMATION);
