@@ -155,7 +155,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					$locationUrl = $device['Location'];
 					$ipAddress = $device['IPv4'];
 					if(strlen($locationUrl)>0) {
-						$result = $this->HttpGet($url);
+						$result = $this->HttpGet($locationUrl);
 
 						if($result['error']) {
 							$msg = sprintf('Retrieving %s failed with error "%s"', $url, $result['errortext']);
