@@ -280,6 +280,7 @@ class MusicCastDevice extends IPSModule {
 		$data = json_decode($JSONString);
 		$this->HandleIncomingData($data->Buffer);
 	}
+	
 
 	private function HandleIncomingData(string $Data) {
 		$msg = sprintf('Incoming data: %s', $Data);
