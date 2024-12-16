@@ -62,6 +62,8 @@ require_once(__DIR__ . "/../libs/autoload.php");
 		private function LoadDevices() {
 			$this->SendDebug(__FUNCTION__, 'Updating Discovery form...', 0);
 
+			$this->UpdateFormField('SearchingInfo', 'visible', true);
+
 			$devices = $this->DiscoverMusicCastDevices();
 			$instances = $this->GetMusicCastInstances();
 			
