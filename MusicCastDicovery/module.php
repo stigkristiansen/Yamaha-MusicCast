@@ -119,11 +119,11 @@ require_once(__DIR__ . "/../libs/autoload.php");
 
 			// Add devices that are not discovered, but created earlier
 			if(count($instances)>0) {
-				$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered...', 0);
+				$this->SendDebug(__FUNCTION__, 'Adding instances that are not discovered, but created earlier...', 0);
 			}
-			foreach ($instances as $instanceId => $serialNumber) {
+			foreach ($instances as $instanceId => $serialNumberZone) {
 				$values[] = [
-					'SerialNumber'  => $serialNumber, 
+					'SerialNumber'  => explode(".", $serialNumberZone)[0], 
 					'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
 					'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
 					'ZoneName'		=> json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName'],
