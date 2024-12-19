@@ -37,7 +37,7 @@
             "caption": "Inputs",
             "delete": true,
             "add": true,
-            "rowCount": 1,
+            "rowCount": 5,
             "sort": {
                 "column": "Input",
                 "direction": "ascending"
@@ -47,11 +47,11 @@
                     "caption": "Input",
                     "name": "Input", 
                     "width": "75px",
-                    "rowCount": 5,
-                    "add": "",
+                    "add": "New input...",
                     "edit": {
 					    "type": "Select", "name": "DeviceType", "caption": "Unit",
                         "options": [
+                            { "caption": "New input", "value": "new" },
                             { "caption": "HDMI 1", "value": "hdmi1" },
                             { "caption": "HDMI 2", "value": "hdmi2" },
                             { "caption": "HDMI 3", "value": "hdmi3" },
