@@ -47,10 +47,25 @@
                     "caption": "Input",
                     "name": "Input", 
                     "width": "75px",
-                    "add": "New input..."
+                    "add": "hdmi1"
                 }
             ],
-            "form": "return YMC_AvailableInputsForm($id);"
+            "form": [
+                "return [[",
+                "    'type' => 'Select',",
+                "    'caption' => 'Inputs',",
+                "    'options' => [",
+                "         [",
+                "             'caption' => 'HDMI1',",
+                "             'value' => 'hdmi1'",
+                "         ],",
+                "         [",
+                "             'caption' => 'HDMI2',",
+                "             'value' => 'hdmi2'",
+                "         ]",
+                "     ]",
+                "]];"
+            ]
         }
   
 
