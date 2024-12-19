@@ -47,6 +47,7 @@
                     "caption": "Input",
                     "name": "Input", 
                     "width": "75px",
+                    "rowCount": 5,
                     "add": "",
                     "edit": {
 					    "type": "Select", "name": "DeviceType", "caption": "Unit",
