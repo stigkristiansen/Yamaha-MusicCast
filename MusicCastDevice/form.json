@@ -48,7 +48,15 @@
                     "name": "Input", 
                     "width": "75px",
                     "add": "",
-                    "edit": "Select"
+                    "edit": {
+					    "type": "Select", "name": "DeviceType", "caption": "Unit",
+                        "options": [
+                            { "caption": "HDMI 1", "value": "hdmi1" },
+                            { "caption": "HDMI 2", "value": "hdmi2" },
+                            { "caption": "HDMI 3", "value": "hdmi3" },
+                            { "caption": "HDMI 4", "value": "hdmi4" }
+                        ]
+					}
                 }
             ]
         }
