@@ -27,7 +27,7 @@ class MusicCastDevice extends IPSModule {
 
 		$form[] = $field;
 		
-		return $form;
+		return json_encode($form);
 	}
 	
 	public function Create() {
