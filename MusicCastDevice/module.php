@@ -10,8 +10,11 @@ class MusicCastDevice extends IPSModule {
 	use Utils;
 	use MusicCast;
 
-	public function AvailableInputsForm() {
-		return "[['type' => 'Label','caption' => 'Caption1'], ['type' => 'Label','caption' => 'Caption2']];";
+	public function AvailableInputs() {
+		return [
+			['caption' => 'HDMI1', 'value' => 'hdmi1'],
+			['caption' => 'HDMI2', 'value' => 'hdmi2']
+		];
 	}
 	
 	public function Create() {
@@ -25,6 +28,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterPropertyString(Properties::NAME, '');
 		$this->RegisterPropertyString(Properties::SERIALNUMBER, '');
 		$this->RegisterPropertyString(Properties::ZONENAME, Zones::MAIN);
+		$this->RegisterPropertyString(Inputs, '');
 		
 		$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
