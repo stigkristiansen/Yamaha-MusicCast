@@ -51,7 +51,7 @@
                 }
             ],
             "form": [
-                "$values = YMC_AvailableInputsForm($id)",
+                "$values = YMC_AvailableInputs($id);",
                 "return [[",
                 "    'type' => 'Select',",
                 "    'caption' => 'Inputs',",
