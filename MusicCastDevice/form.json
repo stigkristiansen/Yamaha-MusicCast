@@ -47,7 +47,7 @@
                     "caption": "Input",
                     "name": "Input", 
                     "width": "75px",
-                    "add": "hdmi2",
+                    "add": "Select input",
                     "save": true
                 }
             ],
@@ -58,12 +58,16 @@
                 "    'caption' => 'Inputs',",
                 "    'options' => [",
                 "         [",
+                "             'caption' => 'Select input',",
+                "             'value' => 'Select input'",
+                "         ],",
+                "         [",
                 "             'caption' => 'HDMI1',",
-                "             'value' => 'hdmi1'",
+                "             'value' => 'Hdmi1'",
                 "         ],",
                 "         [",
                 "             'caption' => 'HDMI2',",
-                "             'value' => 'hdmi2'",
+                "             'value' => 'Hdmi2'",
                 "         ]",
                 "     ]",
                 "]];"
