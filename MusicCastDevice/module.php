@@ -28,7 +28,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterPropertyString(Properties::NAME, '');
 		$this->RegisterPropertyString(Properties::SERIALNUMBER, '');
 		$this->RegisterPropertyString(Properties::ZONENAME, Zones::MAIN);
-		$this->RegisterPropertyString(Inputs, '');
+		$this->RegisterPropertyString("Inputs", '');
 		
 		$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
