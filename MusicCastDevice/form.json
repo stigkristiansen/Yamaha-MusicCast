@@ -50,7 +50,7 @@
                     "add": "New input..."
                 }
             ],
-            "form": "YMC_AvailableInputsForm($id);"
+            "form": "return YMC_AvailableInputsForm($id);"
         }
   
 
