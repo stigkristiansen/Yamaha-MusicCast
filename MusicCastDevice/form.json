@@ -53,10 +53,10 @@
             "form": [
                 "return [[",
                 "    'type' => 'Label',",
-                "    'caption' => var_export($dynamicList, true)",
+                "    'caption' => var_export($Inputs, true)",
                 "], [",
                 "    'type' => 'Label',",
-                "    'caption' => $dynamicList['info']",
+                "    'caption' => $Inputs['Input']",
                 "]];"
             ]
         }
