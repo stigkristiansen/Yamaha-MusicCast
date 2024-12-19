@@ -30,6 +30,27 @@
         },
         {
             "type": "CheckBox", "name": "AutoUpdateLists", "caption": "Automatically update Playlists and Favourites"
+        },
+        {
+            "type": "List",
+            "name": "Inputs",
+            "caption": "Inputs",
+            "delete": true,
+            "add": true,
+            "rowCount": 1,
+            "sort": {
+                "column": "Input",
+                "direction": "ascending"
+            },
+            "columns": [
+                {
+                    "caption": "Input",
+                    "name": "Input", 
+                    "width": "75px",
+                    "add": "",
+                    "edit": "Select"
+                }
+            ]
         }
     ],
     "actions": [
