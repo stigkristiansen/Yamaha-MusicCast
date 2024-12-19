@@ -50,9 +50,8 @@
                     "add": "New input..."
                 }
             ],
-            "form": [
-                "return [['type' => 'Label','caption' => var_export($Inputs, true)], ['type' => 'Label','caption' => $Inputs['Input']]];"
-            ]
+            "form": "return [['type' => 'Label','caption' => var_export($Inputs, true)], ['type' => 'Label','caption' => $Inputs['Input']]];"
+            
         }
   
 

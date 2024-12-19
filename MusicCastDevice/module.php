@@ -11,23 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputsForm() {
-		$form = [];
-		
-		$field = [
-			"type" => "Label",
-			"caption" => "Test1"
-		];
-
-		$form[] = $field;
-
-		$field = [
-			"type" => "Label",
-			"caption" => "Test2"
-		];
-
-		$form[] = $field;
-		
-		return json_encode($form);
+		return "[['type' => 'Label','caption' => var_export($Inputs, true)], ['type' => 'Label','caption' => $Inputs['Input']]];";
 	}
 	
 	public function Create() {
