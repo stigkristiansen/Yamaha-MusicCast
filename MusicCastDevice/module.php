@@ -9,6 +9,26 @@ class MusicCastDevice extends IPSModule {
 	use Buffer;
 	use Utils;
 	use MusicCast;
+
+	public function AvailableInputsForm() {
+		$form = [];
+		
+		$field = [
+			"type" => "Label",
+			"caption" => "Test1"
+		];
+
+		$form[] = $field;
+
+		$field = [
+			"type" => "Label",
+			"caption" => "Test2"
+		];
+
+		$form[] = $field;
+		
+		return $form;
+	}
 	
 	public function Create() {
 		//Never delete this line!
