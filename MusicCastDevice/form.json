@@ -51,7 +51,13 @@
                 }
             ],
             "form": [
-                "return YMC_AvailableInputsForm($id)"
+                "return [[",
+                "    'type' => 'Label',",
+                "    'caption' => var_export($dynamicList, true)",
+                "], [",
+                "    'type' => 'Label',",
+                "    'caption' => $dynamicList['info']",
+                "]];"
             ]
         }
   
