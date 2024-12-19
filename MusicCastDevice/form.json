@@ -53,7 +53,7 @@
             "form": [
                 "return [[",
                 "    'type' => 'Select',",
-                "    'name' => 'Input'",
+                "    'name' => 'Input,'",
                 "    'caption' => 'Inputs',",
                 "    'options' => [",
                 "         [",
