@@ -51,7 +51,7 @@
                 }
             ],
             "form": [
-                "return YMC_AvailableInputsForm($id);"
+                "YMC_AvailableInputsForm($id);"
             ]
         }
   
