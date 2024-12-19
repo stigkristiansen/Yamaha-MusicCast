@@ -47,7 +47,8 @@
                     "caption": "Input",
                     "name": "Input", 
                     "width": "75px",
-                    "add": "hdmi2"
+                    "add": "hdmi2",
+                    "save": true
                 }
             ],
             "form": [
