@@ -13,7 +13,7 @@ class MusicCastDevice extends IPSModule {
 	public function AvailableInputs() : array {
 		$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 
-		$this->SendDebug(__FUNCTION__, sprintf('Attribute for inputs: %s', $this->ReadAttributeString(Attributes::INPUTS , 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Attribute for inputs: %s', $this->ReadAttributeString(Attributes::INPUTS , 0)));
 
 	   	$form = [];
 
