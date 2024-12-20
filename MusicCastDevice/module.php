@@ -226,7 +226,7 @@ class MusicCastDevice extends IPSModule {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
 				$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
-				$this->LogMessage(sprintf('Trying to retrive the device information...', KL_NOTIFY);
+				$this->LogMessage('Trying to retrive the device information...', KL_NOTIFY);
 				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 				$system = new System($ipAddress, $zoneName);
