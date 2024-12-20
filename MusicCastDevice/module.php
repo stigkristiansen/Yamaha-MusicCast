@@ -11,7 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputs() : array {
-		$inputs = json_decode($this->ReadAttributeString(Attribute::INPUTS), true);	
+		$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 
 	   	$form = [];
 
@@ -233,7 +233,7 @@ class MusicCastDevice extends IPSModule {
 				if(strlen($name)>0) {
 					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
 
-					$this->WriteAttributeString(json_encode($system->InputList()));
+					$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
 					
 					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
 					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);
