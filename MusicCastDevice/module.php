@@ -20,8 +20,8 @@ class MusicCastDevice extends IPSModule {
 
 	   $form[] = [
 			'type' => 'Select',
-			'name' => 'Inputs',
-			'caption' => 'Inputs',
+			'name' => 'Input',
+			'caption' => 'Input',
 			'options' => [
 				[
 					'caption' => 'Select input',
@@ -40,30 +40,11 @@ class MusicCastDevice extends IPSModule {
 
 	   return $form;
    
-	   /*$inputsString = "[[".
-	   				   "    'type' => 'Select',".
-					   "    'name' => 'Input',".
-					   "    'caption' => 'Inputs',".
-					   "    'options' => [".
-	   				   "[".
-					   "   'caption' => 'Select input',".
-					   "   'value' => 'Select input'".
-					   "]";  
 	   
 	   foreach($inputs as $input) {
-			$inputsString.=
-			",".
-			"[".
-			"    'caption' => '".$input."',".
-			"    'value' => '".$input."'".
-			"]";
+		
 	   }
 
-	   $inputsString.= "     ]".
-	   				   "]];";
-
-	   return $inputsString;
-	   */
 	}
 	
 	public function Create() {
