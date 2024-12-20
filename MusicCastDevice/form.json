@@ -52,23 +52,13 @@
                 }
             ],
             "form": [
+                "$options = YMC_AvailableInputs($id);",
                 "return [[",
                 "    'type' => 'Select',",
                 "    'name' => 'Input',",
                 "    'caption' => 'Inputs',",
                 "    'options' => [",
-                "         [",
-                "             'caption' => 'Select input',",
-                "             'value' => 'Select input'",
-                "         ],",
-                "         [",
-                "             'caption' => 'HDMI1',",
-                "             'value' => 'Hdmi1'",
-                "         ],",
-                "         [",
-                "             'caption' => 'HDMI2',",
-                "             'value' => 'Hdmi2'",
-                "         ]",
+                "       .$options.",
                 "     ]",
                 "]];"
             ]

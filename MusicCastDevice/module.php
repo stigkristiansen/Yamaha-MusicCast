@@ -11,10 +11,26 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputs() {
-		return [
-			['caption' => 'HDMI1', 'value' => 'hdmi1'],
-			['caption' => 'HDMI2', 'value' => 'hdmi2']
-		];
+		$inputs = [
+			'hdmi1',
+			'hdmi2'
+	   ];
+	   
+	   $inputsString = "[" .
+					   "   'caption' => 'Select input',".
+					   "   'value' => 'Select input'".
+					   "]";  
+	   
+	   foreach($inputs as $input) {
+			$inputsString.=
+			",".
+			"[".
+			"    'caption' => '".$input."',".
+			"    'value' => '".$input."'".
+			"]";
+	   }
+
+	   return $inputsString;
 	}
 	
 	public function Create() {
