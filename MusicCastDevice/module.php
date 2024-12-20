@@ -14,11 +14,11 @@ class MusicCastDevice extends IPSModule {
 		$inputs = [
 			'hdmi1',
 			'hdmi2'
-	   ];
+	   	];
 
-	   $form = [];
+	   	$form = [];
 
-	   $form[] = [
+	   	$form[] = [
 			'type' => 'Select',
 			'name' => 'Input',
 			'caption' => 'Input',
@@ -26,25 +26,16 @@ class MusicCastDevice extends IPSModule {
 				[
 					'caption' => 'Select input',
 					'value' => 'Select input'
-				],
-				[
-					'caption' => 'HDMI1',
-					'value' => 'HDMI1'
-				],
-				[
-					'caption' => 'HDMI2',
-					'value' => 'HDMI2'
 				]
 			]
-	   ];
+	   	];
+
+		foreach($inputs as $input) {
+			$form[0]['options'][] = ['caption' => $input, 'value' => $input];
+	   	}
 
 	   return $form;
    
-	   
-	   foreach($inputs as $input) {
-		
-	   }
-
 	}
 	
 	public function Create() {

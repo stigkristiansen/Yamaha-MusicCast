@@ -46,7 +46,7 @@
                 {
                     "caption": "Input",
                     "name": "Input", 
-                    "width": "75px",
+                    "width": "150px",
                     "add": "Select input",
                     "save": true
                 }
