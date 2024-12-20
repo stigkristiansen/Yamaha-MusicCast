@@ -23,7 +23,7 @@ class MusicCastDevice extends IPSModule {
 				[
 					'type' => 'Label',
 					'caption' => 'Missing information about available inputs.'
-				], 
+				] 
 				[
 					'type' => 'Label',
 					'caption' => 'Press APPLY CHANGES to first retrieve inputs available.'
