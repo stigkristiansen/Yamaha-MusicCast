@@ -53,14 +53,14 @@
             ],
             "form": [
                 "$options = YMC_AvailableInputs($id);",
-                "return [[",
+                "return sprintf('[[",
                 "    'type' => 'Select',",
                 "    'name' => 'Input',",
                 "    'caption' => 'Inputs',",
                 "    'options' => [",
-                "       $options",
+                "       %s",
                 "     ]",
-                "]];"
+                "]];', $options);"
             ]
         }
   
