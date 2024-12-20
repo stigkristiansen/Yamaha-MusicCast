@@ -25,7 +25,7 @@ class MusicCastDevice extends IPSModule {
 			'options' => [
 				[
 					'caption' => 'Select input',
-					'value' => 'Select inputs'
+					'value' => 'Select input'
 				],
 				[
 					'caption' => 'HDMI1',
