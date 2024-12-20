@@ -58,7 +58,7 @@
                 "    'name' => 'Input',",
                 "    'caption' => 'Inputs',",
                 "    'options' => [",
-                
+                "       $options",
                 "     ]",
                 "]];"
             ]
