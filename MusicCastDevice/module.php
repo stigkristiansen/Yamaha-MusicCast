@@ -11,7 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputs() : array {
-		$inputs = json_decode(ReadAttributeString(Attribute::INPUTS), true);	
+		$inputs = json_decode($this->ReadAttributeString(Attribute::INPUTS), true);	
 
 	   	$form = [];
 
