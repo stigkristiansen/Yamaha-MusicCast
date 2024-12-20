@@ -242,8 +242,8 @@ class MusicCastDevice extends IPSModule {
 
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 
-			$this->LogMessage(sprintf('The ip is: %s', $ipAddress), KL_NOTIFY);
-			$this->LogMessage(sprintf('The name is: %s', $this->ReadPropertyString(Properties::NAME)), KL_NOTIFY);
+			//$this->LogMessage(sprintf('The ip is: %s', $ipAddress), KL_NOTIFY);
+			//$this->LogMessage(sprintf('The name is: %s', $this->ReadPropertyString(Properties::NAME)), KL_NOTIFY);
 			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
 				$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
 				//$this->LogMessage('Trying to retrive the device information...', KL_NOTIFY);
@@ -258,11 +258,11 @@ class MusicCastDevice extends IPSModule {
 				if(strlen($name)>0) {
 					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
 
-					$this->LogMessage(sprintf('Inputs available: %s',json_encode($system->InputList())), KL_NOTIFY);
+					//$this->LogMessage(sprintf('Inputs available: %s',json_encode($system->InputList())), KL_NOTIFY);
 
-					$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
+					//$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
 
-					$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0));
+					//$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0));
 					
 					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
 					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);
