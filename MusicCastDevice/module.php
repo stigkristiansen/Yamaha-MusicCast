@@ -11,10 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputs() : array {
-		$inputs = [
-		//	'hdmi1',
-		//	'hdmi2'
-	   	];
+		$inputs = json_decode(ReadAttributeString(Attribute::INPUTS), true);	
 
 	   	$form = [];
 
@@ -60,6 +57,8 @@ class MusicCastDevice extends IPSModule {
 		parent::Create();
 
 		$this->ConnectParent('{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}');
+
+		$this->RegisterAttributeString(Attributes::INPUTS, '');
 
 		$this->RegisterPropertyString(Properties::IPADDRESS, '');
 		$this->RegisterPropertyString(Properties::MODEL, '');
@@ -229,8 +228,12 @@ class MusicCastDevice extends IPSModule {
 				$name = $system->NameText();
 				$model = $system->ModelName();
 				$serial = $system->Serialnumber();
+
+		
 				if(strlen($name)>0) {
 					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
+
+					$this->WriteAttributeString(json_encode($system->InputList()));
 					
 					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
 					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);

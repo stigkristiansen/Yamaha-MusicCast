@@ -56,6 +56,9 @@ class Properties {
     const ZONENAME = 'ZoneName';
 }
 
+class Attributes {
+    const INPUTS = 'Inputs';
+}
 class Timers {
     const UPDATE = 'Update';
     const UPDATELISTS = 'UpdateLists';
