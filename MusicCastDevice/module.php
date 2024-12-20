@@ -235,6 +235,8 @@ class MusicCastDevice extends IPSModule {
 				if(strlen($name)>0) {
 					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
 
+					$this->LogMessage(sprintf('Inputs available: %s',json_encode($system->InputList())), KL_NOTIFY);
+
 					$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
 
 					$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0));
