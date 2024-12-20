@@ -15,8 +15,14 @@ class MusicCastDevice extends IPSModule {
 			'hdmi1',
 			'hdmi2'
 	   ];
-	   
-	   $inputsString = "[" .
+
+   
+	   $inputsString = "[[".
+	   				   "    'type' => 'Select',".
+					   "    'name' => 'Input',".
+					   "    'caption' => 'Inputs',".
+					   "    'options' => [".
+	   				   "[".
 					   "   'caption' => 'Select input',".
 					   "   'value' => 'Select input'".
 					   "]";  
@@ -29,6 +35,9 @@ class MusicCastDevice extends IPSModule {
 			"    'value' => '".$input."'".
 			"]";
 	   }
+
+	   $inputsString.= "     ]".
+	   				   "]];";
 
 	   return $inputsString;
 	}
