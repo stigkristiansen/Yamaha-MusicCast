@@ -12,23 +12,39 @@ class MusicCastDevice extends IPSModule {
 
 	public function AvailableInputs() : array {
 		$inputs = [
-			'hdmi1',
-			'hdmi2'
+		//	'hdmi1',
+		//	'hdmi2'
 	   	];
 
 	   	$form = [];
 
-	   	$form[] = [
-			'type' => 'Select',
-			'name' => 'Input',
-			'caption' => 'Input',
-			'options' => [
+		if(sizeof($inputs)==0) {
+			$form[] = 
 				[
-					'caption' => 'Select input',
-					'value' => 'Select input'
+					'type' => 'Label',
+					'caption' => 'Missing information about available inputs.'
+				], 
+				[
+					'type' => 'Label',
+					'caption' => 'Press ""Apply Changes"" to retrieve inputs available.'
+				];
+
+				return $form;
+		}
+
+	   	
+		$form[] = 
+			[
+				'type' => 'Select',
+				'name' => 'Input',
+				'caption' => 'Input',
+				'options' => [
+					[
+						'caption' => 'Select input',
+						'value' => 'Select input'
+					]
 				]
-			]
-	   	];
+			];
 
 		foreach($inputs as $input) {
 			$form[0]['options'][] = ['caption' => $input, 'value' => $input];
