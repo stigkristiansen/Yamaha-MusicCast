@@ -237,7 +237,7 @@ class MusicCastDevice extends IPSModule {
 
 					$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
 
-					$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0);
+					$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0));
 					
 					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
 					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);
