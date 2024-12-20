@@ -26,7 +26,7 @@ class MusicCastDevice extends IPSModule {
 				], 
 				[
 					'type' => 'Label',
-					'caption' => 'Press ""Apply Changes"" to retrieve inputs available.'
+					'caption' => 'Press APPLY CHANGES to first retrieve inputs available.'
 				];
 
 				return $form;
