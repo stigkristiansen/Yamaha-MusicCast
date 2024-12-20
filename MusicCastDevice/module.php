@@ -11,24 +11,41 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function AvailableInputs() : array {
-		$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		//$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 
-		$this->SendDebug(__FUNCTION__, sprintf('Attribute for inputs: %s', $this->ReadAttributeString(Attributes::INPUTS)) , 0);
+		//$this->SendDebug(__FUNCTION__, sprintf('Attribute for inputs: %s', $this->ReadAttributeString(Attributes::INPUTS)) , 0);
 
-	   	$form = [];
+		$form = [];
 
-		if(sizeof($inputs)==0) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
+		if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
+			$form[] = 
+				[
+					'type' => 'Label',
+					'caption' => 'Both IP-address and zone must first be specified.'
+				];
+			$form[] =
+				[
+					'type' => 'Label',
+					'caption' => 'Please specify and apply the changes.'
+				];
+
+				return $form;
+
+		}
+
+		$system = new System($ipAddress, $zoneName);
+		$inputs = $system->InputList();
+ 	
+		if($inputs!==false && sizeof($inputs)==0) {
 			$form[] = 
 				[
 					'type' => 'Label',
 					'caption' => 'Missing information about available inputs.'
 				];
-			$form[] =
-				[
-					'type' => 'Label',
-					'caption' => 'Press APPLY CHANGES to first retrieve inputs available.'
-				];
-
+		
 				return $form;
 		}
 
@@ -221,7 +238,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function SetDeviceProperties() {
 		try {
-			$this->LogMessage('Inside SetDeviceProperties', KL_NOTIFY);
+			//$this->LogMessage('Inside SetDeviceProperties', KL_NOTIFY);
 
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 
@@ -229,7 +246,7 @@ class MusicCastDevice extends IPSModule {
 			$this->LogMessage(sprintf('The name is: %s', $this->ReadPropertyString(Properties::NAME)), KL_NOTIFY);
 			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
 				$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
-				$this->LogMessage('Trying to retrive the device information...', KL_NOTIFY);
+				//$this->LogMessage('Trying to retrive the device information...', KL_NOTIFY);
 				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 				$system = new System($ipAddress, $zoneName);
