@@ -56,7 +56,7 @@ class MusicCastDevice extends IPSModule {
 					return $form;
 			}
 
-			$this->WriteAttributeString(Attributes::INPUTS, josn_encode($inputs));
+			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
 		} else {
 			$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
