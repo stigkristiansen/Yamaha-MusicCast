@@ -11,7 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function UpdateInputs($Inputs) {
-		$this->SendDebug(__FUNCTION__, sprintf('Inputs to handle: %s', json_encode($Inputs)), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Inputs to handle: %s', var_export($Inputs)), 0);
 
 		$newInputs = [];
 		foreach ($Inputs as $input) {
