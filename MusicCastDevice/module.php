@@ -19,7 +19,8 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			$newInputs[] = [
-				'Input' => $input['Input']
+				'Input' => $input['Input'],
+				'CustomName' => $input['CustomName']
 			];
 		}
 
