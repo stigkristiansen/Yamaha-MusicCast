@@ -256,7 +256,7 @@ class PlayInfo {
                 return Input::TUNER;
             case 'hdmi1':
                 return Input::HDMI1;
-            case 'hdmi21':
+            case 'hdmi2':
                 return Input::HDMI2;
             case 'hdmi3':
                   return Input::HDMI3;
@@ -266,7 +266,7 @@ class PlayInfo {
                 return Input::AV1;
             case 'av2':
                 return Input::AV2;
-            case 'av31':
+            case 'av3':
                 return Input::AV3;
             case 'audio1':
                 return Input::AUDIO1;
