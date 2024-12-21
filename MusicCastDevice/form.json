@@ -52,7 +52,7 @@
                 }
             ],
             "form": [
-                "return YMC_AvailableInputs($id);"
+                "return YMC_AvailableInputs($id, $Inputs);"
             ],
             "onAdd": "YMC_UpdateInputs($id, $Inputs);",
             "onEdit": "YMC_UpdateInputs($id, $Inputs);"

@@ -29,7 +29,9 @@ class MusicCastDevice extends IPSModule {
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
 
-	public function AvailableInputs() : array {
+	public function AvailableInputs($Inputs) : array {
+		$this->SendDebug(__FUNCTION__, sprintf('Inputs already registerd: %s', var_export($Inputs)), 0);
+
 		$form = [];
 
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
