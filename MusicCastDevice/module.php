@@ -95,7 +95,7 @@ class MusicCastDevice extends IPSModule {
 			if($selectedRow!='select input') {
 				foreach($SelectedInputs as $selectedInput) {
 				//$this->SendDebug(__FUNCTION__, sprintf('Selected input is %s', $selectedInput['Input']), 0);
-				if((strtolower($selectedInput['Input'])==strtolower($supportedInput)) && )
+				if((strtolower($selectedInput['Input'])==strtolower($supportedInput)) && ) {
 					continue 2;
 				}
 			}
