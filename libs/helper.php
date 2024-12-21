@@ -235,7 +235,7 @@ class PlayInfo {
             case 'napster':
                 return Input::NAPSTER;
             case 'spotify':
-                return Input:SPOTIFY;
+                return Input::SPOTIFY;
             case 'qobuz':
                 return Input::QOBUZ;
             case 'deezer':
