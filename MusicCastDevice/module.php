@@ -90,13 +90,14 @@ class MusicCastDevice extends IPSModule {
 			];
 
 		foreach($supportedInputs as $supportedInput) {
-			if(strtolower($input)!='mc_link') {
-				foreach($SelectedInputs as $SelectedInput) {
-					if(strtolower($SelectedInput['Input'])==strtolower($supportedInput))
+			if(strtolower($supportedInput)=='mc_link') 
+				continue;
+						
+				foreach($SelectedInputs as $selectedInput) {
+					if(strtolower($selectedInput['Input'])==strtolower($supportedInput))
 						continue 2;
 				}
 				$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
-			}
 	   	}
 
 	   return $form;
