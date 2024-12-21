@@ -11,8 +11,7 @@ class MusicCastDevice extends IPSModule {
 	use MusicCast;
 
 	public function UpdateInputs($Inputs) {
-		$this->SendDebug(__FUNCTION__, sprintf('Inputs to handle: %s', var_export($Inputs)), 0);
-
+		
 		$newInputs = [];
 		foreach ($Inputs as $input) {
 			if($input['Input']== 'Select input') {
@@ -23,8 +22,6 @@ class MusicCastDevice extends IPSModule {
 				'Input' => $input['Input']
 			];
 		}
-
-		$this->SendDebug(__FUNCTION__, sprintf('New inputs: %s', json_encode($newInputs)), 0);
 
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
@@ -90,9 +87,6 @@ class MusicCastDevice extends IPSModule {
 			];
 
 		foreach($supportedInputs as $supportedInput) {
-
-			$this->SendDebug(__FUNCTION__, sprintf('Supported input is %s', $supportedInput), 0);
-
 			if(strtolower($supportedInput)=='mc_link') 
 				continue;
 						
@@ -102,7 +96,6 @@ class MusicCastDevice extends IPSModule {
 					continue 2;
 			}
 
-			$this->SendDebug(__FUNCTION__, sprintf('Adding supported input %s to the dropdown list', $supportedInput), 0);
 			$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
 	   	}
 
