@@ -48,6 +48,14 @@
                     "name": "Input", 
                     "width": "150px",
                     "add": "Select input",
+                    "save": true,
+                    "visible": false
+                },
+                {
+                    "caption": "Custom Name",
+                    "name": "CustomName", 
+                    "width": "150px",
+                    "add": "",
                     "save": true
                 }
             ],

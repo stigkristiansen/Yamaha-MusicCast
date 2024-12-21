@@ -181,6 +181,29 @@ class Input {
     const FM = 'FM';
     const DAB = 'DAB';
     const CD = 'CD';
+    const NAPSTER = 'Napster';
+    const SPOTIFY = 'Spotify';
+    const QOBUZ = 'Qobuz';
+    const DEEZER = 'Deezer';
+    const AMZON_MUSIC = 'Amazon Music';
+    const ALEXA = 'Alexa';
+    const AIRPLAY = 'Airplay';
+    const SERVER = 'Server';
+    const NET_SERVER = 'Net Server';
+    const BLUETOOTH = 'Bluetooth';
+    const USB = 'Usb';
+    const TUNER = 'Tuner';
+    const HDMI1 = 'HDMI 1';
+    const HDMI2 = 'HDMI 2';
+    const HDMI3 = 'HDMI 3';
+    const HDMI4 = 'HDMI 4';
+    const AV1 = 'AV 1';
+    const AV2 = 'AV 2';
+    const AV3 = 'AV 3';
+    const AUDIO1 = 'Audio 1';
+    const AUDIO2 = 'Audio 2';
+    const AUDIO3 = 'Audio 3';
+    const AUX = 'Aux';
 }
 
 class PlayInfo {
@@ -194,7 +217,7 @@ class PlayInfo {
     private $playTime;
 
     static function MapInput(string $Input) {
-        switch($Input) {
+        switch(strtolower($Input)) {
             case 'tidal':
                 return Input::TIDAL;
             case 'net_radio':
@@ -209,6 +232,50 @@ class PlayInfo {
                 return Input::DAB;
             case 'cd':
                 return Input::CD;
+            case 'napster':
+                return Input::NAPSTER;
+            case 'spotify':
+                return Input:SPOTIFY;
+            case 'qobuz':
+                return Input::QOBUZ;
+            case 'deezer':
+                return Input::DEEZER;
+            case 'amazon_music':
+                return Input::AMZON_MUSIC;
+            case 'alexa':
+                return Input::ALEXA;
+            case 'airplay':
+                return Input::AIRPLAY;
+            case 'server':
+                return Input::SERVER;
+            case 'bluetooth':
+                return Input::BLUETOOTH;
+            case 'usb':
+                return Input::USB;
+            case 'tuner':
+                return Input::TUNER;
+            case 'hdmi1':
+                return Input::HDMI1;
+            case 'hdmi21':
+                return Input::HDMI2;
+            case 'hdmi3':
+                  return Input::HDMI3;
+            case 'hdmi4':
+                return Input::HDMI4;
+            case 'av1':
+                return Input::AV1;
+            case 'av2':
+                return Input::AV2;
+            case 'av31':
+                return Input::AV3;
+            case 'audio1':
+                return Input::AUDIO1;
+            case 'audio2':
+                return Input::AUDIO2;
+            case 'audio3':
+                return Input::AUDIO3;
+            case 'aux':
+                return Input::AUX;
             default:
                 return $Input;
         }

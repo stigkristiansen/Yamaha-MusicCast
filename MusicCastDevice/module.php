@@ -96,8 +96,16 @@ class MusicCastDevice extends IPSModule {
 					continue 2;
 			}
 
-			$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
+			$form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
 	   	}
+
+		$form[] = 
+			[
+				'type' => 'ValidationTextBox',
+				'name' => 'CustomName',
+				'caption' => 'Custom Name',
+				'validate' => '[\w\s]+';
+			];
 
 	   return $form;
    
