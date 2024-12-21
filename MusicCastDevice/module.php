@@ -13,8 +13,14 @@ class MusicCastDevice extends IPSModule {
 	public function UpdateInputs($Inputs) {
 		$newInputs = [];
 		foreach ($Inputs as $input) {
+			switch($input['Input']) {
+				case 'mc_link':
+				case 'Select input'
+					continue;
+			}
+
 			$newInputs[] = [
-				'Input' => $input['Input'] . '_Test',
+				'Input' => $input['Input']
 			];
 		}
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
@@ -42,6 +48,8 @@ class MusicCastDevice extends IPSModule {
 					return $form;
 
 			}
+
+			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
 
 			$system = new System($ipAddress, $zoneName);
 			$inputs = $system->InputList();
