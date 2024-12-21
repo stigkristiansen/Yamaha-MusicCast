@@ -21,44 +21,45 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	public function AvailableInputs() : array {
-		//$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
-
-		//$this->SendDebug(__FUNCTION__, sprintf('Attribute for inputs: %s', $this->ReadAttributeString(Attributes::INPUTS)) , 0);
-
 		$form = [];
 
-		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 
-		if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
-			$form[] = 
-				[
-					'type' => 'Label',
-					'caption' => 'Both IP-address and zone must first be specified.'
-				];
-			$form[] =
-				[
-					'type' => 'Label',
-					'caption' => 'Please specify and apply the changes.'
-				];
+			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Both IP-address and zone must first be specified.'
+					];
+				$form[] =
+					[
+						'type' => 'Label',
+						'caption' => 'Please specify and apply the changes.'
+					];
 
-				return $form;
+					return $form;
 
+			}
+
+			$system = new System($ipAddress, $zoneName);
+			$inputs = $system->InputList();
+			
+			if($inputs!==false && sizeof($inputs)==0) {
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Missing information about available inputs.'
+					];
+			
+					return $form;
+			}
+
+			$this->WriteAttributeString(Attributes::INPUTS, josn_encode($inputs));
+		} else {
+			$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
-
-		$system = new System($ipAddress, $zoneName);
-		$inputs = $system->InputList();
- 	
-		if($inputs!==false && sizeof($inputs)==0) {
-			$form[] = 
-				[
-					'type' => 'Label',
-					'caption' => 'Missing information about available inputs.'
-				];
-		
-				return $form;
-		}
-
 	   	
 		$form[] = 
 			[
