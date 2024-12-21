@@ -84,7 +84,7 @@ class MusicCastDevice extends IPSModule {
 		
 			];
 
-		if(strtolower($selectedRow)=='select input') {
+		if($selectedRow!='select input') {
 			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input'];
 		}
 
@@ -92,7 +92,7 @@ class MusicCastDevice extends IPSModule {
 			if(strtolower($supportedInput)=='mc_link') 
 				continue;
 						
-			if(strtolower($selectedRow)!='select input') {
+			if($selectedRow=='select input') {
 				foreach($SelectedInputs as $selectedInput) {
 					if(strtolower($selectedInput['Input'])==strtolower($supportedInput)) {
 						continue 2;
