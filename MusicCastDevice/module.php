@@ -16,7 +16,7 @@ class MusicCastDevice extends IPSModule {
 			switch($input['Input']) {
 				case 'mc_link':
 				case 'Select input':
-					continue;
+					continue 2;
 			}
 
 			$newInputs[] = [
