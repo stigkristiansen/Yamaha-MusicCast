@@ -90,14 +90,20 @@ class MusicCastDevice extends IPSModule {
 			];
 
 		foreach($supportedInputs as $supportedInput) {
+
+			$this->SendDebug(__FUNCTION__, sprintf('Supported input is %s', $supportedInput), 0);
+
 			if(strtolower($supportedInput)=='mc_link') 
 				continue;
 						
-				foreach($SelectedInputs as $selectedInput) {
-					if(strtolower($selectedInput['Input'])==strtolower($supportedInput))
-						continue 2;
-				}
-				$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
+			foreach($SelectedInputs as $selectedInput) {
+				$this->SendDebug(__FUNCTION__, sprintf('Selected input is %s', $selectedInput), 0);
+				if(strtolower($selectedInput['Input'])==strtolower($supportedInput))
+					continue 2;
+			}
+
+			$this->SendDebug(__FUNCTION__, sprintf('Adding supported input %s to the dropdown list', $supportedInput), 0);
+			$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
 	   	}
 
 	   return $form;
