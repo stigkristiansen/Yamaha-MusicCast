@@ -29,9 +29,8 @@ class MusicCastDevice extends IPSModule {
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
 
-	public function AvailableInputs($Inputs) : array {
-		$this->SendDebug(__FUNCTION__, sprintf('Inputs already registerd: %s', var_export($Inputs)), 0);
-
+	public function AvailableInputs($SelectedInputs) : array {
+		
 		$form = [];
 
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
@@ -57,7 +56,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
 
 			$system = new System($ipAddress, $zoneName);
-			$inputs = $system->InputList();
+			$supportedInputs = $system->InputList();
 			
 			if($inputs!==false && sizeof($inputs)==0) {
 				$form[] = 
@@ -89,9 +88,14 @@ class MusicCastDevice extends IPSModule {
 				]
 			];
 
-		foreach($inputs as $input) {
-			if(strtolower($input)!='mc_link')
-				$form[0]['options'][] = ['caption' => $input, 'value' => $input];
+		foreach($supportedInputs as $supportedInput) {
+			if(strtolower($input)!='mc_link') {
+				foreach($SelectedInputs as $SelectedInput) {
+					if($SelectedInput['Input']==$supportedInput)
+						continue 2;
+				}
+				$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
+			}
 	   	}
 
 	   return $form;
