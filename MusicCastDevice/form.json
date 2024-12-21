@@ -53,7 +53,9 @@
             ],
             "form": [
                 "return YMC_AvailableInputs($id);"
-            ]
+            ],
+            "onAdd": "YMC_UpdateInputs($id, $Inputs);",
+            "onEdit": "YMC_UpdateInputs($id, $Inputs);"
         }
   
 

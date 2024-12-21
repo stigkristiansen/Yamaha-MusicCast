@@ -10,6 +10,16 @@ class MusicCastDevice extends IPSModule {
 	use Utils;
 	use MusicCast;
 
+	public function UpdateInputs($Inputs) {
+		$newInputs = [];
+		foreach ($Inputs as $input) {
+			$newInputs[] = [
+				'Input' => $input['Input'] . '_Test',
+			];
+		}
+		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
+	}
+
 	public function AvailableInputs() : array {
 		//$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 
