@@ -24,7 +24,7 @@ class MusicCastDevice extends IPSModule {
 			];
 		}
 
-
+		$this->SendDebug(__FUNCTION__, sprintf('New inputs: %s', json_encode($newInputs)), 0);
 
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
@@ -88,7 +88,7 @@ class MusicCastDevice extends IPSModule {
 			];
 
 		foreach($inputs as $input) {
-			if($input!='mc_link')
+			if(strtolower($input)!='mc_link')
 				$form[0]['options'][] = ['caption' => $input, 'value' => $input];
 	   	}
 
