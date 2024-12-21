@@ -32,6 +32,7 @@ class MusicCastDevice extends IPSModule {
 	public function AvailableInputs($SelectedInputs) : array {
 		
 		$form = [];
+		$supportedInputs = [];
 
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
@@ -91,7 +92,7 @@ class MusicCastDevice extends IPSModule {
 		foreach($supportedInputs as $supportedInput) {
 			if(strtolower($input)!='mc_link') {
 				foreach($SelectedInputs as $SelectedInput) {
-					if($SelectedInput['Input']==$supportedInput)
+					if(strtolower($SelectedInput['Input'])==strtolower($supportedInput))
 						continue 2;
 				}
 				$form[0]['options'][] = ['caption' => $supportedInput, 'value' => $supportedInput];
