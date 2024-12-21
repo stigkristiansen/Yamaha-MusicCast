@@ -22,7 +22,9 @@ class MusicCastDevice extends IPSModule {
 			];
 		}
 
-		$this->UpdateFormField('Inputs', 'values', json_encode(array_unique($newInputs)));
+
+
+		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
 
 	public function AvailableInputs() : array {
