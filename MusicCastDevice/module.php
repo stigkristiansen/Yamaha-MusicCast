@@ -58,6 +58,8 @@ class MusicCastDevice extends IPSModule {
 
 			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
 		} else {
+			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
+			
 			$inputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
 	   	
