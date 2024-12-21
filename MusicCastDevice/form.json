@@ -37,6 +37,7 @@
             "caption": "Inputs",
             "delete": true,
             "add": true,
+            "edit": false,
             "rowCount": 5,
             "sort": {
                 "column": "Input",
@@ -55,7 +56,7 @@
                     "caption": "Custom Name",
                     "name": "CustomName", 
                     "width": "150px",
-                    "add": "",
+                    "add": "Enter a display name",
                     "save": true
                 }
             ],
