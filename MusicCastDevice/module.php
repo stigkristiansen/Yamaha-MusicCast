@@ -85,7 +85,7 @@ class MusicCastDevice extends IPSModule {
 			];
 
 		if($selectedRow=='select input') {
-			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input']
+			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input'];
 		}
 
 		foreach($supportedInputs as $supportedInput) {
