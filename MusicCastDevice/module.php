@@ -32,9 +32,6 @@ class MusicCastDevice extends IPSModule {
 		$form = [];
 		$supportedInputs = [];
 
-		$selectedRow = $SelectedInputs['Input'];
-		$this->SendDebug(__FUNCTION__, sprintf('Selected row for edit is: %s', $selectedRow), 0);
-
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
@@ -77,27 +74,30 @@ class MusicCastDevice extends IPSModule {
 			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
 	   	
+		$selectedRow = strtolower($SelectedInputs['Input']);
+
 		$form[] = 
 			[
 				'type' => 'Select',
 				'name' => 'Input',
 				'caption' => 'Input',
-				'options' => [
-					[
-						'caption' => 'Select input',
-						'value' => 'Select input'
-					]
-				]
+		
 			];
+
+		if($selectedRow=='select input') {
+			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input']
+		}
 
 		foreach($supportedInputs as $supportedInput) {
 			if(strtolower($supportedInput)=='mc_link') 
 				continue;
 						
-			foreach($SelectedInputs as $selectedInput) {
-				$this->SendDebug(__FUNCTION__, sprintf('Selected input is %s', $selectedInput['Input']), 0);
-				if(strtolower($selectedInput['Input'])==strtolower($supportedInput))
+			if($selectedRow!='select input') {
+				foreach($SelectedInputs as $selectedInput) {
+				//$this->SendDebug(__FUNCTION__, sprintf('Selected input is %s', $selectedInput['Input']), 0);
+				if((strtolower($selectedInput['Input'])==strtolower($supportedInput)) && )
 					continue 2;
+				}
 			}
 
 			$form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
