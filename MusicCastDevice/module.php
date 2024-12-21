@@ -32,6 +32,9 @@ class MusicCastDevice extends IPSModule {
 		$form = [];
 		$supportedInputs = [];
 
+		$selectedRow = $SelectedInputs['Input'];
+		$this->SendDebug(__FUNCTION__, sprintf('Selected row for edit is: %s', $selectedRow), 0);
+
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
