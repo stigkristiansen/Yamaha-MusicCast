@@ -37,7 +37,6 @@
             "caption": "Inputs",
             "delete": true,
             "add": true,
-            "edit": false,
             "rowCount": 5,
             "sort": {
                 "column": "Input",
