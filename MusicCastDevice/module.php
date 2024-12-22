@@ -776,11 +776,11 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateProfileInputs() {
+		
 		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
+		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
-		$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
-
-		if(count($inputs)>0) {
+		if($inputs!=null && count($inputs)>0) {
 			$associations = [];
 			foreach($inputs as $input) {
 				$associations[] = [
