@@ -778,19 +778,19 @@ class MusicCastDevice extends IPSModule {
 	private function UpdateProfileInputs() {
 		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
 
-		$associations = [];
+		if(count($inputs)>0) {
+			$associations = [];
+			foreach($inputs as $input) {
+				$associations[] = [
+					$input['Input'],
+					$input['DisplayName'],
+					'',
+					-1];
+			}
 
-		foreach($inputs as $input) {
-			$associations[] = [
-				$input['Input'],
-				$input['DisplayName'],
-				'',
-				0];
+			$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
+			$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
 		}
-
-		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
-		$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
-		
 	}
 
 	private function UpdatePlaylists() {
