@@ -169,7 +169,6 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 
 			$this->SetDeviceProperties();
-
 			$this->UpdateProfileInputs();
         }
 	}
@@ -183,6 +182,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 
 			$this->SetDeviceProperties();
+			$this->UpdateProfileInputs();
 		}
             
     }
