@@ -81,7 +81,8 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'Select',
 				'name' => 'Input',
-				'caption' => 'Input'
+				'caption' => 'Input',
+				'width' => '500px'
 			];
 
 		if($selectedRow=='select input') {
