@@ -90,7 +90,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, Profiles::MUSIC, 7);
 
 		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
-		$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', []]);
+		$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', []);
 		$this->RegisterVariableString(Variables::INPUTS_IDENT, Variables::INPUTS_TEXT, $profileName, 8);
 		$this->EnableAction(Variables::INPUTS_IDENT);
 
