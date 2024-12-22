@@ -217,8 +217,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	public function RequestAction($Ident, $Value) {
-		//$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
-		//$this->SendDebug(__FUNCTION__, $msg, 0);
+		$msg = sprintf('RequestAction was called: %s:%s', (string)$Ident, (string)$Value);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 		
 		try {
 			switch ($Ident) {
@@ -768,9 +768,13 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateProfileInputs() {
-		$inputs = $this->ReadPropertyString('Inputs');
+		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
 
-		$this->SendDebug(__FUNCTION__, sprintf('Selected inputs for the profile is: %s', $inputs), 0);
+		foreach($inputs as $input) {
+
+		}
+
+		
 		
 	}
 
