@@ -134,6 +134,9 @@ class MusicCastDevice extends IPSModule {
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->DeleteProfile($profileName);
 
+		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
+		$this->DeleteProfile($profileName);
+
 		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
 		if(count(IPS_GetInstanceListByModuleID($module->id))==0) {
 			$this->DeleteProfile(Profiles::MUTE);
@@ -775,11 +778,18 @@ class MusicCastDevice extends IPSModule {
 	private function UpdateProfileInputs() {
 		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
 
-		foreach($inputs as $input) {
+		$associations = [];
 
+		foreach($inputs as $input) {
+			$associations[] = [
+				$input['Input'],
+				$input['DisplayName'],
+				'',
+				0];
 		}
 
-		
+		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
+		$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
 		
 	}
 
