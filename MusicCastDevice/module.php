@@ -778,6 +778,8 @@ class MusicCastDevice extends IPSModule {
 	private function UpdateProfileInputs() {
 		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
 
+		$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
+
 		if(count($inputs)>0) {
 			$associations = [];
 			foreach($inputs as $input) {
@@ -877,7 +879,7 @@ class MusicCastDevice extends IPSModule {
 			$system = new System($ipAddress, $zoneName);
 			$supportedInputs = $system->InputList();
 			
-			if($inputs!==false && sizeof($inputs)==0) {
+			if($supportedInputs!==false && sizeof($supportedInputs)==0) {
 				$form[] = 
 					[
 						'type' => 'Label',
