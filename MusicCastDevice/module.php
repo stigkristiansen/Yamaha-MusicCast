@@ -81,7 +81,7 @@ class MusicCastDevice extends IPSModule {
 				'type' => 'Select',
 				'name' => 'Input',
 				'caption' => 'Input',
-				'onChange' => 'var_dump($CustomName);//$CustomName["value"]=$Input["value"];'
+				'onChange' => '$CustomName=$Input;'
 		
 			];
 
