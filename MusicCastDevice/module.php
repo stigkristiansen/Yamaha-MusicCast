@@ -27,9 +27,6 @@ class MusicCastDevice extends IPSModule {
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
 
-	public function UpdateFieldInForm(string $Field, string $Parameter, $Value) {
-		$this->UpdateFormField($Field, $Parameter, $Value);
-	}
 
 	public function AvailableInputs($SelectedInputs) : array {
 		
@@ -84,13 +81,7 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'Select',
 				'name' => 'Input',
-				'caption' => 'Input',
-				'onChange' => [
-					'var_dump($CustomName);',
-					'var_dump($Input);',
-					'YMC_UpdateFieldInForm($id, "CustomName", "Value", $Input);'
-				]
-		
+				'caption' => 'Input'
 			];
 
 		if($selectedRow=='select input') {
