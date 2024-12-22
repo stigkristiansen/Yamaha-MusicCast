@@ -106,8 +106,8 @@ class MusicCastDevice extends IPSModule {
 		$form[] = 
 			[
 				'type' => 'ValidationTextBox',
-				'name' => 'CustomName',
-				'caption' => 'Custom Name',
+				'name' => 'DisplayName',
+				'caption' => 'Display Name',
 				'validate' => '[\w\s]+'
 			];
 
