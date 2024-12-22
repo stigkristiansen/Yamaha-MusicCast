@@ -20,7 +20,7 @@ class MusicCastDevice extends IPSModule {
 
 			$newInputs[] = [
 				'Input' => $input['Input'],
-				'CustomName' => $input['CustomName']
+				'DisplayName' => $input['DisplayName']
 			];
 		}
 
@@ -81,8 +81,7 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'Select',
 				'name' => 'Input',
-				'caption' => 'Input',
-				'width' => '500px'
+				'caption' => 'Input'
 			];
 
 		if($selectedRow=='select input') {
