@@ -54,6 +54,7 @@ class Properties {
     const AUTOUPDATELISTS= 'AutoUpdateLists';
     const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
     const ZONENAME = 'ZoneName';
+    const INPUTS = 'Inputs';
 }
 
 class Attributes {
@@ -89,6 +90,8 @@ class Profiles {
     const TIME_ICON = 'Hourglass';
     const MUSIC = 'YMC.Music';
     const MUSIC_ICON = 'Music';
+    const INPUTS = 'YMC.%s.Inputs';
+    const INPUTS_ICON = 'Play';
 }
 
 class Buffers {
@@ -132,6 +135,8 @@ class Variables {
     const POSITION_TEXT = 'Position'; 
     const TIME_LEFT_IDENT = 'TimeLeft';
     const TIME_LEFT_TEXT = 'Time left';
+    const INPUTS_IDENT = 'Inputs';
+    const INPUTS_TEXT = 'Inputs';
 }
 
 class Sleep {

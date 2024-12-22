@@ -25,7 +25,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterPropertyString(Properties::NAME, '');
 		$this->RegisterPropertyString(Properties::SERIALNUMBER, '');
 		$this->RegisterPropertyString(Properties::ZONENAME, Zones::MAIN);
-		$this->RegisterPropertyString("Inputs", '');
+		$this->RegisterPropertyString(Properties::INPUTS, '');
 		
 		$this->RegisterPropertyBoolean(Properties::AUTOUPDATELISTS, true);
 		$this->RegisterPropertyInteger(Properties::AUTOUPDATELISTINTERVAL, 30);
@@ -89,33 +89,38 @@ class MusicCastDevice extends IPSModule {
 
 		$this->RegisterVariableString(Variables::INPUT_IDENT, Variables::INPUT_TEXT, Profiles::MUSIC, 7);
 
+		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
+		$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', []]);
+		$this->RegisterVariableString(Variables::INPUTS_IDENT, Variables::INPUTS_TEXT, $profileName, 8);
+		$this->EnableAction(Variables::INPUTS_IDENT);
+
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 8);
+		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 9);
 		$this->EnableAction(Variables::LINK_IDENT);
 		
-		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 9);
-		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, Profiles::MUSIC, 10);
-		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, Profiles::MUSIC, 11);
-		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, Profiles::MUSIC, 12);
+		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 10);
+		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, Profiles::MUSIC, 11);
+		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, Profiles::MUSIC, 12);
+		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, Profiles::MUSIC, 13);
 
-		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 13);
-		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 14);
-		$this->RegisterVariableString(Variables::TIME_LEFT_IDENT, Variables::TIME_LEFT_TEXT, Profiles::TIME, 15);
+		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 14);
+		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 15);
+		$this->RegisterVariableString(Variables::TIME_LEFT_IDENT, Variables::TIME_LEFT_TEXT, Profiles::TIME, 16);
 		
-		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 16);
+		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 17);
 		$this->EnableAction(Variables::POSITION_IDENT);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 17);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 18);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 18);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 19);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
-
+		
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
 	}
 
