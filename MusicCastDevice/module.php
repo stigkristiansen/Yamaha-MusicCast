@@ -834,6 +834,7 @@ class MusicCastDevice extends IPSModule {
 	public function ListUpdateInputs($Inputs) {
 		
 		$newInputs = [];
+		
 		foreach ($Inputs as $input) {
 			if($input['Input']== 'Select input') {
 				continue;
