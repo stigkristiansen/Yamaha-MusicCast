@@ -284,6 +284,10 @@ class MusicCastDevice extends IPSModule {
 						break;
 					case Variables::LINK_IDENT:
 						$this->StartLink($Value);
+						break;
+					case Variables::INPUTS_IDENT:
+						$this->Input($Value);
+						break;
 				}
 			}
 		} catch(Exception $e) {
@@ -749,6 +753,16 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	private function Input(string $Input) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		if($this->VerifyDeviceIp($ipAddress)) {
+			$system = new System($ipAddress, $zoneName);
+			$zone = new Zone($system);
+			$zone->Input($Input);
+		}
+	}
+
 	private function Power(bool $State) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
@@ -834,7 +848,7 @@ class MusicCastDevice extends IPSModule {
 	public function ListUpdateInputs($Inputs) {
 		
 		$newInputs = [];
-		
+
 		foreach ($Inputs as $input) {
 			if($input['Input']== 'Select input') {
 				continue;
