@@ -60,10 +60,10 @@
                 }
             ],
             "form": [
-                "return YMC_AvailableInputs($id, $Inputs);"
+                "return YMC_ListAvailableInputs($id, $Inputs);"
             ],
-            "onAdd": "YMC_UpdateInputs($id, $Inputs);",
-            "onEdit": "YMC_UpdateInputs($id, $Inputs);"
+            "onAdd": "YMC_ListUpdateInputs($id, $Inputs);",
+            "onEdit": "YMC_ListUpdateInputs($id, $Inputs);"
         }
   
 

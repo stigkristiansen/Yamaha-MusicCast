@@ -10,110 +10,7 @@ class MusicCastDevice extends IPSModule {
 	use Utils;
 	use MusicCast;
 
-	public function UpdateInputs($Inputs) {
-		
-		$newInputs = [];
-		foreach ($Inputs as $input) {
-			if($input['Input']== 'Select input') {
-				continue;
-			}
-
-			$newInputs[] = [
-				'Input' => $input['Input'],
-				'DisplayName' => $input['DisplayName']
-			];
-		}
-
-		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
-	}
-
-
-	public function AvailableInputs($SelectedInputs) : array {
-		
-		$form = [];
-		$supportedInputs = [];
-
-		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
-			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
-
-			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
-				$form[] = 
-					[
-						'type' => 'Label',
-						'caption' => 'Both IP-address and zone must first be specified.'
-					];
-				$form[] =
-					[
-						'type' => 'Label',
-						'caption' => 'Please specify and apply the changes.'
-					];
-
-					return $form;
-
-			}
-
-			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
-
-			$system = new System($ipAddress, $zoneName);
-			$supportedInputs = $system->InputList();
-			
-			if($inputs!==false && sizeof($inputs)==0) {
-				$form[] = 
-					[
-						'type' => 'Label',
-						'caption' => 'Missing information about available inputs.'
-					];
-			
-					return $form;
-			}
-
-			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
-		} else {
-			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
-			
-			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
-		}
-	   	
-		$selectedRow = strtolower($SelectedInputs['Input']);
-
-		$form[] = 
-			[
-				'type' => 'Select',
-				'name' => 'Input',
-				'caption' => 'Input'
-			];
-
-		if($selectedRow=='select input') {
-			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input'];
-		}
-
-		foreach($supportedInputs as $supportedInput) {
-			if(strtolower($supportedInput)=='mc_link') 
-				continue;
-						
-			
-			foreach($SelectedInputs as $selectedInput) {
-				if(strtolower($selectedInput['Input'])==strtolower($supportedInput) && $selectedRow!=strtolower($supportedInput)) {
-					continue 2;
-				}
-			}
-		
-
-			$form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
-	   	}
-
-		$form[] = 
-			[
-				'type' => 'ValidationTextBox',
-				'name' => 'DisplayName',
-				'caption' => 'Display Name',
-				'validate' => '[\w\s]+'
-			];
-
-	   return $form;
-   
-	}
+	
 	
 	public function Create() {
 		//Never delete this line!
@@ -264,6 +161,8 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 
 			$this->SetDeviceProperties();
+
+			$this->UpdateProfileInputs();
         }
 	}
 
@@ -282,15 +181,10 @@ class MusicCastDevice extends IPSModule {
 
 	private function SetDeviceProperties() {
 		try {
-			//$this->LogMessage('Inside SetDeviceProperties', KL_NOTIFY);
-
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 
-			//$this->LogMessage(sprintf('The ip is: %s', $ipAddress), KL_NOTIFY);
-			//$this->LogMessage(sprintf('The name is: %s', $this->ReadPropertyString(Properties::NAME)), KL_NOTIFY);
 			If(strlen($ipAddress)>0 && strlen($this->ReadPropertyString(Properties::NAME))==0) {
 				$this->SendDebug(__FUNCTION__, 'Trying to retrive the device information...', 0);
-				//$this->LogMessage('Trying to retrive the device information...', KL_NOTIFY);
 				$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 				$this->SendDebug(__FUNCTION__, sprintf('The IP Address is %s and the zone is "%s"', $ipAddress, $zoneName), 0);
 				$system = new System($ipAddress, $zoneName);
@@ -302,12 +196,6 @@ class MusicCastDevice extends IPSModule {
 				if(strlen($name)>0) {
 					$this->SendDebug(__FUNCTION__, sprintf('Updating form...', $name), 0);
 
-					//$this->LogMessage(sprintf('Inputs available: %s',json_encode($system->InputList())), KL_NOTIFY);
-
-					//$this->WriteAttributeString(Attributes::INPUTS, json_encode($system->InputList()));
-
-					//$this->SendDebug(__FUNCTION__, sprintf('Saving attribute for inputs: %s', json_encode($system->InputList()), 0));
-					
 					IPS_SetProperty($this->InstanceID, Properties::NAME, $name);
 					IPS_SetProperty($this->InstanceID, Properties::SERIALNUMBER, $serial);
 					IPS_SetProperty($this->InstanceID, Properties::MODEL, $model);
@@ -879,6 +767,13 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	private function UpdateProfileInputs() {
+		$inputs = $this->ReadPropertyString('Inputs');
+
+		$this->SendDebug(__FUNCTION__, $sprintf('Selected inputs for the profile is: %s', $inputs), 0);
+		
+	}
+
 	private function UpdatePlaylists() {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
@@ -914,6 +809,110 @@ class MusicCastDevice extends IPSModule {
 			$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', $assosiations);	
 		}
 	}
+
+	public function ListUpdateInputs($Inputs) {
+		
+		$newInputs = [];
+		foreach ($Inputs as $input) {
+			if($input['Input']== 'Select input') {
+				continue;
+			}
+
+			$newInputs[] = [
+				'Input' => $input['Input'],
+				'DisplayName' => $input['DisplayName']
+			];
+		}
+
+		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
+	}
+
+
+	public function ListAvailableInputs($SelectedInputs) : array {
+		
+		$form = [];
+		$supportedInputs = [];
+
+		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
+			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
+			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Both IP-address and zone must first be specified.'
+					];
+				$form[] =
+					[
+						'type' => 'Label',
+						'caption' => 'Please specify and apply the changes.'
+					];
+
+					return $form;
+
+			}
+
+			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
+
+			$system = new System($ipAddress, $zoneName);
+			$supportedInputs = $system->InputList();
+			
+			if($inputs!==false && sizeof($inputs)==0) {
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Missing information about available inputs.'
+					];
+			
+					return $form;
+			}
+
+			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
+			
+			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		}
+	   	
+		$selectedRow = strtolower($SelectedInputs['Input']);
+
+		$form[] = 
+			[
+				'type' => 'Select',
+				'name' => 'Input',
+				'caption' => 'Input'
+			];
+
+		if($selectedRow=='select input') {
+			$form[0]['options'][] = ['caption' => 'Select input', 'value' => 'Select input'];
+		}
+
+		foreach($supportedInputs as $supportedInput) {
+			if(strtolower($supportedInput)=='mc_link') 
+				continue;
+						
+			
+			foreach($SelectedInputs as $selectedInput) {
+				if(strtolower($selectedInput['Input'])==strtolower($supportedInput) && $selectedRow!=strtolower($supportedInput)) {
+					continue 2;
+				}
+			}
+		
+
+			$form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
+	   	}
+
+		$form[] = 
+			[
+				'type' => 'ValidationTextBox',
+				'name' => 'DisplayName',
+				'caption' => 'Display Name',
+				'validate' => '[\w\s]+'
+			];
+
+	   return $form;
+   	}
 
 	private function VerifyDeviceIp($IpAddress) {
 		if(strlen($IpAddress)>0)
