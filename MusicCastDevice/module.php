@@ -770,7 +770,7 @@ class MusicCastDevice extends IPSModule {
 	private function UpdateProfileInputs() {
 		$inputs = $this->ReadPropertyString('Inputs');
 
-		$this->SendDebug(__FUNCTION__, $sprintf('Selected inputs for the profile is: %s', $inputs), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('Selected inputs for the profile is: %s', $inputs), 0);
 		
 	}
 
