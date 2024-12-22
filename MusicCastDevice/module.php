@@ -879,7 +879,7 @@ class MusicCastDevice extends IPSModule {
 			$system = new System($ipAddress, $zoneName);
 			$supportedInputs = $system->InputList();
 			
-			if($supportedInputs!==false && sizeof($supportedInputs)==0) {
+			if($supportedInputs==false || sizeof($supportedInputs)==0) {
 				$form[] = 
 					[
 						'type' => 'Label',
