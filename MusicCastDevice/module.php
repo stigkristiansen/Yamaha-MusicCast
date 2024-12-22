@@ -388,6 +388,8 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleInput(string $Input) {
+		$msg = sprintf('Information received about the selected input: %s',$Input);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 		$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
 	}
 	
