@@ -52,8 +52,8 @@
                     "visible": false
                 },
                 {
-                    "caption": "Custom Name",
-                    "name": "CustomName", 
+                    "caption": "Display Name",
+                    "name": "DisplayName", 
                     "width": "150px",
                     "add": "Enter a display name",
                     "save": true
