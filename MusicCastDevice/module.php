@@ -27,6 +27,10 @@ class MusicCastDevice extends IPSModule {
 		$this->UpdateFormField('Inputs', 'values', json_encode($newInputs));
 	}
 
+	public function UpdateFormField(string $Field, string $Parameter, $Value) {
+		$this->UpdateFormField($Field, $Parameter, $Value);
+	}
+
 	public function AvailableInputs($SelectedInputs) : array {
 		
 		$form = [];
@@ -83,8 +87,8 @@ class MusicCastDevice extends IPSModule {
 				'caption' => 'Input',
 				'onChange' => [
 					'var_dump($CustomName);',
-					'var_dump($Input["caption"]);',
-					'$CustomName=$Input;'
+					'var_dump($Input);',
+					'YMC_UpdateFormField($id, "CustomName", "Value", $Input);'
 				]
 		
 			];
