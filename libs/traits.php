@@ -367,7 +367,7 @@ trait Utils {
 	}
 
     protected function SetValueEx(string $Ident, $Value) {
-        $msg = sprintf('Updating %s to'.(string), $Value);
+        $msg = sprintf('Updating %s to'.(string)$Value, $Ident);
         $this->SendDebug(__FUNCTION__, $msg, 0);
 		$oldValue = $this->GetValue($Ident);
 		if($oldValue!=$Value)
