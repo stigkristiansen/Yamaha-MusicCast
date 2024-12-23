@@ -264,7 +264,7 @@ class PlayInfo {
             case 'hdmi2':
                 return Input::HDMI2;
             case 'hdmi3':
-                  return Input::HDMI3;
+                return Input::HDMI3;
             case 'hdmi4':
                 return Input::HDMI4;
             case 'av1':
