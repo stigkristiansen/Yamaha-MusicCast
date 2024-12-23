@@ -198,16 +198,16 @@ class Input {
     const BLUETOOTH = 'Bluetooth';
     const USB = 'Usb';
     const TUNER = 'Tuner';
-    const HDMI1 = 'HDMI 1';
-    const HDMI2 = 'HDMI 2';
-    const HDMI3 = 'HDMI 3';
-    const HDMI4 = 'HDMI 4';
-    const AV1 = 'AV 1';
-    const AV2 = 'AV 2';
-    const AV3 = 'AV 3';
-    const AUDIO1 = 'Audio 1';
-    const AUDIO2 = 'Audio 2';
-    const AUDIO3 = 'Audio 3';
+    const HDMI1 = 'HDMI1';
+    const HDMI2 = 'HDMI2';
+    const HDMI3 = 'HDMI3';
+    const HDMI4 = 'HDMI4';
+    const AV1 = 'AV1';
+    const AV2 = 'AV2';
+    const AV3 = 'AV3';
+    const AUDIO1 = 'Audio1';
+    const AUDIO2 = 'Audio2';
+    const AUDIO3 = 'Audio3';
     const AUX = 'Aux';
 }
 
