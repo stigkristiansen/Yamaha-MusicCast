@@ -596,6 +596,8 @@ class MusicCastDevice extends IPSModule {
 			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 
 			if($status->power=='on') {
+				// ToDo: Må håndtere at ikke alle kilder returnerer playinfo
+
 				$netUSB = new NetUSB($system);
 				$playInfo = $netUSB->PlayInfo();
 				$distribution = $distribution = new Distrbution($system);
@@ -612,7 +614,7 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
 				if($control==3) { // Stop
-					$this->SetValueEx(Variables::INPUT_IDENT, '');
+					//$this->SetValueEx(Variables::INPUT_IDENT, '');
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
 					$this->SetValueEx(Variables::TRACK_IDENT, '');
 					$this->SetValueEx(Variables::ALBUM_IDENT, '');
@@ -621,7 +623,7 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 					$this->SetValueEx(Variables::POSITION_IDENT, 0);
 				} else {
-					$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+					//$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
