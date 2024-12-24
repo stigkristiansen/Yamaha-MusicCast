@@ -612,8 +612,9 @@ class MusicCastDevice extends IPSModule {
 				$control = $playInfo->Playback();
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
+				$this->SetValueEx(Variables::INPUT_IDENT, $status->input_text);
+
 				if($control==3) { // Stop
-					//$this->SetValueEx(Variables::INPUT_IDENT, '');
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
 					$this->SetValueEx(Variables::TRACK_IDENT, '');
 					$this->SetValueEx(Variables::ALBUM_IDENT, '');
@@ -622,7 +623,7 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 					$this->SetValueEx(Variables::POSITION_IDENT, 0);
 				} else {
-					$this->SetValueEx(Variables::INPUT_IDENT, $status->input_text);
+					
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
