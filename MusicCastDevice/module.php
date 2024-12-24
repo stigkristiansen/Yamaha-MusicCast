@@ -600,7 +600,7 @@ class MusicCastDevice extends IPSModule {
 
 				$netUSB = new NetUSB($system);
 				$playInfo = $netUSB->PlayInfo();
-				$distribution = $distribution = new Distrbution($system);
+				$distribution = new Distrbution($system);
 
 				$this->SetValueEx(Variables::POWER_IDENT, true);
 				$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
@@ -623,7 +623,8 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 					$this->SetValueEx(Variables::POSITION_IDENT, 0);
 				} else {
-					//$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+					if(strlen($playInfo>->Input()>0) 
+						$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
