@@ -916,7 +916,9 @@ class MusicCastDevice extends IPSModule {
 		}
 	   	
 		$selectedRow = strtolower($SelectedInputs['Input']);
+		
 		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])=='enter a display name';
+		$hiddenTextBox != $hiddenSelect;
 
 		$form[] = 
 			[
@@ -948,7 +950,7 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'ValidationTextBox',
 				'name' => 'DisplayName',
-				'visible' => !$hiddenSelect,
+				'visible' => $hiddenTextBox,
 				'caption' => 'Display Name',
 				'validate' => '[\w\s]+'
 			];
