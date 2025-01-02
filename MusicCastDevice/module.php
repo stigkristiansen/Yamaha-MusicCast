@@ -872,12 +872,12 @@ class MusicCastDevice extends IPSModule {
 		
 		$form = [];
 		$supportedInputs = [];
-		$system = null;
+		
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		$system = new System($ipAddress, $zoneName);
 
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
-			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
-
 			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
 				$form[] = 
 					[
@@ -896,7 +896,6 @@ class MusicCastDevice extends IPSModule {
 
 			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
 
-			$system = new System($ipAddress, $zoneName);
 			$supportedInputs = $system->InputList();
 			
 			if($supportedInputs==false || sizeof($supportedInputs)==0) {
