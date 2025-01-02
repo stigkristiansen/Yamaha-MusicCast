@@ -872,6 +872,7 @@ class MusicCastDevice extends IPSModule {
 		
 		$form = [];
 		$supportedInputs = [];
+		$system = null;
 
 		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
 			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
@@ -940,7 +941,8 @@ class MusicCastDevice extends IPSModule {
 			}
 		
 
-			$form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
+			// $form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
+			$form[0]['options'][] = ['caption' => $system->NameText($supportedInput), 'value' => $supportedInput];
 	   	}
 
 		$form[] = 

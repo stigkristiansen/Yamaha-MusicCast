@@ -10,7 +10,7 @@ class System {
     private $deviceInfo;
     private $deviceDesc;
     private $locationInfo;
-
+    
     private $initialized = false;
 
     private $zoneNames;
@@ -18,7 +18,7 @@ class System {
 
     public function __construct(string $IpAddress, string $ZoneName = 'main') {
         $this->ipAddress = $IpAddress;
-        
+
         $featuresResult = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getFeatures');
         if($featuresResult!==false)
             $this->features = $featuresResult;
@@ -104,13 +104,13 @@ class System {
         return false;
     }
 
-    public function NameText() {
-        $result = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getNameText?id='.$this->zoneName);
+    public function NameText($Id='main') {
+        $result = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getNameText?id='.$Id);
 
         if(isset($result->text)) {
             return $result->text;
         } else {
-            return '';
+            return 'Invalid';
         }
     }
 
