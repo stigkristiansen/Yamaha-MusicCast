@@ -868,7 +868,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 
-	public function ListAvailableInputs($SelectedInputs, bool $Edit=false) : array {
+	public function ListAvailableInputs($SelectedInputs) : array {
 		
 		$form = [];
 		$supportedInputs = [];
