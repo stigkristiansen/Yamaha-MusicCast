@@ -868,7 +868,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 
-	public function ListAvailableInputs($SelectedInputs) : array {
+	public function ListAvailableInputs($SelectedInputs, bool $Edit=false) : array {
 		
 		$form = [];
 		$supportedInputs = [];
@@ -898,7 +898,7 @@ class MusicCastDevice extends IPSModule {
 
 			$supportedInputs = $system->InputList();
 			
-			if($supportedInputs==false || sizeof($supportedInputs)==0) {
+			if($supportedInputs===false || sizeof($supportedInputs)==0) {
 				$form[] = 
 					[
 						'type' => 'Label',
@@ -916,12 +916,14 @@ class MusicCastDevice extends IPSModule {
 		}
 	   	
 		$selectedRow = strtolower($SelectedInputs['Input']);
+		$hiddenSelect = strlen(SelectedInputs['DisplayName'])>0;
 
 		$form[] = 
 			[
 				'type' => 'Select',
 				'name' => 'Input',
-				'caption' => 'Input'
+				'caption' => 'Input',
+				'visible' => $hiddenSelect
 			];
 
 		if($selectedRow=='select input') {
@@ -939,8 +941,6 @@ class MusicCastDevice extends IPSModule {
 				}
 			}
 		
-
-			// $form[0]['options'][] = ['caption' => PlayInfo::MapInput($supportedInput), 'value' => $supportedInput];
 			$form[0]['options'][] = ['caption' => $system->NameText($supportedInput), 'value' => $supportedInput];
 	   	}
 
@@ -948,6 +948,7 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'ValidationTextBox',
 				'name' => 'DisplayName',
+				'visible' => !$hiddenSelect,
 				'caption' => 'Display Name',
 				'validate' => '[\w\s]+'
 			];
