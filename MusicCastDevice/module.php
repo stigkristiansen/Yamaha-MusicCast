@@ -916,7 +916,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	   	
 		$selectedRow = strtolower($SelectedInputs['Input']);
-		$hiddenSelect = strlen($SelectedInputs['DisplayName'])>0;
+		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])!='enter a display name';
 
 		$form[] = 
 			[
