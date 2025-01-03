@@ -849,7 +849,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	public function ListUpdateInputs($Inputs) {
+	public function ListUpdateInputs($Inputs, $add=true) {
 		
 		$newInputs = [];
 
@@ -860,7 +860,7 @@ class MusicCastDevice extends IPSModule {
 
 			$newInputs[] = [
 				'Input' => $input['Input'],
-				'DisplayName' => $input['DisplayName']
+				'DisplayName' => $add?$input['Input']:$input['DisplayName']
 			];
 		}
 
@@ -917,8 +917,10 @@ class MusicCastDevice extends IPSModule {
 	   	
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
-		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])=='enter a display name';
-		$hiddenTextBox =  !$hiddenSelect;
+		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])!='enter a display name';
+		$hiddenTextBox = !$hiddenSelect;
+
+		// Oppdatere ListUpdateInputs til å oppføre seg forskjellig for add og edit
 
 		$form[] = 
 			[
@@ -955,7 +957,7 @@ class MusicCastDevice extends IPSModule {
 				'validate' => '[\w\s]+' 
 			];
 
-		$this->SendDebug(__FUNCTION__, var_dump($form), 0);
+		$this->SendDebug(__FUNCTION__, json_encode($form), 0);
 
 	   	return $form;
    	}
