@@ -929,6 +929,8 @@ class MusicCastDevice extends IPSModule {
 					'caption' => $system->NameText($supportedInput)
 				];
 			}
+
+			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
 		}
 
 		$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($inputs)), 0);
