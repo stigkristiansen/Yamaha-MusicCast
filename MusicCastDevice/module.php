@@ -919,10 +919,10 @@ class MusicCastDevice extends IPSModule {
 
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
-		$hiddenSelect = !($selectedRow=='select input');
-		$hiddenTextBox = !$hiddenSelect;
+		$visibleSelect = ($selectedRow=='select input');
+		$visibleTextBox = !$visibleSelect;
 
-		$this->SendDebug(__FUNCTION__, sprintf('HiddenSelect: %s, HiddenTextBox: %s', $hiddenSelect?'true':'false', $hiddenTextBox?'true':'false'), 0);
+		$this->SendDebug(__FUNCTION__, sprintf('HiddenSelect: %s, HiddenTextBox: %s', $visibleSelect?'true':'false', $visibleTextBox?'true':'false'), 0);
 
 		// Oppdatere ListUpdateInputs til å oppføre seg forskjellig for add og edit
 
@@ -931,7 +931,7 @@ class MusicCastDevice extends IPSModule {
 				'type' => 'Select',
 				'name' => 'Input',
 				'caption' => 'Input',
-				'visible' => $hiddenSelect
+				'visible' => $visibleSelect
 			];
 
 		if($selectedRow=='select input') {
@@ -956,7 +956,7 @@ class MusicCastDevice extends IPSModule {
 			[
 				'type' => 'ValidationTextBox',
 				'name' => 'DisplayName',
-				'visible' => $hiddenTextBox,
+				'visible' => $visibleTextBox,
 				'caption' => 'Display Name',
 				'validate' => '[\w\s]+' 
 			];
