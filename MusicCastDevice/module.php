@@ -952,10 +952,12 @@ class MusicCastDevice extends IPSModule {
 				'name' => 'DisplayName',
 				'visible' => $hiddenTextBox,
 				'caption' => 'Display Name',
-				'validate' => '[\w\s]+' 123
+				'validate' => '[\w\s]+' 
 			];
 
-	   return $form;
+		$this->SendDebug(__FUNCTION__, var_dump($form), 0);
+
+	   	return $form;
    	}
 
 	private function VerifyDeviceIp($IpAddress) {
