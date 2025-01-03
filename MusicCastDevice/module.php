@@ -948,17 +948,17 @@ class MusicCastDevice extends IPSModule {
 		}
 
 		foreach($supportedInputs as $supportedInput) {
-			if(strtolower($supportedInput)=='mc_link') 
+			if(strtolower($supportedInput['id'])=='mc_link') 
 				continue;
 						
 			
 			foreach($SelectedInputs as $selectedInput) {
-				if(strtolower($selectedInput['Input'])==strtolower($supportedInput) && $selectedRow!=strtolower($supportedInput)) {
+				if(strtolower($selectedInput['Input'])==strtolower($supportedInput['id']) && $selectedRow!=strtolower($supportedInput['id'])) {
 					continue 2;
 				}
 			}
 		
-			$form[0]['options'][] = ['caption' => $system->NameText($supportedInput), 'value' => $supportedInput];
+			$form[0]['options'][] = ['caption' => $supportedInput['caption'], 'value' => $supportedInput['id']];
 	   	}
 
 		$form[] = 
