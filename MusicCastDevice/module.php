@@ -908,7 +908,7 @@ class MusicCastDevice extends IPSModule {
 					return $form;
 			}
 
-			$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs), 0);
+			$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
 			$this->WriteAttributeString(Attributes::INPUTS, json_encode($supportedInputs));
 		} else {
 			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
