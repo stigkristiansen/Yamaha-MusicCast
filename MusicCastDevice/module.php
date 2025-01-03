@@ -854,7 +854,7 @@ class MusicCastDevice extends IPSModule {
 		$newInputs = [];
 
 		foreach ($Inputs as $input) {
-			if($input['Input']== 'Select input') {
+			if(strtolower($input['Input'])=='select input') {
 				continue;
 			}
 
@@ -908,6 +908,7 @@ class MusicCastDevice extends IPSModule {
 					return $form;
 			}
 
+			$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs), 0);
 			$this->WriteAttributeString(Attributes::INPUTS, json_encode($supportedInputs));
 		} else {
 			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
@@ -915,16 +916,14 @@ class MusicCastDevice extends IPSModule {
 			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
 	   	
-		$this->SendDebug(__FUNCTION__, sprintf('Input: %s, DisplayName: %s', $SelectedInputs['Input'], $SelectedInputs['DisplayName']), 0);
+		//$this->SendDebug(__FUNCTION__, sprintf('Input: %s, DisplayName: %s', $SelectedInputs['Input'], $SelectedInputs['DisplayName']), 0);
 
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
 		$visibleSelect = ($selectedRow=='select input');
 		$visibleTextBox = !$visibleSelect;
 
-		$this->SendDebug(__FUNCTION__, sprintf('HiddenSelect: %s, HiddenTextBox: %s', $visibleSelect?'true':'false', $visibleTextBox?'true':'false'), 0);
-
-		// Oppdatere ListUpdateInputs til å oppføre seg forskjellig for add og edit
+		//$this->SendDebug(__FUNCTION__, sprintf('HiddenSelect: %s, HiddenTextBox: %s', $visibleSelect?'true':'false', $visibleTextBox?'true':'false'), 0);
 
 		$form[] = 
 			[
