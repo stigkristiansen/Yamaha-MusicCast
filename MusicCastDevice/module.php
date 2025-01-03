@@ -919,7 +919,7 @@ class MusicCastDevice extends IPSModule {
 
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
-		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])!='';
+		$hiddenSelect = strtolower($SelectedInputs['Input'])!='select input';
 		$hiddenTextBox = !$hiddenSelect;
 
 		// Oppdatere ListUpdateInputs til å oppføre seg forskjellig for add og edit
