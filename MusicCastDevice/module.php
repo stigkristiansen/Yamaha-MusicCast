@@ -915,6 +915,8 @@ class MusicCastDevice extends IPSModule {
 			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		}
 	   	
+		$this->SendDebug(__FUNCTION__, sprintf('Input: %s, DisplayName: %s', $SelectedInputs['Input'], $SelectedInputs['DisplayName']), 0);
+
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
 		$hiddenSelect = strtolower($SelectedInputs['DisplayName'])!='';
