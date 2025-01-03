@@ -852,6 +852,7 @@ class MusicCastDevice extends IPSModule {
 	public function ListUpdateInputs($Inputs, $add=true) {
 		
 		$newInputs = [];
+		$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 
 		foreach ($Inputs as $input) {
 			if(strtolower($input['Input'])=='select input') {
@@ -860,7 +861,7 @@ class MusicCastDevice extends IPSModule {
 
 			$newInputs[] = [
 				'Input' => $input['Input'],
-				'DisplayName' => $add?$input['Input']:$input['DisplayName']
+				'DisplayName' => $add?$supportedInputs[$input['Input']]['caption']:$input['DisplayName']
 			];
 		}
 
