@@ -952,7 +952,7 @@ class MusicCastDevice extends IPSModule {
 				'name' => 'DisplayName',
 				'visible' => $hiddenTextBox,
 				'caption' => 'Display Name',
-				'validate' => '[\w\s]+'
+				'validate' => '[\w\s]+' 123
 			];
 
 	   return $form;
