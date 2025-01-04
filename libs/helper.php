@@ -96,6 +96,7 @@ class Profiles {
 
 class Buffers {
     const REPORT = 'report';
+    const INPUTS = 'inputs';
 }
 
 class Variables {

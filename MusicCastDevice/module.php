@@ -852,7 +852,8 @@ class MusicCastDevice extends IPSModule {
 	public function ListUpdateInputs($Inputs, $add=true) {
 		
 		$newInputs = [];
-		$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		//$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		$supportedInputs = json_decode($this->ReadBuffer(Buffers::INPUTS), true);	
 
 		foreach ($Inputs as $input) {
 			if(strtolower($input['Input'])=='select input') {
@@ -878,7 +879,8 @@ class MusicCastDevice extends IPSModule {
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		$system = new System($ipAddress, $zoneName);
 
-		if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
+		//if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
+		if(strlen($this->ReadBuffer(Buffers::INPUTS)) == 0) {
 			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
 				$form[] = 
 					[
@@ -895,11 +897,12 @@ class MusicCastDevice extends IPSModule {
 
 			}
 
-			$this->SendDebug(__FUNCTION__, 'Retrieving inputs...', 0);
+			$this->SendDebug(__FUNCTION__, 'Retrieving available inputs from the device...', 0);
 
 			$supportedInputs = $system->InputList();
 			
 			if($supportedInputs===false || sizeof($supportedInputs)==0) {
+				$this->SendDebug(__FUNCTION__, 'Failed when trying to retrieve the inputs', 0);
 				$form[] = 
 					[
 						'type' => 'Label',
@@ -917,17 +920,16 @@ class MusicCastDevice extends IPSModule {
 				];
 			}
 
-			$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
+			//$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
+			$this->WriteBuffer(Buffer::INPUTS, json_encode($inputs));
 		} else {
-			$this->SendDebug(__FUNCTION__, 'Using cached inputs', 0);
-			
-			$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
-
+			$this->SendDebug(__FUNCTION__, 'Using cached information about the available inputs', 0);
 		}
 
-		$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
-	   	
-		//$this->SendDebug(__FUNCTION__, sprintf('Input: %s, DisplayName: %s', $SelectedInputs['Input'], $SelectedInputs['DisplayName']), 0);
+		//$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		$supportedInputs = json_decode($this->ReadBuffer(Buffer::INPUTS), true);	
+		
+		//$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
 
 		$selectedRow = strtolower($SelectedInputs['Input']);
 		
@@ -971,10 +973,25 @@ class MusicCastDevice extends IPSModule {
 				'validate' => '[\w\s]+' 
 			];
 
-		$this->SendDebug(__FUNCTION__, json_encode($form), 0);
+		//$this->SendDebug(__FUNCTION__, json_encode($form), 0);
 
 	   	return $form;
    	}
+
+	private function ReadBuffer(string $Name) : string {
+		if($this->Lock($Name)) {
+			return $this->GetBuffer($Name);
+			$this->Unlock($Name);
+		}
+
+	}
+
+	private function WriteBuffer(string $Name, string $Value) {
+		if($this->Lock($Name)) {
+			$this->SetBuffer($Name, $Value);
+			$this->Unlock($Name);
+		}
+	}
 
 	private function VerifyDeviceIp($IpAddress) {
 		if(strlen($IpAddress)>0)
