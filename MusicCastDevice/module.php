@@ -921,13 +921,13 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			//$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
-			$this->WriteBuffer(Buffer::INPUTS, json_encode($inputs));
+			$this->WriteBuffer(Buffers::INPUTS, json_encode($inputs));
 		} else {
 			$this->SendDebug(__FUNCTION__, 'Using cached information about the available inputs', 0);
 		}
 
 		//$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
-		$supportedInputs = json_decode($this->ReadBuffer(Buffer::INPUTS), true);	
+		$supportedInputs = json_decode($this->ReadBuffer(Buffers::INPUTS), true);	
 		
 		//$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
 
