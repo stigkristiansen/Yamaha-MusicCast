@@ -979,17 +979,26 @@ class MusicCastDevice extends IPSModule {
    	}
 
 	private function ReadBuffer(string $Name) : string {
+		$this->SendDebug(__FUNCTION__, sprintf('Checking lock for buffer: %s...',$Name), 0);
+		
 		if($this->Lock($Name)) {
-			return $this->GetBuffer($Name);
+			$this->SendDebug(__FUNCTION__, "It's not locked. Locking and reading the value" , 0);
+			$value = $this->GetBuffer($Name);
 			$this->Unlock($Name);
+			$this->SendDebug(__FUNCTION__, 'The buffer is read and unlocked again' , 0);
+			return $value
 		}
 
 	}
 
 	private function WriteBuffer(string $Name, string $Value) {
+		$this->SendDebug(__FUNCTION__, sprintf('Checking lock for buffer: %s...',$Name), 0);
+
 		if($this->Lock($Name)) {
+			$this->SendDebug(__FUNCTION__, "It's not locked. Locking and writing the value" , 0);
 			$this->SetBuffer($Name, $Value);
 			$this->Unlock($Name);
+			$this->SendDebug(__FUNCTION__, 'The buffer has been written and unlocked again' , 0);
 		}
 	}
 
