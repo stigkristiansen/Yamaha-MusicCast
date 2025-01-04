@@ -986,7 +986,7 @@ class MusicCastDevice extends IPSModule {
 			$value = $this->GetBuffer($Name);
 			$this->Unlock($Name);
 			$this->SendDebug(__FUNCTION__, 'The buffer is read and unlocked again' , 0);
-			return $value
+			return $value;
 		}
 
 	}
