@@ -63,9 +63,12 @@ class Zone {
     }
 
     public function Input(string $Input) {
+        if(strtolower($Input)=='none')
+            return;
+        
         if(!$this->system->ValidInput($Input, $this->zoneName))
             throw new Exception('Input(): Invalid input \"' . $Input . '\"');
-
+        
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input=' . $Input);   
     }
 
