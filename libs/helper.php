@@ -137,7 +137,7 @@ class Variables {
     const TIME_LEFT_IDENT = 'TimeLeft';
     const TIME_LEFT_TEXT = 'Time left';
     const INPUTS_IDENT = 'Inputs';
-    const INPUTS_TEXT = 'Select Input';
+    const INPUTS_TEXT = 'Inputs';
 }
 
 class Sleep {

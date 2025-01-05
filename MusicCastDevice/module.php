@@ -799,7 +799,7 @@ class MusicCastDevice extends IPSModule {
 		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
 		if($inputs!=null && count($inputs)>0) {
-			$associations[] = ['none', '', '', -1];
+			$associations[] = ['none', 'Select', '', -1];
 			foreach($inputs as $input) {
 				$associations[] = [
 					$input['Input'],
@@ -810,7 +810,7 @@ class MusicCastDevice extends IPSModule {
 
 			$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
 			$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
-			
+
 		}
 	}
 
