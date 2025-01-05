@@ -810,6 +810,7 @@ class MusicCastDevice extends IPSModule {
 
 			$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
 			$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
+			
 		}
 	}
 
