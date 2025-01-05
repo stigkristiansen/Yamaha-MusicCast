@@ -57,9 +57,9 @@ class Properties {
     const INPUTS = 'Inputs';
 }
 
-class Attributes {
-    const INPUTS = 'Inputs';
-}
+//class Attributes {
+//    const INPUTS = 'Inputs';
+//}
 class Timers {
     const UPDATE = 'Update';
     const UPDATELISTS = 'UpdateLists';
@@ -137,7 +137,7 @@ class Variables {
     const TIME_LEFT_IDENT = 'TimeLeft';
     const TIME_LEFT_TEXT = 'Time left';
     const INPUTS_IDENT = 'Inputs';
-    const INPUTS_TEXT = 'Inputs';
+    const INPUTS_TEXT = 'Select Input';
 }
 
 class Sleep {

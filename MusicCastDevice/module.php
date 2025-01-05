@@ -18,7 +18,7 @@ class MusicCastDevice extends IPSModule {
 
 		$this->ConnectParent('{9FC1174B-C4C3-8798-0D55-C8FB70846CD1}');
 
-		$this->RegisterAttributeString(Attributes::INPUTS, '');
+		//$this->RegisterAttributeString(Attributes::INPUTS, '');
 
 		$this->RegisterPropertyString(Properties::IPADDRESS, '');
 		$this->RegisterPropertyString(Properties::MODEL, '');
@@ -799,7 +799,7 @@ class MusicCastDevice extends IPSModule {
 		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
 		if($inputs!=null && count($inputs)>0) {
-			$associations = [];
+			$associations[] = ['none', '', '', -1];
 			foreach($inputs as $input) {
 				$associations[] = [
 					$input['Input'],
