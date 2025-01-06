@@ -57,15 +57,13 @@ class Properties {
     const INPUTS = 'Inputs';
 }
 
-//class Attributes {
-//    const INPUTS = 'Inputs';
-//}
 class Timers {
     const UPDATE = 'Update';
     const UPDATELISTS = 'UpdateLists';
     const RESETFAVOURITE = 'ResetFavourite';
     const RESETMCPLAYLIST = 'ResetMCPLaylist';
     const RESETCONTROL = 'ResetControl';
+    const RESETINPUTS = 'ResetInputs';
 }
 
 class Profiles {
@@ -180,6 +178,7 @@ class PlaybackState {
 }
 
 class Input {
+    const NOTHING = 'none';
     const TIDAL = 'Tidal';
     const NETRADIO = 'Network Radio';
     const LINK = 'Link';

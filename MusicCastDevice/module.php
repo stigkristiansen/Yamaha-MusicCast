@@ -77,6 +77,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterTimer(Timers::UPDATELISTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "UpdateLists", false);');
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Update", 0);');
 		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetControl", 0);');
+		$this->RegisterTimer(Timers::RESETINPUTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetInputs", 0);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -253,6 +254,10 @@ class MusicCastDevice extends IPSModule {
 					$this->SetTimerInterval(Timers::RESETCONTROL . (string) $this->InstanceID, 0);
 					$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 					return;
+				case 'ResetInputs':
+					$this->SetTimerInterval(Timers::RESETINPUTS . (string) $this->InstanceID, 0);
+					$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);
+					return;
 			}
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
@@ -287,6 +292,7 @@ class MusicCastDevice extends IPSModule {
 						break;
 					case Variables::INPUTS_IDENT:
 						$this->Input($Value);
+						$this->SetTimerInterval(Timers::RESETINPUTS . (string) $this->InstanceID, 2000);
 						break;
 				}
 			}
@@ -799,7 +805,7 @@ class MusicCastDevice extends IPSModule {
 		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
 		if($inputs!=null && count($inputs)>0) {
-			$associations[] = ['none', 'Select', '', -1];
+			$associations[] = ['none', ' ', '', -1];
 			foreach($inputs as $input) {
 				$associations[] = [
 					$input['Input'],
