@@ -396,7 +396,9 @@ class MusicCastDevice extends IPSModule {
 	private function HandleInput(string $Input) {
 		$msg = sprintf('Information received about the selected input: %s',$Input);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
-		$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
+		//$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
+		$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($Input));
+		
 	}
 	
 	private function HandleMute(bool $State) {
@@ -442,7 +444,7 @@ class MusicCastDevice extends IPSModule {
 
 			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 
-			$this->SetValueEx(Variables::INPUT_IDENT, $playInfo->Input());
+			$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($playInfo->Input())); 
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
@@ -536,6 +538,24 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	private function GetInputDisplayNameById(string $Id) : string {
+		$configuredInputs = json_decode($this->ReadPropertyString(Properties::INPUTS), true);
+		
+		$Id = strtolower($Id);
+		foreach($configuredInputs as $input) {
+				if(strtolower($input['Input'])==$Id)
+					return $input['DisplayName'];
+		}
+
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress, $zoneName);
+			return $system->NameText($Id);
+		}
+	}
+
 	private function StartLink(int $InstanceId) {
 		if($InstanceId==0) {
 			$this->SendDebug(__FUNCTION__, 'Stopping link...', 0);
@@ -618,7 +638,7 @@ class MusicCastDevice extends IPSModule {
 				$control = $playInfo->Playback();
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
-				$this->SetValueEx(Variables::INPUT_IDENT, $status->input_text);
+				$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($status->input));
 
 				if($control==3) { // Stop
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
@@ -801,7 +821,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateProfileInputs() {
 		
-		$inputs = json_decode($this->ReadPropertyString('Inputs'), true);
+		$inputs = json_decode($this->ReadPropertyString(Properties::INPUTS), true);
 		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
 		if($inputs!=null && count($inputs)>0) {
