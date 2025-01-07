@@ -397,7 +397,7 @@ class MusicCastDevice extends IPSModule {
 		$msg = sprintf('Information received about the selected input: %s',$Input);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
 		//$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
-		$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($Input));
+		$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($Input));
 		
 	}
 	
@@ -444,7 +444,7 @@ class MusicCastDevice extends IPSModule {
 
 			$this->SendDebug(__FUNCTION__, Debug::UPDATINGVARIABLES, 0);
 
-			$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($playInfo->Input())); 
+			$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($playInfo->Input())); 
 			$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
@@ -638,7 +638,7 @@ class MusicCastDevice extends IPSModule {
 				$control = $playInfo->Playback();
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
-				$this->SetValueEx(Variables::INPUT_IDENT, GetInputDisplayNameById($status->input));
+				$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($status->input));
 
 				if($control==3) { // Stop
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
