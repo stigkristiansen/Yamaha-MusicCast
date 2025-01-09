@@ -139,6 +139,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 											]
 									   ]
 				];
+				
 
 				$this->SendDebug(__FUNCTION__, sprintf('Added instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
 			}
