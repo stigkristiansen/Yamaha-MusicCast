@@ -126,7 +126,7 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					'SerialNumber'  => explode(".", $serialNumberZone)[0], 
 					'Name' 		 	=> IPS_GetName($instanceId), //json_decode(IPS_GetConfiguration($instanceId),true)['Name'],
 					'Model'		 	=> json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
-					'ZoneName'		=> json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName'],
+					'ZoneName'		=> ucfirst(json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName']),
 					'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
 					'instanceID' 	=> $instanceId
 				];
