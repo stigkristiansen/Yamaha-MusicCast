@@ -135,11 +135,11 @@ require_once(__DIR__ . "/../libs/autoload.php");
 												'Model' 	   => json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
 												'ZoneName'	   => json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName'],
 												'IPAddress'	   => json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
-												'Name' 		   => IPS_GetName($instanceId)
+												'Name' 		   => json_decode(IPS_GetConfiguration($instanceId),true)['Name']
 											]
 									   ]
 				];
-				
+
 
 				$this->SendDebug(__FUNCTION__, sprintf('Added instance "%s" with InstanceID "%s"', IPS_GetName($instanceId), $instanceId), 0);
 			}
