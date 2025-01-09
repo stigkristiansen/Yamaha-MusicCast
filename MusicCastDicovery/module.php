@@ -130,7 +130,13 @@ require_once(__DIR__ . "/../libs/autoload.php");
 					'IPAddress'	 	=> json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
 					'instanceID' 	=> $instanceId,
 					'create'		=> ['moduleID' => '{5B66102A-96ED-DF96-0B89-54E37501F997}',
-									    'configuration' => ['Name' => IPS_GetName($instanceId)]
+											'configuration' => [
+												'SerialNumber' => explode(".", $serialNumberZone)[0],
+												'Model' 	   => json_decode(IPS_GetConfiguration($instanceId),true)['Model'],
+												'ZoneName'	   => json_decode(IPS_GetConfiguration($instanceId),true)['ZoneName'],
+												'IPAddress'	   => json_decode(IPS_GetConfiguration($instanceId),true)['IPAddress'],
+												'Name' 		   => IPS_GetName($instanceId)
+											]
 									   ]
 				];
 
