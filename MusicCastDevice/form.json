@@ -22,6 +22,10 @@
                     ]
                 },
                 {
+                    "type": "Label",
+                    "caption": "   "
+                },
+                {
                     "type": "ColumnLayout",
                     "items": [
                         {
