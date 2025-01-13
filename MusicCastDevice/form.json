@@ -18,31 +18,16 @@
                         },
                         {
                             "type" :  "ValidationTextBox" ,  "name" :  "Name" ,  "caption" :  "Name", "enabled": false
-                        },
-                        {
-                            "type" :  "Select" ,  "name" :  "ZoneName" ,  "caption" :  "Zone name" , 
-                            "options" :  [ 
-                                {  "caption" :  "Main" ,  "value" :  "main"  } , 
-                                {  "caption" :  "Zone 2" ,  "value" :  "zone2"  } ,
-                                {  "caption" :  "Zone 3" ,  "value":  "zone3"  } , 
-                                {  "caption" :  "Zone 4" ,  "value" :  "zone4"  } 
-                            ]
-                        },
-                        {
-                              "type" :  "ValidationTextBox" ,  "name" :  "IPAddress" ,  "caption" :  "Device IP", "validate" : "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-                        },
-                        {
-                            "type": "NumberSpinner", "name": "UpdateListInterval", "caption": "List Update Interval", "suffix": "seconds", "minimum": 15, "max": 300
-                        },
-                        {
-                            "type": "CheckBox", "name": "AutoUpdateLists", "caption": "Automatically update Playlists and Favourites"
                         }
                     ]
                 },
+                {
+                    "type": "ColumnLayout",
+                    "items": [
                         {
                             "type": "List",
                             "name": "Inputs",
-                            "caption": "Inputs",
+                            "caption": "Select inputs",
                             "delete": true,
                             "add": true,
                             "rowCount": 5,
@@ -73,8 +58,27 @@
                             "onAdd": "YMC_ListUpdateInputs($id, $Inputs, true);",
                             "onEdit": "YMC_ListUpdateInputs($id, $Inputs, false);"
                         }
-               
+                    ]
+                }
             ]
+        },
+        {
+            "type" :  "Select" ,  "name" :  "ZoneName" ,  "caption" :  "Zone name" , 
+            "options" :  [ 
+                {  "caption" :  "Main" ,  "value" :  "main"  } , 
+                {  "caption" :  "Zone 2" ,  "value" :  "zone2"  } ,
+                {  "caption" :  "Zone 3" ,  "value":  "zone3"  } , 
+                {  "caption" :  "Zone 4" ,  "value" :  "zone4"  } 
+            ]
+        },
+        {
+                "type" :  "ValidationTextBox" ,  "name" :  "IPAddress" ,  "caption" :  "Device IP", "validate" : "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+        },
+        {
+            "type": "NumberSpinner", "name": "UpdateListInterval", "caption": "List Update Interval", "suffix": "seconds", "minimum": 15, "max": 300
+        },
+        {
+            "type": "CheckBox", "name": "AutoUpdateLists", "caption": "Automatically update Playlists and Favourites"
         }
     ],
     "actions": [
