@@ -39,9 +39,6 @@
                         }
                     ]
                 },
-                {
-                    "type": "ColumnLayout",
-                    "items": [
                         {
                             "type": "List",
                             "name": "Inputs",
@@ -76,8 +73,7 @@
                             "onAdd": "YMC_ListUpdateInputs($id, $Inputs, true);",
                             "onEdit": "YMC_ListUpdateInputs($id, $Inputs, false);"
                         }
-                    ]
-                }
+               
             ]
         }
     ],
