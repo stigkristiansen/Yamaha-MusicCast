@@ -719,7 +719,7 @@ class MusicCastDevice extends IPSModule {
 
 				$percentage = $this->VolumeLevelToPercentage($status->volume, $system);
 				if($percentage!==false) {
-					$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
+					$this->SetValueEx(Variables::VOLUME_IDENT, $percentage);
 				}
 				
 				$this->SetValueEx(Variables::POWER_IDENT, true);
