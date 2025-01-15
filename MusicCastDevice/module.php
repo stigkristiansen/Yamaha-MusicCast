@@ -259,6 +259,8 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
+				$this->SetValueEx($Ident, $Value);
+
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
 						$this->Playback($Value);
@@ -291,9 +293,6 @@ class MusicCastDevice extends IPSModule {
 						$this->SetTimerInterval(Timers::RESETINPUTS . (string) $this->InstanceID, 2000);
 						break;
 				}
-
-				$this->SendDebug(__FUNCTION__, sprintf('Updating %s to %s', $Ident,$Value), 0);
-				$this->SetValueEx($Ident, $Value);
 			}
 		} catch(Exception $e) {
 			$msg = sprintf(Errors::UNEXPECTED,  $e->getMessage());
@@ -842,7 +841,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}	
 
-	private function Volume(int $Percentage) : int {
+	private function Volume(int $Percentage){
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
@@ -852,12 +851,8 @@ class MusicCastDevice extends IPSModule {
 			if($volume!==false) {
 				$zone = new Zone($system);
 				$zone->Volume($volume);
-
-				return $volume;
 			}
 		}
-
-		return 0;
 	}
 
 	private function Mute(bool $State) {
