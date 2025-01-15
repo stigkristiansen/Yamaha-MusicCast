@@ -221,7 +221,7 @@ class PlayInfo {
     private $totalTime;
     private $playTime;
 
-    static function MapInput(string $Input) {
+    /*static function MapInput(string $Input) {
         switch(strtolower($Input)) {
             case 'tidal':
                 return Input::TIDAL;
@@ -284,7 +284,7 @@ class PlayInfo {
             default:
                 return $Input;
         }
-    }
+    }*/
 
     public function __construct(string $Input, string $Artist, string $Album, string $Track, string $AlbumartUrl, string $Playback, int $TotalTime = 0, int $PlayTime = 0) {
         $this->input = $Input;
@@ -343,7 +343,7 @@ class PlayInfo {
     }
 }
 
-class ResponseCodes {
+/*class ResponseCodes {
     const SUCCESSFUL_REQUEST = 0;
     const INITIALIZING = 1;
     const INTERNAL_ERROR = 2;
@@ -415,3 +415,4 @@ class ResponseCodes {
         }
     }
 }
+*/
