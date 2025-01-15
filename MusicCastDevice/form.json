@@ -23,7 +23,7 @@
                 },
                 {
                     "type": "Label",
-                    "caption": "   "
+                    "caption": "       "
                 },
                 {
                     "type": "ColumnLayout",

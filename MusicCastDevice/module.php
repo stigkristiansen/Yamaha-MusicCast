@@ -753,8 +753,47 @@ class MusicCastDevice extends IPSModule {
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
-			$zone = new Zone($system);
-			$zone->Volume($Level);
+
+			$features = $system->Features();
+
+			$min = -1;
+			$max = -1;
+			$step = -1;
+
+			foreach($features->zone as $zone) {
+				if(strtolower($zone->id)==$zoneName) {
+					foreach($zone->range_step as $range) {
+						if(strtolower($range->id)=='volume') {
+							$min = $range->min;
+							$max = $range->max;
+							$step = $range->step;
+						}
+					}
+				}
+			}
+
+			if($min!=-1) {
+				$volume = $Level*$max/100;
+
+				if(fmod($volume,$step)!=0) {
+					$volume = (int) (($volume / $step) + 1) * $step ;
+				}
+
+				if($volume>$max) {
+					$volume=$max;
+				}
+
+				if($volume<$min) {
+					$volume = $min;
+				}
+
+				$zone = new Zone($system);
+				$zone->Volume($volume);
+
+				$this->SendDebug(__FUNCTION__, sprintf('Setting Volume to %d', $volume), 0); 
+			} else {
+				$this->SendDebug(__FUNCTION__, 'Error: Unable to find min, max and step for the Volume!', 0); 
+			}
 		}
 	}
 
