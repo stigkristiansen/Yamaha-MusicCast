@@ -380,11 +380,11 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function VolumeLevelToPercentage(int $Level, object $Features) {
+	private VolumeLevelToPercentage(int $Level, object $System) {
 		$max = -1;
 
-		foreach($Features->zone as $zone) {
-			if(strtolower($zone->id)==$zoneName) {
+		foreach($System->Features()->zone as $zone) {
+			if(strtolower($zone->id)==$System->ZoneName()) {
 				foreach($zone->range_step as $range) {
 					if(strtolower($range->id)=='volume') {
 						$max = $range->max;
@@ -406,24 +406,24 @@ class MusicCastDevice extends IPSModule {
 				return 0;
 			}
 
-			$this->SendDebug(__FUNCTION__, sprintf('Calculated Volume percentage to %d ', $percentage), 0); 
+			
 			
 			return $percentage;
 		} else {
-			$this->SendDebug(__FUNCTION__, 'Error: Unable to find max for the Volume!', 0); 
+			
 
 			return false;
 		}
 
     }
 
-    private function VolumePercentageToLevel(int $Percentage, object $Features) {
+    private function VolumePercentageToLevel(int $Percentage, object $System) {
 		$min = -1;
 		$max = -1;
 		$step = -1;
 
-		foreach($Features->zone as $zone) {
-			if(strtolower($zone->id)==$zoneName) {
+		foreach($System->Features()->zone as $zone) {
+			if(strtolower($zone->id)==$System->ZoneName()) {
 				foreach($zone->range_step as $range) {
 					if(strtolower($range->id)=='volume') {
 						$min = $range->min;
@@ -437,7 +437,7 @@ class MusicCastDevice extends IPSModule {
 		}
 
 		if($min!=-1) {
-			$volume = $Level*$max/100;
+			$volume = $Percentage*$max/100;
 
 			if(fmod($volume,$step)!=0) {
 				$volume = (int) (($volume / $step) + 1) * $step ;
@@ -451,11 +451,11 @@ class MusicCastDevice extends IPSModule {
 				$volume = $min;
 			}
 			
-			$this->SendDebug(__FUNCTION__, sprintf('Calculated Volume to level %d', $volume), 0); 
+			
 
 			return $volume;
 		} else {
-			$this->SendDebug(__FUNCTION__, 'Error: Unable to find min, max and step for the Volume!', 0); 
+			
 
 			return false;
 		}
