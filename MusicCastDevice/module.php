@@ -396,7 +396,7 @@ class MusicCastDevice extends IPSModule {
 		}
 
 		if($max!=-1) {
-			$percentage = (int)ceil($Level/$max*100);
+			$percentage = (int)floor($Level/$max*100);
 
 			if($percentage>100) {
 				return 100;
