@@ -9,9 +9,7 @@ class MusicCastDevice extends IPSModule {
 	use Buffer;
 	use Utils;
 	use MusicCast;
-
-	
-	
+		
 	public function Create() {
 		//Never delete this line!
 		parent::Create();
@@ -245,7 +243,7 @@ class MusicCastDevice extends IPSModule {
 					$this->HandleStatusUpdated($Value);
 					return;
 				case 'UpdateLists':
-					$this->UpdateLists($Value);
+					$this->UpdateLists($Value);(
 					return;
 				case 'Update':
 					$this->Update();
@@ -382,6 +380,88 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	private function VolumeLevelToPercentage(int $Level, object $Features) {
+		$max = -1;
+
+		foreach($Features->zone as $zone) {
+			if(strtolower($zone->id)==$zoneName) {
+				foreach($zone->range_step as $range) {
+					if(strtolower($range->id)=='volume') {
+						$max = $range->max;
+						
+						break 2;
+					}
+				}
+			}
+		}
+
+		if($max!=-1) {
+			$percentage = (int)ceil($Level/$max*100);
+
+			if($percentage>100) {
+				return 100;
+			}
+
+			if($percentage<0) {
+				return 0;
+			}
+
+			$this->SendDebug(__FUNCTION__, sprintf('Calculated Volume percentage to %d ', $percentage), 0); 
+			
+			return $percentage;
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Error: Unable to find max for the Volume!', 0); 
+
+			return false;
+		}
+
+    }
+
+    private function VolumePercentageToLevel(int $Percentage, object $Features) {
+		$min = -1;
+		$max = -1;
+		$step = -1;
+
+		foreach($Features->zone as $zone) {
+			if(strtolower($zone->id)==$zoneName) {
+				foreach($zone->range_step as $range) {
+					if(strtolower($range->id)=='volume') {
+						$min = $range->min;
+						$max = $range->max;
+						$step = $range->step;
+
+						break 2;
+					}
+				}
+			}
+		}
+
+		if($min!=-1) {
+			$volume = $Level*$max/100;
+
+			if(fmod($volume,$step)!=0) {
+				$volume = (int) (($volume / $step) + 1) * $step ;
+			}
+
+			if($volume>$max) {
+				$volume = $max;
+			}
+
+			if($volume<$min) {
+				$volume = $min;
+			}
+			
+			$this->SendDebug(__FUNCTION__, sprintf('Calculated Volume to level %d', $volume), 0); 
+
+			return $volume;
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Error: Unable to find min, max and step for the Volume!', 0); 
+
+			return false;
+		}
+
+    }
+
 	private function HandlePower(string $State) {
 		switch(strtolower($State)) {
 			case 'on':
@@ -396,7 +476,6 @@ class MusicCastDevice extends IPSModule {
 	private function HandleInput(string $Input) {
 		$msg = sprintf('Information received about the selected input: %s',$Input);
 		$this->SendDebug(__FUNCTION__, $msg, 0);
-		//$this->SetValueEx(Variables::INPUT_IDENT, PlayInfo::MapInput($Input));
 		$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($Input));
 		
 	}
@@ -405,8 +484,18 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::MUTE_IDENT, $State);
 	}
 	
-	private function HandleVolume(int $Volume) {
-		$this->SetValueEx(Variables::VOLUME_IDENT, $Volume);
+	private function HandleVolume(int $Level) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress, $zoneName);
+
+			$percentage = VolumeLevelToPercentage($Level, $system->Features());
+			if($percentage!==false) {
+				$this->SetValueEx(Variables::VOLUME_IDENT, $percentage);
+			}
+		}
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
@@ -627,8 +716,12 @@ class MusicCastDevice extends IPSModule {
 				$playInfo = $netUSB->PlayInfo();
 				$distribution = new Distrbution($system);
 
+				$percentage = $this->VolumeLevelToPercentage($status->volume, $system->Features());
+				if($percentage!==false) {
+					$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
+				}
+				
 				$this->SetValueEx(Variables::POWER_IDENT, true);
-				$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
 				$this->SetValueEx(Variables::MUTE_IDENT, $status->mute);
 				$this->SetValueEx(Variables::SLEEP_IDENT, $status->sleep);
 
@@ -748,51 +841,16 @@ class MusicCastDevice extends IPSModule {
 		}
 	}	
 
-	private function Volume(int $Level) {
+	private function Volume(int $Percentage) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 
-			$features = $system->Features();
-
-			$min = -1;
-			$max = -1;
-			$step = -1;
-
-			foreach($features->zone as $zone) {
-				if(strtolower($zone->id)==$zoneName) {
-					foreach($zone->range_step as $range) {
-						if(strtolower($range->id)=='volume') {
-							$min = $range->min;
-							$max = $range->max;
-							$step = $range->step;
-						}
-					}
-				}
-			}
-
-			if($min!=-1) {
-				$volume = $Level*$max/100;
-
-				if(fmod($volume,$step)!=0) {
-					$volume = (int) (($volume / $step) + 1) * $step ;
-				}
-
-				if($volume>$max) {
-					$volume=$max;
-				}
-
-				if($volume<$min) {
-					$volume = $min;
-				}
-
+			$volume = $this->VolumePercentageToLevel($Percentage, $system->Features());
+			if($volume!==false) {
 				$zone = new Zone($system);
 				$zone->Volume($volume);
-
-				$this->SendDebug(__FUNCTION__, sprintf('Setting Volume to %d', $volume), 0); 
-			} else {
-				$this->SendDebug(__FUNCTION__, 'Error: Unable to find min, max and step for the Volume!', 0); 
 			}
 		}
 	}
