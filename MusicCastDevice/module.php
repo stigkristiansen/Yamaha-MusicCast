@@ -491,7 +491,7 @@ class MusicCastDevice extends IPSModule {
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 
-			$percentage = VolumeLevelToPercentage($Level, $system->Features());
+			$percentage = VolumeLevelToPercentage($Level, $system);
 			if($percentage!==false) {
 				$this->SetValueEx(Variables::VOLUME_IDENT, $percentage);
 			}
@@ -716,7 +716,7 @@ class MusicCastDevice extends IPSModule {
 				$playInfo = $netUSB->PlayInfo();
 				$distribution = new Distrbution($system);
 
-				$percentage = $this->VolumeLevelToPercentage($status->volume, $system->Features());
+				$percentage = $this->VolumeLevelToPercentage($status->volume, $system);
 				if($percentage!==false) {
 					$this->SetValueEx(Variables::VOLUME_IDENT, $status->volume);
 				}
@@ -847,7 +847,7 @@ class MusicCastDevice extends IPSModule {
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 
-			$volume = $this->VolumePercentageToLevel($Percentage, $system->Features());
+			$volume = $this->VolumePercentageToLevel($Percentage, $system);
 			if($volume!==false) {
 				$zone = new Zone($system);
 				$zone->Volume($volume);
