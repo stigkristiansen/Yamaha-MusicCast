@@ -380,7 +380,7 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private VolumeLevelToPercentage(int $Level, object $System) {
+	private function VolumeLevelToPercentage(int $Level, object $System) {
 		$max = -1;
 
 		foreach($System->Features()->zone as $zone) {
