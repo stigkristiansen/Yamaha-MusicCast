@@ -268,7 +268,7 @@ class MusicCastDevice extends IPSModule {
 						$this->Sleep($Value);
 						break;
 					case Variables::VOLUME_IDENT:
-						$Value = $this->Volume($Value);
+						$this->Volume($Value);
 						break;
 					case Variables::MUTE_IDENT:
 						$this->Mute($Value);
