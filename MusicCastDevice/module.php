@@ -259,7 +259,6 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
-								
 				switch ($Ident) {
 					case Variables::CONTROL_IDENT:
 						$this->Playback($Value);
@@ -293,6 +292,7 @@ class MusicCastDevice extends IPSModule {
 						break;
 				}
 
+				$this->SendDebug(__FUNCTION__, sprintf('Updating %s to %s', $Ident,$Value), 0);
 				$this->SetValueEx($Ident, $Value);
 			}
 		} catch(Exception $e) {
