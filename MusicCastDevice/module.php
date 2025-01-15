@@ -243,7 +243,7 @@ class MusicCastDevice extends IPSModule {
 					$this->HandleStatusUpdated($Value);
 					return;
 				case 'UpdateLists':
-					$this->UpdateLists($Value);(
+					$this->UpdateLists($Value);
 					return;
 				case 'Update':
 					$this->Update();
