@@ -406,11 +406,11 @@ class MusicCastDevice extends IPSModule {
 				return 0;
 			}
 
-			
+			$this->SendDebug(__FUNCTION__, sprintf("Volume percentage was calculated to %d", $percentage), 0);
 			
 			return $percentage;
 		} else {
-			
+			$this->SendDebug(__FUNCTION__, "Unable to find max for Volume", 0);
 
 			return false;
 		}
@@ -451,11 +451,11 @@ class MusicCastDevice extends IPSModule {
 				$volume = $min;
 			}
 			
-			
+			$this->SendDebug(__FUNCTION__, sprintf("Volume level was calculated to %d", $volume), 0);
 
 			return $volume;
 		} else {
-			
+			$this->SendDebug(__FUNCTION__, "Unable to find min, max and step for Volume", 0);
 
 			return false;
 		}
