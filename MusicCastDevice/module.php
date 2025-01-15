@@ -492,7 +492,7 @@ class MusicCastDevice extends IPSModule {
 		if($this->VerifyDeviceIp($ipAddress)){
 			$system = new System($ipAddress, $zoneName);
 
-			$percentage = VolumeLevelToPercentage($Level, $system);
+			$percentage = $this->VolumeLevelToPercentage($Level, $system);
 			if($percentage!==false) {
 				$this->SetValueEx(Variables::VOLUME_IDENT, $percentage);
 			}
