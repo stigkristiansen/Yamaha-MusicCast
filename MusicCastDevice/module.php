@@ -647,12 +647,14 @@ class MusicCastDevice extends IPSModule {
 	private function GetInputDisplayNameById(string $Id) : string {
 		$configuredInputs = json_decode($this->ReadPropertyString(Properties::INPUTS), true);
 		
-		$Id = strtolower($Id);
-		foreach($configuredInputs as $input) {
-				if(strtolower($input['Input'])==$Id)
-					return $input['DisplayName'];
+		if(count($configuredInputs)>0) {
+			$Id = strtolower($Id);
+			foreach($configuredInputs as $input) {
+					if(strtolower($input['Input'])==$Id)
+						return $input['DisplayName'];
+			}
 		}
-
+		
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 		
