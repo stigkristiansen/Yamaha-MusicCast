@@ -466,9 +466,26 @@ class MusicCastDevice extends IPSModule {
 		switch(strtolower($State)) {
 			case 'on':
 				$this->SetValueEx(Variables::POWER_IDENT, true);
+
+				$this->EnableAction(Variables::SLEEP_IDENT);
+				$this->EnableAction(Variables::VOLUME_IDENT);
+				$this->EnableAction(Variables::MUTE_IDENT);
+				$this->EnableAction(Variables::FAVOURITE_IDENT);
+				$this->EnableAction(Variables::MCPLAYLIST_IDENT);
+				$this->EnableAction(Variables::LINK_IDENT);
+				$this->EnableAction(Variables::INPUTS_IDENT);
+
 				break;
 			case 'standby':
 				$this->SetValueEx(Variables::POWER_IDENT, false);
+
+				$this->DisableAction(Variables::SLEEP_IDENT);
+				$this->DisableAction(Variables::VOLUME_IDENT);
+				$this->DisableAction(Variables::MUTE_IDENT);
+				$this->DisableAction(Variables::FAVOURITE_IDENT);
+				$this->DisableAction(Variables::MCPLAYLIST_IDENT);
+				$this->DisableAction(Variables::LINK_IDENT);
+				$this->DisableAction(Variables::INPUTS_IDENT);
 				break;
 		}
 	}
