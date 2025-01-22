@@ -1000,6 +1000,10 @@ class MusicCastDevice extends IPSModule {
 		
 		$supportedSoundPrograms = json_decode($this->ReadBuffer(Buffers::SOUNDPROGRAMS), true);	
 
+		$this->SendDebug(__FUNCTION__, sprintf('Selected sound programs: %s', json_encode($SoundPrograms)), 0);
+
+		$this->SendDebug(__FUNCTION__, sprintf('Supported sound programs: %s', json_encode($supportedSoundPrograms)), 0);
+
 		foreach ($SoundPrograms as $soundProgram) {
 			if(strtolower($soundProgram['Program'])=='select program') {
 				continue;
