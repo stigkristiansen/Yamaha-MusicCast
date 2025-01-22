@@ -1010,8 +1010,8 @@ class MusicCastDevice extends IPSModule {
 			}
 
 			$newSoundPrograms[] = [
-				'Program' => $soundProgram['Program'],
-				'DisplayName' => $add?$supportedSoundPrograms[$soundProgram['Program']]['caption']:$soundProgram['DisplayName']
+				'Program' => $soundProgram['SoundProgram'],
+				'DisplayName' => $add?$supportedSoundPrograms[$soundProgram['SoundProgram']]['caption']:$soundProgram['DisplayName']
 			];
 		}
 
