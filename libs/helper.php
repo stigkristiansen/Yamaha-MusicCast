@@ -55,6 +55,7 @@ class Properties {
     const AUTOUPDATELISTINTERVAL= 'UpdateListInterval';
     const ZONENAME = 'ZoneName';
     const INPUTS = 'Inputs';
+    const SOUNDPROGRAMS = 'SoundPrograms';
 }
 
 class Timers {
