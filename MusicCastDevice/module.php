@@ -166,6 +166,7 @@ class MusicCastDevice extends IPSModule {
             $this->SetTimers();
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+			$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);			
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
@@ -179,6 +180,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetTimers();
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
+			$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
@@ -992,6 +994,132 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	public function ListUpdateSoundPrograms($SoundPrograms, $add=true) {
+		
+		$newSoundPrograms = [];
+		
+		$supportedSoundPrograms = json_decode($this->ReadBuffer(Buffers::SOUNDPROGRAMS), true);	
+
+		foreach ($SoundPrograms as $soundProgram) {
+			if(strtolower($soundProgram['Program'])=='select program') {
+				continue;
+			}
+
+			$newSoundPrograms[] = [
+				'Program' => $soundProgram['Program'],
+				'DisplayName' => $add?$supportedSoundPrograms['Program']]['caption']:$soundProgram['DisplayName']
+			];
+		}
+
+		$this->UpdateFormField('SoundPrograms', 'values', json_encode($newSoundPrograms));
+	}
+
+	
+	public function ListAvailableSoundPrograms($SelectedSoundPrograms) : array {
+		
+		$form = [];
+		$supportedSoundPrograms = [];
+		
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		$system = new System($ipAddress, $zoneName);
+
+		//if(strlen($this->ReadAttributeString(Attributes::INPUTS)) == 0) {
+		if(strlen($this->ReadBuffer(Buffers::SOUNDPROGRAMS)) == 0) {
+			if(strlen($ipAddress)==0 || strlen($zoneName)==0) {
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Both IP-address and zone must first be specified.'
+					];
+				$form[] =
+					[
+						'type' => 'Label',
+						'caption' => 'Please specify and apply the changes.'
+					];
+
+					return $form;
+
+			}
+
+			$this->SendDebug(__FUNCTION__, 'Retrieving available sound programs from the device...', 0);
+
+			$supportedSoundPrograms = $system->SoundProgramList();
+			
+			if($supportedSoundPrograms===false || sizeof($supportedSoundPrograms)==0) {
+				$this->SendDebug(__FUNCTION__, 'Failed when trying to retrieve the inputs', 0);
+				$form[] = 
+					[
+						'type' => 'Label',
+						'caption' => 'Missing information about available inputs.'
+					];
+			
+					return $form;
+			}
+
+			$soundPrograms = [];
+			foreach($supportedSoundPrograms as $supportedSoundProgram) {
+				$soundPrograms[$supportedSoundProgram] = [
+					'id' => $supportedSoundProgram,
+					'caption' => $system->NameText($supportedSoundProgram)
+				];
+			}
+
+			//$this->WriteAttributeString(Attributes::INPUTS, json_encode($inputs));
+			$this->WriteBuffer(Buffers::SOUNDPROGRAMS, json_encode($soundPrograms));
+		} else {
+			$this->SendDebug(__FUNCTION__, 'Using cached information about the available sound programs', 0);
+		}
+
+		//$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
+		$supportedSoundPrograms = json_decode($this->ReadBuffer(Buffers::SOUNDPROGRAMS), true);	
+		
+		//$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
+
+		$selectedRow = strtolower($SelectedSoundPrograms['Program']);
+		
+		$visibleSelect = ($selectedRow=='select program');
+		$visibleTextBox = !$visibleSelect;
+
+		//$this->SendDebug(__FUNCTION__, sprintf('HiddenSelect: %s, HiddenTextBox: %s', $visibleSelect?'true':'false', $visibleTextBox?'true':'false'), 0);
+
+		$form[] = 
+			[
+				'type' => 'Select',
+				'name' => 'SoundProgram',
+				'caption' => 'Sound Program',
+				'visible' => $visibleSelect
+			];
+
+		if($selectedRow=='select program') {
+			$form[0]['options'][] = ['caption' => 'Select program', 'value' => 'Select program'];
+		}
+
+		foreach($supportedSoundPrograms as $supportedSoundProgram) {
+			foreach($SelectedSoundPrograms as $selectedSoundProgram) {
+				if(strtolower($selectedSoundProgram['Program'])==strtolower($supportedSelectedProgram['id']) && $selectedRow!=strtolower($supportedSoundProgram['id'])) {
+					continue 2;
+				}
+			}
+		
+			$form[0]['options'][] = ['caption' => $supportedSoundProgram['caption'], 'value' => $supportedSoundProgram['id']];
+	   	}
+
+		$form[] = 
+			[
+				'type' => 'ValidationTextBox',
+				'name' => 'DisplayName',
+				'visible' => $visibleTextBox,
+				'caption' => 'Display Name',
+				'validate' => '[\w\s]+' 
+			];
+
+		//$this->SendDebug(__FUNCTION__, json_encode($form), 0);
+
+	   	return $form;
+   	}
+
+
 	public function ListUpdateInputs($Inputs, $add=true) {
 		
 		$newInputs = [];
@@ -1013,6 +1141,7 @@ class MusicCastDevice extends IPSModule {
 	}
 
 
+	
 	public function ListAvailableInputs($SelectedInputs) : array {
 		
 		$form = [];
@@ -1186,9 +1315,6 @@ class MusicCastDevice extends IPSModule {
 		
 		return false;	
 	}
-
-
-
 	private function PingTest(string $IPAddress) {
 		$wait = 500;
 		for($count=0;$count<3;$count++) {

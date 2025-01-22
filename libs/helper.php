@@ -95,6 +95,7 @@ class Profiles {
 class Buffers {
     const REPORT = 'report';
     const INPUTS = 'inputs';
+    const SOUNDPROGRAMS = 'soundprograms';
 }
 
 class Variables {

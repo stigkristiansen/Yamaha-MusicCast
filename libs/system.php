@@ -104,6 +104,16 @@ class System {
         return false;
     }
 
+    public function SoundProgramList() {
+        foreach($this->features->zone as $zone) {
+            if(strtolower($zone->id)==$this->zoneName) {
+                return $zone->sound_program_list;
+            }
+        }
+
+        return false;
+    }
+
     public function NameText($Id='main') {
         $result = self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/system/getNameText?id='.$Id);
 

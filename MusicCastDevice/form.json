@@ -61,6 +61,40 @@
                             ],
                             "onAdd": "YMC_ListUpdateInputs($id, $Inputs, true);",
                             "onEdit": "YMC_ListUpdateInputs($id, $Inputs, false);"
+                        },
+                        {
+                            "type": "List",
+                            "name": "SoundPrograms",
+                            "caption": "Select sound programs",
+                            "delete": true,
+                            "add": true,
+                            "rowCount": 5,
+                            "sort": {
+                                "column": "Program",
+                                "direction": "ascending"
+                            },
+                            "columns": [
+                                {
+                                    "caption": "Program",
+                                    "name": "Program", 
+                                    "width": "150px",
+                                    "add": "Select program",
+                                    "save": true,
+                                    "visible": false
+                                },
+                                {
+                                    "caption": "Display Name",
+                                    "name": "DisplayName", 
+                                    "width": "150px",
+                                    "add": "Enter a display name",
+                                    "save": true
+                                }
+                            ],
+                            "form": [
+                                "return YMC_ListAvailableSoundPrograms($id, $SoundPrograms);"
+                            ],
+                            "onAdd": "YMC_ListUpdateSoundPrograms($id, $SoundPrograms, true);",
+                            "onEdit": "YMC_ListUpdateSoundPrograms($id, $SoundPrograms, false);"
                         }
                     ]
                 }
