@@ -1006,13 +1006,13 @@ class MusicCastDevice extends IPSModule {
 		
 		foreach ($SoundPrograms as $soundProgram) {
 			$this->SendDebug(__FUNCTION__, sprintf('Iterate variable $SoundPrograms: %s', json_encode($soundProgram)), 0);
-			if(strtolower($soundProgram['SoundProgram'])=='select program') {
+			if(strtolower($soundProgram['Program'])=='select program') {
 				continue;
 			}
 
 			$newSoundPrograms[] = [
-				'Program' => $soundProgram['SoundProgram'],
-				'DisplayName' => $add?$supportedSoundPrograms[$soundProgram['SoundProgram']]['caption']:$soundProgram['DisplayName']
+				'Program' => $soundProgram['Program'],
+				'DisplayName' => $add?$supportedSoundPrograms[$soundProgram['Program']]['caption']:$soundProgram['DisplayName']
 			];
 		}
 
@@ -1091,7 +1091,7 @@ class MusicCastDevice extends IPSModule {
 		$form[] = 
 			[
 				'type' => 'Select',
-				'name' => 'SoundProgram',
+				'name' => 'Program',
 				'caption' => 'Sound Program',
 				'visible' => $visibleSelect
 			];
