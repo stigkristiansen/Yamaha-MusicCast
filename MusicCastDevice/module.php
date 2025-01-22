@@ -1130,6 +1130,10 @@ class MusicCastDevice extends IPSModule {
 		//$supportedInputs = json_decode($this->ReadAttributeString(Attributes::INPUTS), true);	
 		$supportedInputs = json_decode($this->ReadBuffer(Buffers::INPUTS), true);	
 
+		$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', json_encode($Inputs)), 0);
+
+		$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
+
 		foreach ($Inputs as $input) {
 			if(strtolower($input['Input'])=='select input') {
 				continue;
