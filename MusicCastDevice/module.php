@@ -1101,7 +1101,7 @@ class MusicCastDevice extends IPSModule {
 
 		foreach($supportedSoundPrograms as $supportedSoundProgram) {
 			foreach($SelectedSoundPrograms as $selectedSoundProgram) {
-				if(strtolower($selectedSoundProgram['Program'])==strtolower($supportedSelectedProgram['id']) && $selectedRow!=strtolower($supportedSoundProgram['id'])) {
+				if(strtolower($selectedSoundProgram['Program'])==strtolower($supportedSoundProgram['id']) && $selectedRow!=strtolower($supportedSoundProgram['id'])) {
 					continue 2;
 				}
 			}
