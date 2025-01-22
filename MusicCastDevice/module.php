@@ -1118,7 +1118,7 @@ class MusicCastDevice extends IPSModule {
 				'validate' => '[\w\s]+' 
 			];
 
-		//$this->SendDebug(__FUNCTION__, json_encode($form), 0);
+		$this->SendDebug(__FUNCTION__, json_encode($form), 0);
 
 	   	return $form;
    	}
