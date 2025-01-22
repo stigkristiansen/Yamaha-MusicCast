@@ -1005,7 +1005,7 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, sprintf('Supported sound programs: %s', json_encode($supportedSoundPrograms)), 0);
 
 		foreach ($SoundPrograms as $soundProgram) {
-			if(strtolower($soundProgram['Program'])=='select program') {
+			if(strtolower($soundProgram['SoundProgram'])=='select program') {
 				continue;
 			}
 
@@ -1080,7 +1080,7 @@ class MusicCastDevice extends IPSModule {
 		
 		//$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
 
-		$selectedRow = strtolower($SelectedSoundPrograms['SoundProgram']);
+		$selectedRow = strtolower($SelectedSoundPrograms['Program']);
 		
 		$visibleSelect = ($selectedRow=='select program');
 		$visibleTextBox = !$visibleSelect;
