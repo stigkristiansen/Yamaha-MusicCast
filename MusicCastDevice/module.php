@@ -1080,7 +1080,7 @@ class MusicCastDevice extends IPSModule {
 		
 		//$this->SendDebug(__FUNCTION__, sprintf('Supported inputs: %s', json_encode($supportedInputs)), 0);
 
-		$selectedRow = strtolower($SelectedSoundPrograms['Program']);
+		$selectedRow = strtolower($SelectedSoundPrograms['SoundProgram']);
 		
 		$visibleSelect = ($selectedRow=='select program');
 		$visibleTextBox = !$visibleSelect;
