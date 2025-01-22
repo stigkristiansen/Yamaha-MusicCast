@@ -80,7 +80,7 @@
                                     "width": "150px",
                                     "add": "Select program",
                                     "save": true,
-                                    "visible": false
+                                    "visible": true
                                 },
                                 {
                                     "caption": "Display Name",
