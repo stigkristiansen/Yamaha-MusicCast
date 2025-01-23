@@ -525,6 +525,13 @@ class MusicCastDevice extends IPSModule {
 		$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($Input));
 		
 	}
+
+	private function HandleSoundProgram(string $SoundProgram) {
+		$msg = sprintf('Information received about the selected sound program: %s',$SoundProgram);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+		$this->SetValueEx(Variables::SOUNDPROGRAM_IDENT, $this->GetSoundProgramDisplayNameById($SoundProgram));
+		
+	}
 	
 	private function HandleMute(bool $State) {
 		$this->SetValueEx(Variables::MUTE_IDENT, $State);
@@ -621,6 +628,8 @@ class MusicCastDevice extends IPSModule {
 			$this->handleSleep($status->sleep);
 			$this->HandleVolume($status->volume);
 			$this->HandleInput($status->input);
+			$this->HandleSoundProgram($status->sound_program);
+
 		} else {
 			$this->SendDebug(__FUNCTION__, Debug::STOPSTATUSUPDATED, 0);
 		}
@@ -681,6 +690,26 @@ class MusicCastDevice extends IPSModule {
 			foreach($configuredInputs as $input) {
 					if(strtolower($input['Input'])==$Id)
 						return $input['DisplayName'];
+			}
+		}
+		
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		
+		if($this->VerifyDeviceIp($ipAddress)){
+			$system = new System($ipAddress, $zoneName);
+			return $system->NameText($Id);
+		}
+	}
+
+	private function GetSoundProgramDisplayNameById(string $Id) : string {
+		$configuredSoundPrograms = json_decode($this->ReadPropertyString(Properties::SOUNDPROGRAMS), true);
+		
+		if(count($configuredSoundProgrAMS)>0) {
+			$Id = strtolower($Id);
+			foreach($configuredSoundPrograms as $soundProgram) {
+					if(strtolower($soundProgram['Program'])==$Id)
+						return $soundProgram['DisplayName'];
 			}
 		}
 		
