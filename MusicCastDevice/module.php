@@ -98,13 +98,13 @@ class MusicCastDevice extends IPSModule {
 
 		$profileName = sprintf(Profiles::SOUNDPROGRAMS, (string) $this->InstanceID);
 		$this->RegisterProfileStringEx($profileName, Profiles::SOUNDPROGRAMS_ICON, '', '', []);
-		$this->RegisterVariableString(Variables::SOUNDPROGRAMS_IDENT, Variables::SOUNDPROGRAMS_TEXT, $profileName, 10;
+		$this->RegisterVariableString(Variables::SOUNDPROGRAMS_IDENT, Variables::SOUNDPROGRAMS_TEXT, $profileName, 10);
 		$this->EnableAction(Variables::SOUNDPROGRAMS_IDENT);
 
 
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 11;
+		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 11);
 		$this->EnableAction(Variables::LINK_IDENT);
 		
 		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 12);
