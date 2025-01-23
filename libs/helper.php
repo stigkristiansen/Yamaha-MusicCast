@@ -356,7 +356,7 @@ class PlayInfo {
     }
 }
 
-/*class ResponseCodes {
+class ResponseCodes {
     const SUCCESSFUL_REQUEST = 0;
     const INITIALIZING = 1;
     const INTERNAL_ERROR = 2;
@@ -428,4 +428,4 @@ class PlayInfo {
         }
     }
 }
-*/
+
