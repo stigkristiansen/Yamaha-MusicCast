@@ -978,7 +978,7 @@ class MusicCastDevice extends IPSModule {
 
 		if($soundPrograms!=null && count($soundPrograms)>0) {
 			$associations[] = ['none', ' ', '', -1];
-			foreach($soundPrograms as $SoundProgram) {
+			foreach($soundPrograms as $soundProgram) {
 				$associations[] = [
 					$soundProgram['Program'],
 					$soundProgram['DisplayName'],
