@@ -973,7 +973,7 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateProfileSoundPrograms() {
 		
-		$soundPorgrams = json_decode($this->ReadPropertyString(Properties:SOUNDPROGRAMS), true);
+		$soundPrograms = json_decode($this->ReadPropertyString(Properties::SOUNDPROGRAMS), true);
 		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
 
 		if($soundPrograms!=null && count($soundPrograms)>0) {
