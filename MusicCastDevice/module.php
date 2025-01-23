@@ -705,7 +705,7 @@ class MusicCastDevice extends IPSModule {
 	private function GetSoundProgramDisplayNameById(string $Id) : string {
 		$configuredSoundPrograms = json_decode($this->ReadPropertyString(Properties::SOUNDPROGRAMS), true);
 		
-		if(count($configuredSoundProgrAMS)>0) {
+		if(count($configuredSoundPrograms)>0) {
 			$Id = strtolower($Id);
 			foreach($configuredSoundPrograms as $soundProgram) {
 					if(strtolower($soundProgram['Program'])==$Id)
