@@ -90,7 +90,9 @@ class Profiles {
     const MUSIC = 'YMC.Music';
     const MUSIC_ICON = 'Music';
     const INPUTS = 'YMC.%s.Inputs';
-    const INPUTS_ICON = 'Play';
+    const INPUTS_ICON = 'Music';
+    const SOUNDPROGRAMS = 'YMC.%s.SoundPrograms';
+    const SOUNDPROGRAMS_ICON = 'Music';
 }
 
 class Buffers {
@@ -138,6 +140,10 @@ class Variables {
     const TIME_LEFT_TEXT = 'Time left';
     const INPUTS_IDENT = 'Inputs';
     const INPUTS_TEXT = 'Inputs';
+    const SOUNDPROGRAMS_IDENT = 'SoundPrograms';
+    const SOUNDPROGRAMS_TEXT = 'Sound Programs';
+    const SOUNDPROGRAM_IDENT = 'SoundProgram';
+    const SOUNDPROGRAM_TEXT = 'Sound Program';
 }
 
 class Sleep {

@@ -94,31 +94,39 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterVariableString(Variables::INPUTS_IDENT, Variables::INPUTS_TEXT, $profileName, 8);
 		$this->EnableAction(Variables::INPUTS_IDENT);
 
+		$this->RegisterVariableString(Variables::SOUNDPROGRAM_IDENT, Variables::SOUNDPROGRAM_TEXT, Profiles::MUSIC, 9);
+
+		$profileName = sprintf(Profiles::SOUNDPROGRAMS, (string) $this->InstanceID);
+		$this->RegisterProfileStringEx($profileName, Profiles::SOUNDPROGRAMS_ICON, '', '', []);
+		$this->RegisterVariableString(Variables::SOUNDPROGRAMS_IDENT, Variables::SOUNDPROGRAMS_TEXT, $profileName, 10;
+		$this->EnableAction(Variables::SOUNDPROGRAMS_IDENT);
+
+
 		$profileName = sprintf(Profiles::LINK, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::LINK_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 9);
+		$this->RegisterVariableInteger(Variables::LINK_IDENT, Variables::LINK_TEXT, $profileName, 11;
 		$this->EnableAction(Variables::LINK_IDENT);
 		
-		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 10);
-		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, Profiles::MUSIC, 11);
-		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, Profiles::MUSIC, 12);
-		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, Profiles::MUSIC, 13);
+		$this->RegisterVariableString(Variables::ARTIST_IDENT, Variables::ARTIST_TEXT, Profiles::MUSIC, 12);
+		$this->RegisterVariableString(Variables::TRACK_IDENT, Variables::TRACK_TEXT, Profiles::MUSIC, 13);
+		$this->RegisterVariableString(Variables::ALBUM_IDENT, Variables::ALBUM_TEXT, Profiles::MUSIC, 14);
+		$this->RegisterVariableString(Variables::ALBUMART_IDENT, Variables::ALBUMART_TEXT, Profiles::MUSIC, 15);
 
-		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 14);
-		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 15);
-		$this->RegisterVariableString(Variables::TIME_LEFT_IDENT, Variables::TIME_LEFT_TEXT, Profiles::TIME, 16);
+		$this->RegisterVariableString(Variables::PLAYTIME_IDENT, Variables::PLAYTIME_TEXT, Profiles::TIME, 16);
+		$this->RegisterVariableString(Variables::TOTALTIME_IDENT, Variables::TOTALTIME_TEXT, Profiles::TIME, 17);
+		$this->RegisterVariableString(Variables::TIME_LEFT_IDENT, Variables::TIME_LEFT_TEXT, Profiles::TIME, 18);
 		
-		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 17);
+		$this->RegisterVariableInteger(Variables::POSITION_IDENT, Variables::POSITION_TEXT, Profiles::POSITION, 19);
 		$this->EnableAction(Variables::POSITION_IDENT);
 
 		$profileName = sprintf(Profiles::FAVORITES, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::FAVORITES_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 18);
+		$this->RegisterVariableInteger(Variables::FAVOURITE_IDENT, Variables::FAVOURITE_TEXT, $profileName, 20);
 		$this->EnableAction(Variables::FAVOURITE_IDENT);
 
 		$profileName = sprintf(Profiles::MCPLAYLISTS, (string) $this->InstanceID);
 		$this->RegisterProfileIntegerEx($profileName, Profiles::MCPLAYLISTS_ICON, '', '', []);
-		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 19);
+		$this->RegisterVariableInteger(Variables::MCPLAYLIST_IDENT, Variables::MCPLAYLIST_TEXT, $profileName, 21);
 		$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 		
 		$this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -135,6 +143,9 @@ class MusicCastDevice extends IPSModule {
 		$this->DeleteProfile($profileName);
 
 		$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
+		$this->DeleteProfile($profileName);
+
+		$profileName = sprintf(Profiles::SOUNDPROGRAMS, (string) $this->InstanceID);
 		$this->DeleteProfile($profileName);
 
 		$module = json_decode(file_get_contents(__DIR__ . '/module.json'));
@@ -171,6 +182,7 @@ class MusicCastDevice extends IPSModule {
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
+			$this->UpdateProfileSoundPrograms();
         }
 	}
 
@@ -185,6 +197,7 @@ class MusicCastDevice extends IPSModule {
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
+			$this->UpdateProfileSoundPrograms();
 		}
             
     }
@@ -955,7 +968,26 @@ class MusicCastDevice extends IPSModule {
 
 			$profileName = sprintf(Profiles::INPUTS, (string) $this->InstanceID);
 			$this->RegisterProfileStringEx($profileName, Profiles::INPUTS_ICON, '', '', $associations);
+		}
+	}
 
+	private function UpdateProfileSoundPrograms() {
+		
+		$soundPorgrams = json_decode($this->ReadPropertyString(Properties:SOUNDPROGRAMS), true);
+		//$this->SendDebug(__FUNCTION__, sprintf('Selected inputs: %s', $this->ReadPropertyString('Inputs')), 0); 
+
+		if($soundPrograms!=null && count($soundPrograms)>0) {
+			$associations[] = ['none', ' ', '', -1];
+			foreach($soundPorgrams as $SoundProgram) {
+				$associations[] = [
+					$soundProgram['Program'],
+					$soundProgram['DisplayName'],
+					'',
+					-1];
+			}
+
+			$profileName = sprintf(Profiles::SOUNDPROGRAMS, (string) $this->InstanceID);
+			$this->RegisterProfileStringEx($profileName, Profiles::SOUNDPROGRAMS_ICON, '', '', $associations);
 		}
 	}
 
