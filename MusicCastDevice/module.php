@@ -77,6 +77,7 @@ class MusicCastDevice extends IPSModule {
 		$this->RegisterTimer(Timers::UPDATE . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "Update", 0);');
 		$this->RegisterTimer(Timers::RESETCONTROL . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetControl", 0);');
 		$this->RegisterTimer(Timers::RESETINPUTS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetInputs", 0);');
+		$this->RegisterTimer(Timers::RESETSOUNDPROGRAMS . (string) $this->InstanceID, 0, 'IPS_RequestAction(' . (string)$this->InstanceID . ', "ResetSoundPrograms", 0);');
 				
 		$this->RegisterVariableInteger(Variables::VOLUME_IDENT, Variables::VOLUME_TEXT, 'Intensity.100', 4);
 		$this->EnableAction(Variables::VOLUME_IDENT);
@@ -178,7 +179,8 @@ class MusicCastDevice extends IPSModule {
             $this->SetTimers();
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
-			$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);			
+			$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);	
+			$this->SetValue(Variables::SOUNDPROGRAMS_IDENT, SoundProgram::NOTHING);		
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
@@ -194,6 +196,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::STATUS_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::CONTROL_IDENT, PlaybackState::NOTHING_ID);
 			$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);
+			$this->SetValue(Variables::SOUNDPROGRAMS_IDENT, SoundProgram::NOTHING);
 
 			$this->SetDeviceProperties();
 			$this->UpdateProfileInputs();
@@ -272,6 +275,10 @@ class MusicCastDevice extends IPSModule {
 					$this->SetTimerInterval(Timers::RESETINPUTS . (string) $this->InstanceID, 0);
 					$this->SetValue(Variables::INPUTS_IDENT, Input::NOTHING);
 					return;
+				case 'ResetSoundPrograms':
+					$this->SetTimerInterval(Timers::RESETSOUNDPROGRAMS . (string) $this->InstanceID, 0);
+					$this->SetValue(Variables::SOUNDPROGRAMS_IDENT, SoundProgram::NOTHING);
+					return;
 			}
 
 			if($this->GetValue(Variables::POWER_IDENT)) {   // Process only if device is powered on
@@ -307,6 +314,10 @@ class MusicCastDevice extends IPSModule {
 					case Variables::INPUTS_IDENT:
 						$this->Input($Value);
 						$this->SetTimerInterval(Timers::RESETINPUTS . (string) $this->InstanceID, 2000);
+						break;
+					case Variables::SOUNDPROGRAMS_IDENT:
+						$this->SoundProgram($Value);
+						$this->SetTimerInterval(Timers::RESETSOUNDPROGRAMS . (string) $this->InstanceID, 2000);
 						break;
 				}
 			}
@@ -490,6 +501,7 @@ class MusicCastDevice extends IPSModule {
 				$this->EnableAction(Variables::MCPLAYLIST_IDENT);
 				$this->EnableAction(Variables::LINK_IDENT);
 				$this->EnableAction(Variables::INPUTS_IDENT);
+				$this->EnableAction(Variables::SOUNDPROGRAMS_IDENT);
 
 				break;
 			case 'standby':
@@ -502,6 +514,7 @@ class MusicCastDevice extends IPSModule {
 				$this->DisableAction(Variables::MCPLAYLIST_IDENT);
 				$this->DisableAction(Variables::LINK_IDENT);
 				$this->DisableAction(Variables::INPUTS_IDENT);
+				$this->DisableAction(Variables::SOUNDPROGRAMS_IDENT);
 				break;
 		}
 	}
@@ -924,6 +937,18 @@ class MusicCastDevice extends IPSModule {
 			$zone->Input($Input);
 		}
 	}
+
+	private function SoundProgram(string $SoundProgram) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		if($this->VerifyDeviceIp($ipAddress)) {
+			$system = new System($ipAddress, $zoneName);
+			$zone = new Zone($system);
+			$zone->SoundProgram($SoundProgram);
+		}
+	}
+
+
 
 	private function Power(bool $State) {
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);

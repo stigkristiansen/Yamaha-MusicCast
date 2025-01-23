@@ -65,6 +65,7 @@ class Timers {
     const RESETMCPLAYLIST = 'ResetMCPLaylist';
     const RESETCONTROL = 'ResetControl';
     const RESETINPUTS = 'ResetInputs';
+    const RESETSOUNDPROGRAMS = 'ResetSoundPrograms';
 }
 
 class Profiles {
@@ -162,6 +163,10 @@ class Sleep {
 class Mute {
     const MUTED = 'Muted';
     const UNMUTED = 'Unmuted';
+}
+
+class SoundProgram {
+    const NOTHING = 'none';
 }
 
 class PlaybackState {

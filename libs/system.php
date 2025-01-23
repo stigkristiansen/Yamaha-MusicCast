@@ -176,6 +176,20 @@ class System {
         return false;
     }
 
+    public function ValidSoundProgram(string $SoundProgram) {
+        $SoundProgram = strtolower($SoundProgram);
+        foreach($this->features->zone as $zone) {
+            if(strtolower($zone->id)==$this->zoneName) {
+                foreach($zone->sound_program_list as $soundProgram) {
+                    if(strtolower($soundProgram)==$SoundProgram)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function ValidateVolume(int $Level) {
         foreach($this->features->zone as $zone) {
             if(strtolower($zone->id)==$this->zoneName) {

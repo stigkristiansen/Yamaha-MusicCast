@@ -72,6 +72,16 @@ class Zone {
         self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setInput?input=' . $Input);   
     }
 
+    public function SoundProgram(string $SoundProgram) {
+        if(strtolower($SoundProgram)=='none')
+            return;
+        
+        if(!$this->system->ValidSoundProgram($SoundProgram, $this->zoneName))
+            throw new Exception('SoundProgram(): Invalid sound program \"' . $SoundProgram . '\"');
+        
+        self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/setSoundProgram?program=' . $SoundProgram);   
+    }
+
     private function ValidSleep(int $Minutes) {
         switch($Minutes) {
             case 0:
