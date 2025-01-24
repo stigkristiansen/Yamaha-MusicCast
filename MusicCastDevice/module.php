@@ -417,7 +417,7 @@ class MusicCastDevice extends IPSModule {
 			$file = sprintf('%s\..\media\blank.png');
 		}
 				
-		$id = $this->CreateMediaByName($this->InstanceID, 'Album art image' 1, 'AlbumArtImage');
+		$id = $this->CreateMediaByName($this->InstanceID, 'Album art image', 1, 'AlbumArtImage');
 		if($id!==false) {
 			IPS_SetMediaFile($id, $file, false);
 		} else {
