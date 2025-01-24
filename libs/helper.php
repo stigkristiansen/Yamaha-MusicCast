@@ -24,6 +24,7 @@ class Errors {
     const INVALIDDATA = 'The data received was invalid';
     const STOPLINK = 'Stopping link...';
     const INVALIDTYPE = 'Invalid type (%s)';
+    const MEDIAFAILED = 'Failed to create the media object';
 }
 
 class Debug {

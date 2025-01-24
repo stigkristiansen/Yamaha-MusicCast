@@ -9,6 +9,7 @@ class MusicCastDevice extends IPSModule {
 	use Buffer;
 	use Utils;
 	use MusicCast;
+	use Media;
 		
 	public function Create() {
 		//Never delete this line!
@@ -408,6 +409,22 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
+	private function UpdateAlbumArt(string $Url) {
+		$file = sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->IntanceID)
+		$file = urlencode($file); 
+
+		
+		$this->DownloadURL($Url, $file);
+
+		$id = $this->CreateMediaByName($this->InstanceID, 'AlbumArt', 1, 'AlbumArt');
+		if($id!==false) {
+			IPS_SetMediaFile($id, $file, false);
+		} else {
+			throw new Exception(Errors::MEDIAFAILED);
+		}
+	
+	}
+
 	private function VolumeLevelToPercentage(int $Level, object $System) {
 		$max = -1;
 
@@ -491,6 +508,9 @@ class MusicCastDevice extends IPSModule {
     }
 
 	private function HandlePower(string $State) {
+		$msg = sprintf('Information received about power: %s', $State);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
 		switch(strtolower($State)) {
 			case 'on':
 				$this->SetValueEx(Variables::POWER_IDENT, true);
@@ -720,7 +740,7 @@ class MusicCastDevice extends IPSModule {
 	private function GetSoundProgramDisplayNameById(string $Id) : string {
 		$configuredSoundPrograms = json_decode($this->ReadPropertyString(Properties::SOUNDPROGRAMS), true);
 
-		$this->SendDebug(__FUNCTION__, 'Configured sound programs: ' . $this->ReadPropertyString(Properties::SOUNDPROGRAMS), 0);
+		//$this->SendDebug(__FUNCTION__, 'Configured sound programs: ' . $this->ReadPropertyString(Properties::SOUNDPROGRAMS), 0);
 		
 		if($configuredSoundPrograms!=null && count($configuredSoundPrograms)>0) {
 			$Id = strtolower($Id);
@@ -796,6 +816,7 @@ class MusicCastDevice extends IPSModule {
 		$this->SendDebug(__FUNCTION__, Debug::GETINFORMATION, 0);
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+		
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress, $zoneName);
 			$zone = new Zone($system);

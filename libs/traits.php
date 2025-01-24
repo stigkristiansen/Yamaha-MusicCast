@@ -2,37 +2,18 @@
 
 declare(strict_types=1);
 
-trait MusicCast {
-    protected function MapPlaybackState(int $Value) : string {
-        switch($Value) {
-            case PlaybackState::PLAY_ID:
-                return PlaybackState::PLAY;
-            case PlaybackState::STOP_ID:
-                return PlaybackState::STOP;
-            case PlaybackState::PAUSE_ID:
-                return PlaybackState::PAUSE;
-            case PlaybackState::PREVIOUS_ID:
-                return PlaybackState::PREVIOUS;
-            case PlaybackState::NEXT_ID:
-                return PlaybackState::NEXT;
-            default:
-                return PlaybackState::NOTHING;
-
+trait Media {
+    protected function CreateMediaByName(int $Parent, string $Name, int $Type, string $Ident){
+        $id = @IPS_GetMediaIDByName($Name, $Parent);
+        if($id === false) {
+          $id = IPS_CreateMedia($Type);
+          IPS_SetParent($id, $Parent);
+          IPS_SetName($id, $Name);
+          IPS_SetInfo($id, "This media object was created by the Entso-E library");
+          IPS_SetIdent($id, $Ident);
         }
-    }
-
-    protected function ValidPlaybackState(string $State) : bool {
-        switch(strtolower($State)) {
-            case PlaybackState::PLAY:
-            case PlaybackState::STOP:
-            case PlaybackState::PAUSE:
-            case PlaybackState::PREVIOUS:
-            case PlaybackState::NEXT:
-                return true;
-            default:
-                return false;
-
-        }
+        
+        return $id;
     }
 
     protected function DownloadURL($Url, $File) {
@@ -59,6 +40,29 @@ trait MusicCast {
         
         curl_close($ch);
    }
+
+    
+}
+
+
+trait MusicCast {
+    protected function MapPlaybackState(int $Value) : string {
+        switch($Value) {
+            case PlaybackState::PLAY_ID:
+                return PlaybackState::PLAY;
+            case PlaybackState::STOP_ID:
+                return PlaybackState::STOP;
+            case PlaybackState::PAUSE_ID:
+                return PlaybackState::PAUSE;
+            case PlaybackState::PREVIOUS_ID:
+                return PlaybackState::PREVIOUS;
+            case PlaybackState::NEXT_ID:
+                return PlaybackState::NEXT;
+            default:
+                return PlaybackState::NOTHING;
+
+        }
+    }
 }
 
 trait HttpRequest {
