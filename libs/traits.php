@@ -34,6 +34,31 @@ trait MusicCast {
 
         }
     }
+
+    protected function DownloadURL($Url, $File) {
+        $fp = fopen($File, 'w+');
+            
+        if($fp === false){
+            throw new Exception(sprintf('Failed to create file %s', $File));
+        }
+        
+        $ch = curl_init($Url);
+        
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 45);
+
+        //$skipSSLCheck = $this->ReadPropertyBoolean('SkipSSLCheck');
+	    //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, !$skipSSLCheck?0:2);
+		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$skipSSLCheck);
+        
+        curl_exec($ch);
+        
+        if(curl_errno($ch)) {
+            throw new Exception(curl_error($ch));
+        }
+        
+        curl_close($ch);
+   }
 }
 
 trait HttpRequest {
@@ -149,6 +174,8 @@ trait HttpRequest {
 		    throw new Exception(sprintf("%s failed.", $Url));
 				
 	}
+
+    
 }
 
 

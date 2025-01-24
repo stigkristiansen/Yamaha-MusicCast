@@ -22,7 +22,6 @@ class Zone {
     public function Status() {
         return self::HttpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/'.$this->zoneName.'/getStatus');
     }
-    
 
     public function Power(bool $Status) {
         if(!$this->system->ValidFeature('power', $this->zoneName))

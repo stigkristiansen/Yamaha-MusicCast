@@ -118,7 +118,7 @@ class Variables {
     const LINK_IDENT = 'Link';
     const LINK_TEXT = 'Link';
     const INPUT_IDENT = 'Input';
-    const INPUT_TEXT = 'Input';
+    const INPUT_TEXT = 'Selected Input';
     const ARTIST_IDENT = 'Artist';
     const ARTIST_TEXT = 'Artist';
     const TRACK_IDENT = 'Track';
@@ -140,11 +140,11 @@ class Variables {
     const TIME_LEFT_IDENT = 'TimeLeft';
     const TIME_LEFT_TEXT = 'Time left';
     const INPUTS_IDENT = 'Inputs';
-    const INPUTS_TEXT = 'Inputs';
+    const INPUTS_TEXT = 'Avail. Inputs';
     const SOUNDPROGRAMS_IDENT = 'SoundPrograms';
-    const SOUNDPROGRAMS_TEXT = 'Sound Programs';
+    const SOUNDPROGRAMS_TEXT = 'Avail. Sound Programs';
     const SOUNDPROGRAM_IDENT = 'SoundProgram';
-    const SOUNDPROGRAM_TEXT = 'Sound Program';
+    const SOUNDPROGRAM_TEXT = 'Selected Sound Program';
 }
 
 class Sleep {

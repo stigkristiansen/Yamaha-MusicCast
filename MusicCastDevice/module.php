@@ -183,6 +183,7 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValue(Variables::SOUNDPROGRAMS_IDENT, SoundProgram::NOTHING);		
 
 			$this->SetDeviceProperties();
+
 			$this->UpdateProfileInputs();
 			$this->UpdateProfileSoundPrograms();
         }
@@ -704,6 +705,8 @@ class MusicCastDevice extends IPSModule {
 
 	private function GetSoundProgramDisplayNameById(string $Id) : string {
 		$configuredSoundPrograms = json_decode($this->ReadPropertyString(Properties::SOUNDPROGRAMS), true);
+
+		$this->SendDebug(__FUNCTION__, 'Configured sound programs: ' . $this->ReadPropertyString(Properties::SOUNDPROGRAMS), 0);
 		
 		if(count($configuredSoundPrograms)>0) {
 			$Id = strtolower($Id);
