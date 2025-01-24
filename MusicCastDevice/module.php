@@ -410,13 +410,14 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function UpdateAlbumArt(string $Url) {
-		$file = sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->IntanceID)
-		$file = urlencode($file); 
-
-		
-		$this->DownloadURL($Url, $file);
-
-		$id = $this->CreateMediaByName($this->InstanceID, 'AlbumArt', 1, 'AlbumArt');
+		if(strlen($Url)>0) {
+			$file = urlencode(sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->IntanceID));
+			$this->DownloadURL($Url, $file);
+		} else {
+			$file = sprintf('%s\..\media\blank.png');
+		}
+				
+		$id = $this->CreateMediaByName($this->InstanceID, 'Album art image' 1, 'AlbumArtImage';
 		if($id!==false) {
 			IPS_SetMediaFile($id, $file, false);
 		} else {
@@ -626,6 +627,8 @@ class MusicCastDevice extends IPSModule {
 			$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 			$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 			$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
+			
+			$this->UpdateAlbumArt($playInfo->AlbumartURL());
 
 			if($this->Lock(Variables::TOTALTIME_IDENT)) {
 				$this->SetBuffer(Variables::TOTALTIME_TEXT, serialize($playInfo->TotalTime()));
@@ -857,12 +860,16 @@ class MusicCastDevice extends IPSModule {
 					$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
 					$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 					$this->SetValueEx(Variables::POSITION_IDENT, 0);
+
+					$this->UpdateAlbumArt('');
 				} else {
 					$this->SetValueEx(Variables::ARTIST_IDENT, $playInfo->Artist());
 					$this->SetValueEx(Variables::TRACK_IDENT, $playInfo->Track());
 					$this->SetValueEx(Variables::ALBUM_IDENT, $playInfo->Album());
 					$this->SetValueEx(Variables::ALBUMART_IDENT, $playInfo->AlbumartURL());
-								
+					
+					$this->UpdateAlbumArt($playInfo->AlbumartURL());
+
 					if($this->Lock(Variables::TOTALTIME_IDENT)) {
 						$this->SetBuffer(Variables::TOTALTIME_TEXT, serialize($playInfo->TotalTime()));
 						$this->Unlock(Variables::TOTALTIME_IDENT);
@@ -895,6 +902,8 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::TOTALTIME_IDENT, '');
 				$this->SetValueEx(Variables::PLAYTIME_IDENT, '');
 				$this->SetValueEx(Variables::POSITION_IDENT, 0);
+
+				$this->UpdateAlbumArt('');
 			}
 		}
 	}
