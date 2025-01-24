@@ -535,10 +535,15 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandleMute(bool $State) {
+		$msg = sprintf('Information received about mute: %s', $State?'True':'False');
+		$this->SendDebug(__FUNCTION__, $msg, 0);
 		$this->SetValueEx(Variables::MUTE_IDENT, $State);
 	}
 	
 	private function HandleVolume(int $Level) {
+		$msg = sprintf('Information received about volume: %s', (string) $Level);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
 		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
 		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
 
@@ -553,6 +558,9 @@ class MusicCastDevice extends IPSModule {
 	}
 	
 	private function HandlePlayTime(int $Seconds) {
+		$msg = sprintf('Information received about playtime: %s sec', (string) $Seconds);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
 		$this->SetValueEx(Variables::PLAYTIME_IDENT, $this->SecondsToString($Seconds));
 
 		if($this->Lock(Variables::TOTALTIME_IDENT)) {
@@ -573,10 +581,16 @@ class MusicCastDevice extends IPSModule {
 	}
 
 	private function HandleSleep(int $Minutes) {
+		$msg = sprintf('Information received about sleep function: %s', (string) $Minutes);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+		
 		$this->SetValueEx(Variables::SLEEP_IDENT, $Minutes);
 	}
 	
 	private function HandlePlayInfoUpdated(String $JsonParameters) {
+		$msg = sprintf('Information received about PlayInfo: %s', (string) $JsonParameters);
+		$this->SendDebug(__FUNCTION__, $msg, 0);
+
 		$parameters = json_decode($JsonParameters);
 
 		if($parameters->status) {
@@ -686,7 +700,7 @@ class MusicCastDevice extends IPSModule {
 	private function GetInputDisplayNameById(string $Id) : string {
 		$configuredInputs = json_decode($this->ReadPropertyString(Properties::INPUTS), true);
 		
-		if(count($configuredInputs)>0) {
+		if($configuredInputs!=null && count($configuredInputs)>0) {
 			$Id = strtolower($Id);
 			foreach($configuredInputs as $input) {
 					if(strtolower($input['Input'])==$Id)
@@ -708,7 +722,7 @@ class MusicCastDevice extends IPSModule {
 
 		$this->SendDebug(__FUNCTION__, 'Configured sound programs: ' . $this->ReadPropertyString(Properties::SOUNDPROGRAMS), 0);
 		
-		if(count($configuredSoundPrograms)>0) {
+		if($configuredSoundPrograms!=null && count($configuredSoundPrograms)>0) {
 			$Id = strtolower($Id);
 			foreach($configuredSoundPrograms as $soundProgram) {
 					if(strtolower($soundProgram['Program'])==$Id)
