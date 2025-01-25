@@ -9,7 +9,7 @@ class NetUSB {
     //private System $system;
     private $ipAddress;
     private $zoneName;
-
+    
     public function __construct($System) {
         $this->ipAddress = $System->IpAddress();
         $this->zoneName = $System->ZoneName();
@@ -37,14 +37,15 @@ class NetUSB {
         return false;
     }
 
-    public function Playback(string $State) {
-        if($this->ValidPlaybackState($State)) {
-           $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$State);
+    public function Playback(int $State) {
+        $state = $this->MapPlaybackState($State);
+		if($state!=PlaybackState::NOTHING) {
+            $status = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/setPlayback?playback='.$state);
         } else {
             throw new Exception(sprintf('Invalid playback state "%s"', $State));
         }
     }
-
+    
     public function MCPlaylists() {
         $result = self::httpGetJson($this->ipAddress, '/YamahaExtendedControl/v1/netusb/getMcPlaylistName');
     

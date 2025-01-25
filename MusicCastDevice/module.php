@@ -418,7 +418,7 @@ class MusicCastDevice extends IPSModule {
 			if($elements>1) {
 				$file = sprintf('%s%s_%s.%s', __DIR__, '/../../../media/AlbumArt', (string)$this->InstanceID, $temp[$elements-1]);
 				
-				$this->SendDebug(__FUNCTION__, 'Downloading album art to folder: ' . $file, 0);
+				$this->SendDebug(__FUNCTION__, 'Downloading album art to file: ' . $file, 0);
 
 				$this->DownloadURL($Url, $file);
 			} else {
@@ -1001,18 +1001,19 @@ class MusicCastDevice extends IPSModule {
 		}
 	}
 
-	private function Playback(int $Value) {
-		try {
-			$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
-			$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
-			if($this->VerifyDeviceIp($ipAddress)) {
-				$system = new System($ipAddress, $zoneName);
-				$netUSB = new NetUSB($system);
-				$state = $this->MapPlaybackState($Value); 
+	private function Playback(int $State) {
+		$ipAddress = $this->ReadPropertyString(Properties::IPADDRESS);
+		$zoneName = $this->ReadPropertyString(Properties::ZONENAME);
+
+		if($this->VerifyDeviceIp($ipAddress)) {
+			$system = new System($ipAddress, $zoneName);
+			$netUSB = new NetUSB($system);
+			$state = $this->MapPlaybackState($State);
+			if($state!=PlaybackState::NOTHING) {
 				$netUSB->Playback($state);
+			} else {
+				throw new Exepction(sprintf('Invalid Playback State: %d', $State));
 			}
-		} catch (Exception $e) {
-			$this->SendDebug(__FUNCTION__, 'Error:' . $e->getMessage(), 0); 
 		}
 	}
 
