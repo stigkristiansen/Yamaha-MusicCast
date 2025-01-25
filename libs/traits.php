@@ -62,7 +62,6 @@ trait MusicCast {
                 return PlaybackState::NOTHING;
             default:
                 return PlaybackState::ERROR;
-
         }
     }
 }
