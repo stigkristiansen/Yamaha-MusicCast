@@ -189,6 +189,7 @@ class PlaybackState {
     const PAUSE = 'pause';
     const PAUSE_TEXT = 'Pause';
     const PAUSE_ID = 2;
+    const ERROR = 'error';
 }
 
 class Input {
