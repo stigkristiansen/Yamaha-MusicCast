@@ -29,8 +29,8 @@ trait Media {
         curl_setopt($ch, CURLOPT_TIMEOUT, 45);
 
         //$skipSSLCheck = $this->ReadPropertyBoolean('SkipSSLCheck');
-	    //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, !$skipSSLCheck?0:2);
-		//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, !$skipSSLCheck);
+	    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         curl_exec($ch);
         
