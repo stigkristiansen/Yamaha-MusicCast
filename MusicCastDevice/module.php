@@ -1008,12 +1008,7 @@ class MusicCastDevice extends IPSModule {
 		if($this->VerifyDeviceIp($ipAddress)) {
 			$system = new System($ipAddress, $zoneName);
 			$netUSB = new NetUSB($system);
-			$state = $this->MapPlaybackState($State);
-			if($state!=PlaybackState::NOTHING) {
-				$netUSB->Playback($state);
-			} else {
-				throw new Exepction(sprintf('Invalid Playback State: %d', $State));
-			}
+			$netUSB->Playback($state);
 		}
 	}
 
