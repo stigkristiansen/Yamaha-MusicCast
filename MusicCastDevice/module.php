@@ -411,10 +411,14 @@ class MusicCastDevice extends IPSModule {
 
 	private function UpdateAlbumArt(string $Url) {
 		if(strlen($Url)>0) {
-			$file = urlencode(sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->InstanceID));
+			$file = sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->InstanceID);
+			
+			$this->SendDebug(__FUNCTION__, 'Downloading album art from: ' . $Url, 0);
+			$this->SendDebug(__FUNCTION__, 'Downloading album art to folder: ' . $file, 0);
+
 			$this->DownloadURL($Url, $file);
 		} else {
-			$file = sprintf('%s\..\imgs\blank.png', '_DIR_');
+			$file = sprintf('%s\..\imgs\blank.png', __DIR__);
 		}
 				
 		$id = $this->CreateMediaByName($this->InstanceID, 'Album art image', 1, 'AlbumArtImage');
