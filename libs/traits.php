@@ -58,7 +58,7 @@ trait MusicCast {
                 return PlaybackState::PREVIOUS;
             case PlaybackState::NEXT_ID:
                 return PlaybackState::NEXT;
-            case PlaybackState::NOTHING_ID
+            case PlaybackState::NOTHING_ID:
                 return PlaybackState::NOTHING;
             default:
                 return PlaybackState::ERROR;
