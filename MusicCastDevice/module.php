@@ -414,7 +414,7 @@ class MusicCastDevice extends IPSModule {
 			$file = urlencode(sprintf('%s%s_%s.png', __DIR__, '/../../../media/AlbumArt', (string)$this->InstanceID));
 			$this->DownloadURL($Url, $file);
 		} else {
-			$file = sprintf('%s\..\media\blank.png', '_DIR_');
+			$file = sprintf('%s\..\imgs\blank.png', '_DIR_');
 		}
 				
 		$id = $this->CreateMediaByName($this->InstanceID, 'Album art image', 1, 'AlbumArtImage');
