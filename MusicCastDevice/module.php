@@ -678,7 +678,9 @@ class MusicCastDevice extends IPSModule {
 			$this->handleSleep($status->sleep);
 			$this->HandleVolume($status->volume);
 			$this->HandleInput($status->input);
-			$this->HandleSoundProgram($status->sound_program);
+			if(isset($status->sound_program)) {
+				$this->HandleSoundProgram();
+			}
 
 		} else {
 			$this->SendDebug(__FUNCTION__, Debug::STOPSTATUSUPDATED, 0);
@@ -862,7 +864,10 @@ class MusicCastDevice extends IPSModule {
 				$this->SetValueEx(Variables::STATUS_IDENT, $control);
 
 				$this->SetValueEx(Variables::INPUT_IDENT, $this->GetInputDisplayNameById($status->input));
-				$this->SetValueEx(Variables::SOUNDPROGRAM_IDENT, $this->GetSoundProgramDisplayNameById($status->sound_program));
+				
+				if(isset($status->sound_program)) {
+					$this->SetValueEx(Variables::SOUNDPROGRAM_IDENT, $this->GetSoundProgramDisplayNameById($status->sound_program));
+				}
 
 				if($control==3) { // Stop
 					$this->SetValueEx(Variables::ARTIST_IDENT, '');
